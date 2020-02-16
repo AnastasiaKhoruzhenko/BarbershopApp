@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BarbershopApp</string>
+    <string name="title_home">Главная</string>
+    <string name="title_singup">Запись</string>
+    <string name="title_settings">Настройки</string>
+    <string name="title_myvisitings">Мои посещения</string>
+
+
+</resources>
