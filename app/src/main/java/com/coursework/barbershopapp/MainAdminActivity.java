@@ -10,20 +10,19 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainAdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_admin);
 
-
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_myvisitings, R.id.navigation_signup, R.id.navigation_settings)
+        BottomNavigationView navView = findViewById(R.id.nav_view_admin);
+        //navView.inflateMenu(R.menu.bottom_nav_menu_admin);
+        AppBarConfiguration appBarConfigurationAdmin = new AppBarConfiguration.Builder(
+                R.id.navigation_home, R.id.navigation_settings)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_admin);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfigurationAdmin);
         NavigationUI.setupWithNavController(navView, navController);
 
         // Passing each menu ID as a set of Ids because each
@@ -31,5 +30,4 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
 }

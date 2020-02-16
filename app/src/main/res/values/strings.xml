@@ -4,6 +4,8 @@
     <string name="title_singup">Запись</string>
     <string name="title_settings">Настройки</string>
     <string name="title_myvisitings">Мои посещения</string>
-
+    <string name="title_reviews_admin">Отзывы</string>
+    <string name="title_info_admin">Инфо</string>
+    <string name="title_masters">Мастера</string>
 
 </resources>

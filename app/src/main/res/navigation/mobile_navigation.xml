@@ -28,4 +28,29 @@
         android:name="com.coursework.barbershopapp.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/navigation_home_admin"
+        android:name="com.coursework.barbershopapp.Admin.ui.masters.MastersAdminFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/home_admin_fragment"/>
+
+    <fragment
+        android:id="@+id/navigation_info_admin"
+        android:name="com.coursework.barbershopapp.Admin.ui.info.InfoAdminFragment"
+        android:label="@string/title_info_admin"
+        tools:layout="@layout/info_admin_fragment"/>
+
+    <fragment
+        android:id="@+id/navigation_reviews_admin"
+        android:name="com.coursework.barbershopapp.Admin.ui.reviews.ReviewsAdminFragment"
+        android:label="@string/title_reviews_admin"
+        tools:layout="@layout/reviews_admin_fragment"/>
+
+    <fragment
+        android:id="@+id/navigation_masters_admin"
+        android:name="com.coursework.barbershopapp.Admin.ui.masters.MastersAdminFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/masters_admin_fragment"/>
+
 </navigation>
