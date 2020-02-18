@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/navigation_home_admin"
-        android:name="com.coursework.barbershopapp.Admin.ui.masters.MastersAdminFragment"
+        android:name="com.coursework.barbershopapp.Admin.ui.home.HomeAdminFragment"
         android:label="@string/title_home"
         tools:layout="@layout/home_admin_fragment"/>
 
@@ -50,7 +50,13 @@
     <fragment
         android:id="@+id/navigation_masters_admin"
         android:name="com.coursework.barbershopapp.Admin.ui.masters.MastersAdminFragment"
-        android:label="@string/title_settings"
+        android:label="@string/title_masters"
         tools:layout="@layout/masters_admin_fragment"/>
+
+
+    <fragment
+        android:id="@+id/create_master_lay"
+        android:name="com.coursework.barbershopapp.Admin.AddMasterFragment"
+        tools:layout="@layout/add_master_fragment"/>
 
 </navigation>
