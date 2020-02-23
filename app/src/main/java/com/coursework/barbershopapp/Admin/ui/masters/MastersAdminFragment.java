@@ -1,5 +1,6 @@
 package com.coursework.barbershopapp.Admin.ui.masters;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
@@ -16,13 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.coursework.barbershopapp.Admin.AddMasterFragment;
-import com.coursework.barbershopapp.Admin.AddMasterViewModel;
+import com.coursework.barbershopapp.Person;
 import com.coursework.barbershopapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,10 +30,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MastersAdminFragment extends Fragment {
@@ -43,23 +46,34 @@ public class MastersAdminFragment extends Fragment {
     private FloatingActionButton floating_add;
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
+    private ArrayList<String> mScore = new ArrayList<>();
 
     private TextInputLayout tilSurname, tilName, tilPhone, tilEmail;
     private TextInputEditText tit_surname, tit_name, tit_phone, tit_email;
     private Button create_master;
 
+
+    private List<Person> personList = new ArrayList<>();
+
+    FirebaseFirestore db;
+
     private FirebaseAuth mAuth;
+
+    private int count_masters_document=0;
+
+
+    private RecyclerView recyclerView;
+
+    private View llBottomSheet;
 
     public static MastersAdminFragment newInstance() {
         return new MastersAdminFragment();
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = ViewModelProviders.of(this).get(MastersAdminViewModel.class);
-
-        initImageBitmaps();
 
         View root = inflater.inflate(R.layout.masters_admin_fragment, container, false);
 
@@ -72,7 +86,10 @@ public class MastersAdminFragment extends Fragment {
         tit_phone = root.findViewById(R.id.tit_phone);
         tit_email = root.findViewById(R.id.tit_email);
 
+        db = FirebaseFirestore.getInstance();
+
         create_master = root.findViewById(R.id.btn_create_master);
+
 
         create_master.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,28 +104,23 @@ public class MastersAdminFragment extends Fragment {
         });
 
 
-        RecyclerView recyclerView = root.findViewById(R.id.recview_masters);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getContext(), mNames, mImageUrls);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView = root.findViewById(R.id.recview_masters);
 
         floating_add = root.findViewById(R.id.floating_fab_add);
-        View llBottomSheet = root.findViewById(R.id.bottom_sheet);
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
-        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View view, int i) {
+        llBottomSheet = root.findViewById(R.id.bottom_sheet);
 
-            }
+        db.collection("Masters").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            count_masters_document = task.getResult().size();
 
-            @Override
-            public void onSlide(@NonNull View view, float v) {
-                floating_add.animate()
-                        .scaleX(1-v).scaleY(1-v)
-                        .setDuration(0)
-                        .start();
-            }
-        });
+                            getItemsForRecycleView(count_masters_document);
+                        }
+                    }
+                });
+
 
 
 //        // for bottom view
@@ -178,7 +190,14 @@ public class MastersAdminFragment extends Fragment {
         master.put("Phone", phone);
         master.put("Email", email);
         master.put("DefaultPass", true);
+        master.put("Score", 0.0);
         db.collection("Masters").document(email).set(master);
+
+        // clear input text after creation
+        tit_name.getText().clear();
+        tit_email.getText().clear();
+        tit_phone.getText().clear();
+        tit_surname.getText().clear();
 
     }
 
@@ -186,43 +205,64 @@ public class MastersAdminFragment extends Fragment {
         Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
     }
 
-    private void swapFragment() {
-        AddMasterFragment addMaster = new AddMasterFragment();
-        FragmentManager fragmentManager = getChildFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.add(R.id.fl_masters_admin, addMaster);
-        fragmentTransaction.replace(R.id.fl_masters_admin, addMaster, "masters");
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+    private void getItemsForRecycleView(final int count)
+    {
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("Masters").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                        Map<String, Object> d;
+                        for(int i = 0; i < count; ++i)
+                        {
+                            d = list.get(i).getData();
+                            personList.add(new Person(d.get("Email").toString(),
+                                    d.get("Name").toString(),
+                                    d.get("Surname").toString(),
+                                    d.get("Phone").toString(),
+                                    d.get("Score").toString(),
+                                    Boolean.getBoolean(d.get("DefaultPass").toString())));
+                        }
+
+                        initImageBitmaps(personList);
+                    }
+                });
     }
 
-    private void initImageBitmaps(){
-        mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
-        mNames.add("Havasu Falls");
+    private void initImageBitmaps(List<Person> personList){
 
-        mImageUrls.add("https://i.redd.it/tpsnoz5bzo501.jpg");
-        mNames.add("Trondheim");
+        for(Person person:personList){
+            mImageUrls.add("https://20.cspnz.ru/images/boy.jpg");
+            mNames.add(person.getName());
+            mScore.add(person.getScore());
+        }
 
-        mImageUrls.add("https://i.redd.it/qn7f9oqu7o501.jpg");
-        mNames.add("Portugal");
 
-        mImageUrls.add("https://i.redd.it/j6myfqglup501.jpg");
-        mNames.add("Rocky Mountain National Park");
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getContext(), mNames, mImageUrls, mScore);
+        recyclerView.setAdapter(adapter);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mImageUrls.add("https://i.redd.it/0h2gm1ix6p501.jpg");
-        mNames.add("Mahahual");
+        //showMessage(String.valueOf(mNames.size()));
 
-        mImageUrls.add("https://i.redd.it/k98uzl68eh501.jpg");
-        mNames.add("Frozen Lake");
 
-        mImageUrls.add("https://i.redd.it/glin0nwndo501.jpg");
-        mNames.add("White Sands Desert");
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View view, int i) {
 
-        mImageUrls.add("https://i.redd.it/obx4zydshg601.jpg");
-        mNames.add("Austrailia");
+            }
 
-        mImageUrls.add("https://i.imgur.com/ZcLLrkY.jpg");
-        mNames.add("Washington");
+            @Override
+            public void onSlide(@NonNull View view, float v) {
+                floating_add.animate()
+                        .scaleX(1-v).scaleY(1-v)
+                        .setDuration(0)
+                        .start();
+            }
+        });
     }
 
 //    @Override
