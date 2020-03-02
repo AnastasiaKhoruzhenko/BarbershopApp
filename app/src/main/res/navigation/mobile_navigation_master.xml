@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation_master"
+    app:startDestination="@id/navigation_home_master">
+
+    <fragment
+        android:id="@+id/navigation_home_master"
+        android:name="com.coursework.barbershopapp.Masters.ui.home.HomeMasterFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/home_master_fragment"/>
+
+    <fragment
+        android:id="@+id/navigation_mynearestvisitors_master"
+        android:name="com.coursework.barbershopapp.Masters.ui.myVisitors.MyVisitorsFragment"
+        android:label="Ближайшие"
+        tools:layout="@layout/my_visitors_fragment"/>
+
+    <fragment
+        android:id="@+id/navigation_settings_master"
+        android:name="com.coursework.barbershopapp.Masters.ui.settings.SettingsMasterFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/settings_master_fragment"/>
+
+</navigation>

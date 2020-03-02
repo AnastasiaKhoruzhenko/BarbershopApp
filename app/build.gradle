@@ -19,6 +19,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -66,6 +71,16 @@ dependencies {
     implementation 'com.ss.bannerslider:bannerslider:2.0.0'
     // for downloading images
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // to not to write findviewById
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+
+    // stepview for user booking
+    implementation 'com.shuhart.stepview:stepview:1.5.0'
+
+    // horizontal dates
+    //implementation 'noman.weekcalendar:weekcalendar:1.0.6'
 
 //    implementation fileTree(dir: 'libs', include: ['*.jar'])
 //    implementation 'androidx.appcompat:appcompat:1.1.0'

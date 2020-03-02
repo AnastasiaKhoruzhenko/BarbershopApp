@@ -1,8 +1,5 @@
 package com.coursework.barbershopapp.Admin.ui.masters;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -19,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.coursework.barbershopapp.Person;
+import com.coursework.barbershopapp.model.Person;
 import com.coursework.barbershopapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -242,7 +239,6 @@ public class MastersAdminFragment extends Fragment {
 
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(getContext(), mNames, mImageUrls, mScore);
         recyclerView.setAdapter(adapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //showMessage(String.valueOf(mNames.size()));
