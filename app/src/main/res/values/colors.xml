@@ -6,6 +6,7 @@
     <color name="colorLightBrown">#DAC2A7</color>
     <color name="colorDone">#c59d5f</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGrey">#979097</color>
 
     <!--    <color name="colorBrown">#B59B7C</color>-->
 </resources>

@@ -8,7 +8,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import butterknife.ButterKnife;
+import devs.mulham.horizontalcalendar.HorizontalCalendar;
+import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,9 @@ import android.widget.TextView;
 
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.ui.settings.SettingsViewModel;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class MyVisitingsFragment extends Fragment {
 
@@ -31,13 +38,14 @@ public class MyVisitingsFragment extends Fragment {
         myVisitingsViewModel =
                 ViewModelProviders.of(this).get(MyVisitingsViewModel.class);
         View root = inflater.inflate(R.layout.my_visitings_fragment, container, false);
-        //final TextView textView = root.findViewById(R.id.text_notifications);
-        myVisitingsViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                //textView.setText(s);
-            }
-        });
+//        //final TextView textView = root.findViewById(R.id.text_notifications);
+//        myVisitingsViewModel.getText().observe(this, new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                //textView.setText(s);
+//            }
+//        });
+
         return root;
     }
 

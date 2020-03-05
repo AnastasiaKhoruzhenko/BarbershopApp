@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.Banner;
-import com.google.android.gms.common.internal.service.Common;
+import com.coursework.barbershopapp.model.Common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAdapterStep1.ViewHolder> {
+public abstract class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAdapterStep1.ViewHolder> {
 
     private List<Banner> listService;
     private Context mContext;
@@ -35,8 +35,7 @@ public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAda
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_service_step1, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -47,11 +46,13 @@ public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAda
                 .into(holder.img);
         holder.text.setText(listService.get(position).getText());
 
-        holder.step1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+//        holder.step1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Common.SERVICE_KEY = listService.get(position).getName();
+//                Common.STEP = 2;
+//            }
+//        });
     }
 
     @Override
@@ -71,6 +72,15 @@ public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAda
             step1 = itemView.findViewById(R.id.cardview_step1);
             text = itemView.findViewById(R.id.tv_name_step1);
             img = itemView.findViewById(R.id.img_step1);
+
+            step1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    OnCardViewClicked();
+                }
+            });
         }
     }
+
+    protected abstract void OnCardViewClicked();
 }

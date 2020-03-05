@@ -72,7 +72,6 @@ public class BookingStep1Fragment extends Fragment {
                                 Banner aboutService = querySnapshot.toObject(Banner.class);
                                 list.add(aboutService);
                             }
-
                             initRecView(list);
                         }
                     }
@@ -80,10 +79,14 @@ public class BookingStep1Fragment extends Fragment {
     }
 
     private void initRecView(List<Banner> listServices) {
-        RecycleViewAdapterStep1 recView = new RecycleViewAdapterStep1(getContext(), listServices);
+        RecycleViewAdapterStep1 recView = new RecycleViewAdapterStep1(getContext(), listServices){
+            @Override
+            protected void OnCardViewClicked() {
+
+            }
+        };
         recyclerView.setAdapter(recView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        // GridLayoutManager.VERTICAL, false
     }
 }
