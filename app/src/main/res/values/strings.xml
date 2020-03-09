@@ -7,5 +7,7 @@
     <string name="title_reviews_admin">Отзывы</string>
     <string name="title_info_admin">Инфо</string>
     <string name="title_masters">Мастера</string>
+    <string name="email_error">Нельзя изменять почту</string>
+    <string name="birth_error">Нельзя изменять дату рождения</string>
 
 </resources>

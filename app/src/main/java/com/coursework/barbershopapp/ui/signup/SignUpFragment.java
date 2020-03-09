@@ -3,6 +3,7 @@ package com.coursework.barbershopapp.ui.signup;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -29,7 +30,13 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import com.coursework.barbershopapp.R;
+import com.coursework.barbershopapp.model.AboutService;
 import com.coursework.barbershopapp.model.Common;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.shuhart.stepview.StepView;
 
 import java.util.ArrayList;
@@ -38,7 +45,10 @@ import java.util.List;
 public class SignUpFragment extends Fragment {
 
     LocalBroadcastManager localBroadcastManager;
+    FirebaseFirestore db;
 
+    @BindView(R.id.btn_prev_step)
+    Button btn_prevStep;
     @BindView(R.id.btn_next_step)
     Button btn_nextStep;
     @OnClick(R.id.btn_next_step)
@@ -46,39 +56,126 @@ public class SignUpFragment extends Fragment {
         if(Common.STEP <3 || Common.STEP >=0)
         {
             Common.STEP++;
-            if(Common.STEP == 1)
+            if(Common.STEP == 1) // after choose service type
             {
-                if(Common.SERVICE_KEY != "")
+                if(Common.currentService != null)
                 {
-                    Intent intent = new Intent(Common.KEY_DISPLAY_TIMESLOT);
-                    localBroadcastManager.sendBroadcast(intent);
+//                    Intent intent = new Intent(Common.SERVICE_KEY);
+//                    localBroadcastManager.sendBroadcast(intent);
+                    loadServicesMore(Common.currentService.getName());
                 }
-                else
-                {
-                    Toast.makeText(getContext(), "Выберите тип услуги", Toast.LENGTH_SHORT).show();
-                }
+//                else
+//                {
+//                    Toast.makeText(getContext(), "Выберите тип услуги", Toast.LENGTH_SHORT).show();
+//                }
             }
+//            if(Common.STEP == 2)
+//            {
+//                if(Common.SERVICE_TYPE != "")
+//                {
+//                    Intent intent = new Intent(Common.KEY_DISPLAY_TIMESLOT);
+//                    localBroadcastManager.sendBroadcast(intent);
+//                }
+//                else
+//                {
+//                    Toast.makeText(getContext(), "Выберите тип услуги", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//            if(Common.STEP == 3){
+//                if(Common.KEY_DISPLAY_TIMESLOT != ""){
+//
+//                }
+//            }
+            viewPager.setCurrentItem(Common.STEP);
+        }
+        // Toast.makeText(getActivity(), Common.currentService.getName(), Toast.LENGTH_LONG).show();
+    }
+    @OnClick(R.id.btn_prev_step)
+    void prevStep(){
+        if(Common.STEP == 3 || Common.STEP > 0)
+        {
+            Common.STEP--;
             viewPager.setCurrentItem(Common.STEP);
         }
     }
 
-    @BindView(R.id.btn_prev_step)
-    Button btn_prevStep;
+    private void loadServicesMore(String name) {
+        //  /ServicesMan/HairCut/Services/LongHairCut
+        db.collection("ServicesMan").document(name)
+                .collection("Services").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful())
+                        {
+                            ArrayList<AboutService> aboutServiceList = new ArrayList<>();
+                            for(QueryDocumentSnapshot doc : task.getResult())
+                            {
+                                AboutService serv = doc.toObject(AboutService.class);
+                                aboutServiceList.add(serv);
+                            }
+
+                            // send brouadcast to Fragment2
+                            Intent intent = new Intent(Common.KEY_SERVICE_LOAD_DONE);
+                            intent.putParcelableArrayListExtra(Common.KEY_SERVICE_LOAD_DONE, aboutServiceList);
+                            localBroadcastManager.sendBroadcast(intent);
+                        }
+                    }
+                });
+    }
+
+    BroadcastReceiver nextBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Common.currentService = intent.getParcelableExtra(Common.KEY_SERVICE_STORE);
+            btn_nextStep.setEnabled(true);
+            setColorButton();
+        }
+    };
 
     @BindView(R.id.step_view)
     StepView stepView;
-
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
     private SignUpViewModel signUpViewModel;
     private TextView serviceName, serviceDescription, servicePrice;
-    private ImageView chosen;
-    private DividerItemDecoration dividerItem;
 
     private Unbinder unbinder;
 
     private MyViewPagerAdapterSignUp myViewPagerAdapterSignUp;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        db = FirebaseFirestore.getInstance();
+    }
+
+    private void setColorButton() {
+
+        if(btn_nextStep.isEnabled())
+        {
+            btn_nextStep.setBackgroundResource(R.color.colorLightBrown);
+        }
+        else
+        {
+            btn_nextStep.setBackgroundResource(R.color.colorGrey);
+        }
+        if(btn_prevStep.isEnabled())
+        {
+            btn_prevStep.setBackgroundResource(R.color.colorLightBrown);
+        }
+        else
+        {
+            btn_prevStep.setBackgroundResource(R.color.colorGrey);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        localBroadcastManager.unregisterReceiver(nextBroadcastReceiver);
+        super.onDestroy();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -89,9 +186,14 @@ public class SignUpFragment extends Fragment {
         myViewPagerAdapterSignUp = new MyViewPagerAdapterSignUp(getChildFragmentManager());
 
         unbinder = ButterKnife.bind(this, root);
+        setColorButton();
+
+        localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+        localBroadcastManager.registerReceiver(nextBroadcastReceiver, new IntentFilter(Common.KEY_NEXT_BTN));
 
         setupStepView();
         viewPager.setAdapter(new MyViewPagerAdapterSignUp(getChildFragmentManager()));
+        viewPager.setOffscreenPageLimit(4);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -100,22 +202,26 @@ public class SignUpFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                Common.STEP = position;
+
+                // stepview animating when next or prev
                 stepView.go(position, true);
                 stepView.getState()
                         .animationDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
                         .animationType(StepView.ANIMATION_CIRCLE);
 
-                if(position == 0) {
+                if(position == 0)
                     btn_prevStep.setEnabled(false);
-                }
-                else
-                    btn_prevStep.setEnabled(true);
-
-                if(position == 3)
-                    btn_nextStep.setEnabled(false);
                 else
                     btn_nextStep.setEnabled(true);
+
+                if(position == 1)
+                    btn_prevStep.setEnabled(true);
+
+//                if(position == 3)
+//                    btn_nextStep.setEnabled(false);
+//                else
+//                    btn_nextStep.setEnabled(true);
+                setColorButton();
             }
 
             @Override
@@ -148,8 +254,8 @@ public class SignUpFragment extends Fragment {
         List<String> stepList = new ArrayList<>();
         stepList.add("Раздел");
         stepList.add("Услуги");
-        stepList.add("Время и мастер");
-        stepList.add("Готово");
+        stepList.add("Мастер");
+        stepList.add("Дата и время");
 
         stepView.setSteps(stepList);
     }

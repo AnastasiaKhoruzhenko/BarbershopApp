@@ -62,7 +62,7 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
             super(itemView);
 
             card = itemView.findViewById(R.id.cardview_profile_sett);
-            imgNext = itemView.findViewById(R.id.iv_next);
+            //imgNext = itemView.findViewById(R.id.iv_next);
             setting = itemView.findViewById(R.id.tv_setting);
         }
     }

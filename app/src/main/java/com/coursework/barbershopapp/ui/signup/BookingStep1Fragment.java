@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.coursework.barbershopapp.Admin.ui.masters.RecyclerViewAdapter;
 import com.coursework.barbershopapp.R;
@@ -79,12 +80,7 @@ public class BookingStep1Fragment extends Fragment {
     }
 
     private void initRecView(List<Banner> listServices) {
-        RecycleViewAdapterStep1 recView = new RecycleViewAdapterStep1(getContext(), listServices){
-            @Override
-            protected void OnCardViewClicked() {
-
-            }
-        };
+        RecycleViewAdapterStep1 recView = new RecycleViewAdapterStep1(getContext(), listServices);
         recyclerView.setAdapter(recView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 

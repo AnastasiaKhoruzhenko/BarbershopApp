@@ -1,12 +1,28 @@
 package com.coursework.barbershopapp.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Common {
 
     public static final int SLOT_COUNT = 33;
+    public static final String KEY_SERVICE_STORE = "SERVICE_SAVE";
+    public static final String KEY_SERVICE_LOAD_DONE = "SERVICE_LOAD_DONE";
+    public static final String KEY_SERVICES_LOAD_DONE = "SERVICES_LOAD_DONE";
+
+    // for booking
+    public static String SERVICE_TYPE = "";
     public static String KEY_DISPLAY_TIMESLOT = "";
     public static int STEP = 0;
     public static String SERVICE_KEY = "";
-    public static AboutService currentService;
+    public static String KEY_NEXT_BTN = "ENABLE_NEXT";
+    //for 1 step info (banner = service card)
+    public static Banner currentService;
+
+    // for settings
+    public static List<String> list_settings = new ArrayList<String>(){{add("Настройки аккаунта"); add("Настройки приложения"); add("Пригласить друга"); add("Программа лояльности");}};
+    public static List<String> list_settings_descr = new ArrayList<String>(){{add("Имя, фамилия, дата рождения ..."); add("Push-уведомления, тема, язык"); add("Пригласи друга и получи бонусы"); add("Баллы, сроки начисления");}};
+
 
     public static String convertTimeSlotToString(int position) {
 

@@ -23,10 +23,12 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
 
     private List<AboutService> listServices = new ArrayList<>();
     private Context mContext;
+    List<CardView> cardViews;
 
     public RecycleViewAdapterStep2(Context mContext, List<AboutService> listServices) {
         this.listServices = listServices;
         this.mContext = mContext;
+        cardViews = new ArrayList<>();
     }
 
     @NonNull
@@ -43,6 +45,9 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
         holder.s_name.setText(listServices.get(position).getTitle());
         holder.s_price.setText(listServices.get(position).getPrice());
         holder.s_descr.setText(listServices.get(position).getDescr());
+
+//        if(!cardViews.contains(holder.step2))
+//            cardViews.add(holder.step2);
     }
 
     @Override

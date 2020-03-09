@@ -182,12 +182,12 @@ public class MastersAdminFragment extends Fragment {
     private void updateInfo(String name, String surname, String email, String phone) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> master = new HashMap<>();
-        master.put("Name", name);
-        master.put("Surname", surname);
-        master.put("Phone", phone);
-        master.put("Email", email);
-        master.put("DefaultPass", true);
-        master.put("Score", 0.0);
+        master.put("name", name);
+        master.put("surname", surname);
+        master.put("phone", phone);
+        master.put("email", email);
+        master.put("defaultPass", true);
+        master.put("score", 0.0);
         db.collection("Masters").document(email).set(master);
 
         // clear input text after creation
@@ -215,12 +215,12 @@ public class MastersAdminFragment extends Fragment {
                         for(int i = 0; i < count; ++i)
                         {
                             d = list.get(i).getData();
-                            personList.add(new Person(d.get("Email").toString(),
-                                    d.get("Name").toString(),
-                                    d.get("Surname").toString(),
-                                    d.get("Phone").toString(),
-                                    d.get("Score").toString(),
-                                    Boolean.getBoolean(d.get("DefaultPass").toString())));
+                            personList.add(new Person(d.get("email").toString(),
+                                    d.get("name").toString(),
+                                    d.get("surname").toString(),
+                                    d.get("phone").toString(),
+                                    d.get("score").toString(),
+                                    Boolean.getBoolean(d.get("defaultPass").toString())));
                         }
 
                         initImageBitmaps(personList);

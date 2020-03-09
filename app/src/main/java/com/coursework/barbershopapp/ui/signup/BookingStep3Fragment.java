@@ -1,57 +1,52 @@
 package com.coursework.barbershopapp.ui.signup;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.coursework.barbershopapp.Interface.ITimeSlotLoadListener;
+import com.coursework.barbershopapp.Interface.IMastersLoadListener;
+import com.coursework.barbershopapp.Masters.ui.settings.RecyclerViewAdapterMasterSett;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.Common;
-import com.coursework.barbershopapp.model.TimeSlot;
+import com.coursework.barbershopapp.model.Person;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import devs.mulham.horizontalcalendar.HorizontalCalendar;
-import devs.mulham.horizontalcalendar.HorizontalCalendarView;
-import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
 
-public class BookingStep3Fragment extends Fragment implements ITimeSlotLoadListener {
+public class BookingStep3Fragment extends Fragment implements IMastersLoadListener {
 
     static BookingStep3Fragment instance;
-    private DocumentReference docRef;
-
-    ITimeSlotLoadListener iTimeSlotLoadListener;
     Unbinder unbinder;
-    Calendar selected_date;
-    LocalBroadcastManager localBroadcastManager;
 
-    @BindView(R.id.recview_time)
-    RecyclerView recyclerViewTime;
-//    @BindView(R.id.calendarView)
-//    HorizontalCalendar calendarViewHor;
-    SimpleDateFormat simpleDateFormat;
+    @BindView(R.id.recview_masters_to_choose)
+    RecyclerView recyclerView;
 
     private FirebaseFirestore db;
+    LocalBroadcastManager localBroadcastManager;
+
+    //IMastersLoadListener iMastersLoadListener;
 
     public static BookingStep3Fragment getInstance(){
         if(instance == null)
@@ -63,7 +58,15 @@ public class BookingStep3Fragment extends Fragment implements ITimeSlotLoadListe
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        iTimeSlotLoadListener = this;
+//        iMastersLoadListener = this;
+//        localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+//        localBroadcastManager.registerReceiver(servicesDoneReciever, new IntentFilter(Common.KEY_SERVICES_LOAD_DONE));
+    }
+
+    @Override
+    public void onDestroy() {
+        //localBroadcastManager.unregisterReceiver(servicesDoneReciever);
+        super.onDestroy();
     }
 
     @Nullable
@@ -73,108 +76,63 @@ public class BookingStep3Fragment extends Fragment implements ITimeSlotLoadListe
 
         View view = inflater.inflate(R.layout.fragment_booking_step3, container, false);
 
-        simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");
-
         unbinder = ButterKnife.bind(this, view);
-
-        Log.d("error", "on create view before init");
-
-        selected_date = Calendar.getInstance();
-        selected_date.add(Calendar.DATE, 0);
-
-        Calendar startDate = Calendar.getInstance();
-        startDate.add(Calendar.MONTH, -1);
-        Calendar endDate = Calendar.getInstance();
-        endDate.add(Calendar.MONTH, 1);
-
-        HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(view, R.id.calendarView)
-                .range(startDate, endDate)
-                .datesNumberOnScreen(7)
-                .defaultSelectedDate(startDate)
-                .build();
-
-        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
-            @Override
-            public void onDateSelected(Calendar date, int position) {
-                if(selected_date.getTime() != date.getTime())
-                {
-                    selected_date = date;
-                    loadAllBarbers(selected_date, "");
-                    simpleDateFormat.format(date.getTime());
-                }
-            }
-        });
-
-        init(view);
-
         db = FirebaseFirestore.getInstance();
+
+        //DocumentReference doc = db.collection()
+
+        // /ServicesMan/HairCut/Barbers/a@a.ri
+        db.collection("ServicesMan").document("HairCut").collection("Barbers").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful())
+                        {
+                            List<DocumentReference> personList = new ArrayList<>();
+
+                            List<Person> pList=new ArrayList<>();
+                            for(QueryDocumentSnapshot person:task.getResult())
+                            {
+                                DocumentReference doc = person.getDocumentReference("barber");
+                                personList.add(doc);
+                            }
+
+                            for(DocumentReference doc : personList)
+                            {
+                                doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        Person p = task.getResult().toObject(Person.class);
+                                        Toast.makeText(getActivity(), p.getSurname(), Toast.LENGTH_LONG).show();
+                                        pList.add(p);
+                                    }
+                                });
+                            }
+
+                            loadList(pList);
+                        }
+                    }
+                });
+
+        // iMastersLoadListener.onMastersLoadSuccess();
 
         return view;
     }
 
-    private void loadAllBarbers(Calendar selected_date, String s) {
-    }
+    private void loadList(List<Person> pList) {
 
-    private void init(View view) {
-
-        recyclerViewTime.setHasFixedSize(true);
-        //GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
-        //recyclerViewTime.setLayoutManager(gridLayoutManager);
-        //recyclerViewTime.addItemDecoration(new SpacesItemDecoration(8));
-
-
-//        Calendar startDate = Calendar.getInstance();
-//        startDate.add(Calendar.DATE, 0);
-//        Calendar endDate = Calendar.getInstance();
-//        endDate.add(Calendar.DATE, 10);
-//        HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(view, R.id.calendarView)
-//                .range(startDate, endDate)
-//                .datesNumberOnScreen(7)
-//                .defaultSelectedDate(startDate)
-//                .build();
-//
-//        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
-//            @Override
-//            public void onDateSelected(Calendar date, int position) {
-//                if(selected_date.getTimeInMillis() != date.getTimeInMillis())
-//                {
-//                    selected_date = date;
-//                    // loadAvailiable timeslot barbers part6, 34:48
-//
-//                }
-//            }
-//        });
-
-        iTimeSlotLoadListener.onTileSlotLoadEmpty();
-    }
-
-//    @Override
-//    public void onDestroy() {
-//        //localBroadcastManager.unregisterReceiver(s);
-//    }
-
-    @Override
-    public void onTimeSlotLoadListener(List<TimeSlot> timeSlotList) {
-        RecyclerViewTimeSlotsAdapter adapter = new RecyclerViewTimeSlotsAdapter(getContext(), timeSlotList);
-        recyclerViewTime.setAdapter(adapter);
-        recyclerViewTime.setLayoutManager(new GridLayoutManager(getContext(), 5));
-
-        Log.d("error", "on time slot load listener");
+        RecyclerViewMastersChooseAdapter recView = new RecyclerViewMastersChooseAdapter(getContext(), pList);
+        recyclerView.setAdapter(recView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
-    public void onTimeSlotFailedListener(String message) {
-        Log.d("error", "problem");
+    public void onMastersLoadSuccess(List<String> masters) {
+
     }
 
     @Override
-    public void onTileSlotLoadEmpty() {
-        RecyclerViewTimeSlotsAdapter adapter = new RecyclerViewTimeSlotsAdapter(getContext());
-        recyclerViewTime.setAdapter(adapter);
-        recyclerViewTime.setLayoutManager(new GridLayoutManager(getContext(), 5));
+    public void onMastersLoadFailed(String message) {
 
-        Log.d("error", "on time slot load empty");
     }
 }
-
-

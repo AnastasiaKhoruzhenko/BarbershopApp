@@ -2,14 +2,10 @@ package com.coursework.barbershopapp.model;
 
 public class Person {
 
-    String email;
-    String name;
-    String surname;
-    String phone;
-
-    String score;
+    String email, name, surname, phone, score;
     Boolean defaultPass;
 
+    public Person(){}
 
     public Person(String email, String name, String surname, String phone, String score, Boolean defaultPass) {
         this.email = email;
