@@ -1,6 +1,9 @@
 package com.coursework.barbershopapp.model;
 
-public class Person {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Person implements Parcelable {
 
     String email, name, surname, phone, score;
     Boolean defaultPass;
@@ -15,6 +18,28 @@ public class Person {
         this.score = score;
         this.defaultPass = defaultPass;
     }
+
+    protected Person(Parcel in) {
+        email = in.readString();
+        name = in.readString();
+        surname = in.readString();
+        phone = in.readString();
+        score = in.readString();
+        byte tmpDefaultPass = in.readByte();
+        defaultPass = tmpDefaultPass == 0 ? null : tmpDefaultPass == 1;
+    }
+
+    public static final Creator<Person> CREATOR = new Creator<Person>() {
+        @Override
+        public Person createFromParcel(Parcel in) {
+            return new Person(in);
+        }
+
+        @Override
+        public Person[] newArray(int size) {
+            return new Person[size];
+        }
+    };
 
     public String getEmail() {
         return email;
@@ -62,5 +87,20 @@ public class Person {
 
     public void setDefaultPass(Boolean defaultPass) {
         this.defaultPass = defaultPass;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(email);
+        dest.writeString(name);
+        dest.writeString(surname);
+        dest.writeString(phone);
+        dest.writeString(score);
+        dest.writeByte((byte) (defaultPass == null ? 0 : defaultPass ? 1 : 2));
     }
 }

@@ -1,5 +1,7 @@
 package com.coursework.barbershopapp.model;
 
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,9 @@ public class Common {
     public static final String KEY_SERVICE_STORE = "SERVICE_SAVE";
     public static final String KEY_SERVICE_LOAD_DONE = "SERVICE_LOAD_DONE";
     public static final String KEY_SERVICES_LOAD_DONE = "SERVICES_LOAD_DONE";
+    public static final String KEY_SERVICE_SELECTED = "SERVICE_TYPE_SELECTED";
+    public static final String KEY_DISPLAY_BARBER = "DISPLAY_BARBER";
+    public static final String KEY_STEP = "STEP";
 
     // for booking
     public static String SERVICE_TYPE = "";
@@ -22,6 +27,8 @@ public class Common {
     // for settings
     public static List<String> list_settings = new ArrayList<String>(){{add("Настройки аккаунта"); add("Настройки приложения"); add("Пригласить друга"); add("Программа лояльности");}};
     public static List<String> list_settings_descr = new ArrayList<String>(){{add("Имя, фамилия, дата рождения ..."); add("Push-уведомления, тема, язык"); add("Пригласи друга и получи бонусы"); add("Баллы, сроки начисления");}};
+    public static AboutService currentServiceType;
+    public static String name = "";
 
 
     public static String convertTimeSlotToString(int position) {

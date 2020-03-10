@@ -66,6 +66,7 @@ public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAda
 
                 Intent intent = new Intent(Common.KEY_NEXT_BTN);
                 intent.putExtra(Common.KEY_SERVICE_STORE, listService.get(position));
+                intent.putExtra(Common.KEY_STEP, 1);
                 localBroadcastManager.sendBroadcast(intent);
             }
         });

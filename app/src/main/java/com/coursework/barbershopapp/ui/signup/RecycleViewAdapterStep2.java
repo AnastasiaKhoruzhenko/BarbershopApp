@@ -1,6 +1,7 @@
 package com.coursework.barbershopapp.ui.signup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +10,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.coursework.barbershopapp.Interface.IRecyclerItemSelectedListener;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.AboutService;
+import com.coursework.barbershopapp.model.Common;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAdapterStep2.ViewHolder>{
@@ -24,11 +28,13 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
     private List<AboutService> listServices = new ArrayList<>();
     private Context mContext;
     List<CardView> cardViews;
+    LocalBroadcastManager localBroadcastManager;
 
     public RecycleViewAdapterStep2(Context mContext, List<AboutService> listServices) {
         this.listServices = listServices;
         this.mContext = mContext;
         cardViews = new ArrayList<>();
+        localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
     }
 
     @NonNull
@@ -46,8 +52,24 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
         holder.s_price.setText(listServices.get(position).getPrice());
         holder.s_descr.setText(listServices.get(position).getDescr());
 
-//        if(!cardViews.contains(holder.step2))
-//            cardViews.add(holder.step2);
+        if(!cardViews.contains(holder.step2))
+            cardViews.add(holder.step2);
+
+        holder.setiRecyclerItemSelectedListener(new IRecyclerItemSelectedListener() {
+            @Override
+            public void OnItemSelectedListener(View view, int position) {
+                for(CardView card:cardViews)
+                    card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorGrey));
+
+                holder.step2.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
+
+                Intent intent = new Intent(Common.KEY_NEXT_BTN);
+                intent.putExtra(Common.KEY_SERVICE_SELECTED, listServices.get(position));
+                intent.putExtra(Common.KEY_STEP, 2);
+                //intent.putExtra("Service", Common.currentService.getName());
+                localBroadcastManager.sendBroadcast(intent);
+            }
+        });
     }
 
     @Override
@@ -55,13 +77,18 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
         return listServices.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         CardView step2;
         TextView s_name, s_descr, s_price;
         CheckBox check;
         View divider_service;
 
+        IRecyclerItemSelectedListener iRecyclerItemSelectedListener;
+
+        public void setiRecyclerItemSelectedListener(IRecyclerItemSelectedListener iRecyclerItemSelectedListener) {
+            this.iRecyclerItemSelectedListener = iRecyclerItemSelectedListener;
+        }
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -72,6 +99,13 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
             s_price = itemView.findViewById(R.id.tv_price);
             check  =itemView.findViewById(R.id.checkBox_choose);
             divider_service = itemView.findViewById(R.id.divider_service);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            iRecyclerItemSelectedListener.OnItemSelectedListener(v, getAdapterPosition());
         }
     }
 }

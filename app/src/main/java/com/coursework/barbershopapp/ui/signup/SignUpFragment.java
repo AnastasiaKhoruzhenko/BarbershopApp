@@ -32,8 +32,11 @@ import butterknife.Unbinder;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.AboutService;
 import com.coursework.barbershopapp.model.Common;
+import com.coursework.barbershopapp.model.Person;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -53,7 +56,7 @@ public class SignUpFragment extends Fragment {
     Button btn_nextStep;
     @OnClick(R.id.btn_next_step)
     void NextClick(){
-        if(Common.STEP <3 || Common.STEP >=0)
+        if(Common.STEP < 3 || Common.STEP >= 0)
         {
             Common.STEP++;
             if(Common.STEP == 1) // after choose service type
@@ -63,24 +66,24 @@ public class SignUpFragment extends Fragment {
 //                    Intent intent = new Intent(Common.SERVICE_KEY);
 //                    localBroadcastManager.sendBroadcast(intent);
                     loadServicesMore(Common.currentService.getName());
+                    loadBarber(Common.currentService.getName());
                 }
 //                else
 //                {
 //                    Toast.makeText(getContext(), "Выберите тип услуги", Toast.LENGTH_SHORT).show();
 //                }
             }
-//            if(Common.STEP == 2)
-//            {
-//                if(Common.SERVICE_TYPE != "")
-//                {
-//                    Intent intent = new Intent(Common.KEY_DISPLAY_TIMESLOT);
-//                    localBroadcastManager.sendBroadcast(intent);
-//                }
-//                else
-//                {
-//                    Toast.makeText(getContext(), "Выберите тип услуги", Toast.LENGTH_SHORT).show();
-//                }
-//            }
+            else if(Common.STEP == 2)
+            {
+                if(Common.currentServiceType != null)
+                {
+                    loadBarber(Common.currentService.getName());
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Выберите тип услуги", Toast.LENGTH_SHORT).show();
+                }
+            }
 //            if(Common.STEP == 3){
 //                if(Common.KEY_DISPLAY_TIMESLOT != ""){
 //
@@ -124,10 +127,60 @@ public class SignUpFragment extends Fragment {
                 });
     }
 
+    private void loadBarber(String name)
+    {
+
+        Intent intent = new Intent(Common.KEY_DISPLAY_BARBER);
+        localBroadcastManager.sendBroadcast(intent);
+//        // /ServicesMan/HairCut/Barbers/a@a.ri
+//        db.collection("ServicesMan").document(name).collection("Barbers").get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if(task.isSuccessful())
+//                        {
+//                            ArrayList<DocumentReference> personList = new ArrayList<>();
+//
+//                            ArrayList<Person> pList=new ArrayList<>();
+//                            for(QueryDocumentSnapshot person:task.getResult())
+//                            {
+//                                DocumentReference doc = person.getDocumentReference("barber");
+//                                personList.add(doc);
+//                            }
+//
+//                            for(DocumentReference doc : personList)
+//                            {
+//                                doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                        Person p = task.getResult().toObject(Person.class);
+//                                        Toast.makeText(getActivity(), p.getSurname(), Toast.LENGTH_LONG).show();
+//                                        pList.add(p);
+//                                    }
+//                                });
+//                            }
+//
+//
+//                            // send brouadcast to Fragment3
+//                            Intent intent = new Intent(Common.KEY_SERVICES_LOAD_DONE);
+//                            intent.putParcelableArrayListExtra(Common.KEY_SERVICES_LOAD_DONE, pList);
+//                            localBroadcastManager.sendBroadcast(intent);
+//                        }
+//                    }
+//                });
+    }
+
     BroadcastReceiver nextBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Common.currentService = intent.getParcelableExtra(Common.KEY_SERVICE_STORE);
+            int step = intent.getIntExtra(Common.KEY_STEP, 0);
+            if(step == 1)
+                Common.currentService = intent.getParcelableExtra(Common.KEY_SERVICE_STORE);
+            else if (step == 2)
+                Common.currentServiceType = intent.getParcelableExtra(Common.KEY_SERVICE_SELECTED);
+            //else if(step == 3)
+
+            //Common.name = Common.currentService.getName();
             btn_nextStep.setEnabled(true);
             setColorButton();
         }
@@ -216,6 +269,8 @@ public class SignUpFragment extends Fragment {
 
                 if(position == 1)
                     btn_prevStep.setEnabled(true);
+
+                btn_nextStep.setEnabled(false);
 
 //                if(position == 3)
 //                    btn_nextStep.setEnabled(false);
