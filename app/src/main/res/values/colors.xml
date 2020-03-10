@@ -8,5 +8,11 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGrey">#979097</color>
 
+    <color name="GreyForCard">#3b3f52</color>
+    <color name="selectedBlue">#0e8f91</color>
+    <color name="normGrey">#7b8697</color>
+    <color name="darkGrey">#2c2e3d</color>
+    <color name="partWhite">#e6e6e8</color>
+
     <!--    <color name="colorBrown">#B59B7C</color>-->
 </resources>

@@ -2,7 +2,12 @@ package com.coursework.barbershopapp.model;
 
 import android.os.Parcelable;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Common {
@@ -18,6 +23,9 @@ public class Common {
     public static final String KEY_BARBER_SELECTED = "BARBER_SELECTED";
 
     public static final String KEY_STEP = "STEP";
+    public static final Object DISABLE_TAG = "DISABLED";
+    public static final String KEY_TIME_SLOT = "TIME_SLOT";
+    public static final String KEY_CONFURM_BOOKING = "CONFURM_BOOKING";
 
     // for booking
     public static String SERVICE_TYPE = "";
@@ -34,7 +42,10 @@ public class Common {
     public static AboutService currentServiceType;
     //public static String name = "";
     public static Person currentBarber;
+    public static int currentTimeSlot = -1;
+    public static Calendar currentDate = Calendar.getInstance();
 
+    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");
 
     public static String convertTimeSlotToString(int position) {
 

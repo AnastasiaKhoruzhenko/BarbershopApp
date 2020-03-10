@@ -43,6 +43,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.shuhart.stepview.StepView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class SignUpFragment extends Fragment {
@@ -56,7 +57,7 @@ public class SignUpFragment extends Fragment {
     Button btn_nextStep;
     @OnClick(R.id.btn_next_step)
     void NextClick(){
-        if(Common.STEP < 3 || Common.STEP >= 0)
+        if(Common.STEP < 4 || Common.STEP >= 0)
         {
             Common.STEP++;
             if(Common.STEP == 1) // after choose service type
@@ -94,8 +95,21 @@ public class SignUpFragment extends Fragment {
                     Toast.makeText(getContext(), "Выберите", Toast.LENGTH_SHORT).show();
                 }
             }
+            else if(Common.STEP == 4)
+            {
+                if(Common.currentTimeSlot != -1)
+                {
+                    confirmBooking();
+                }
+            }
             viewPager.setCurrentItem(Common.STEP);
         }
+    }
+
+    private void confirmBooking() {
+
+        Intent intent = new Intent(Common.KEY_CONFURM_BOOKING);
+        localBroadcastManager.sendBroadcast(intent);
     }
 
     private void loadTimeSlots(String email) {
@@ -110,6 +124,11 @@ public class SignUpFragment extends Fragment {
         {
             Common.STEP--;
             viewPager.setCurrentItem(Common.STEP);
+            if(Common.STEP<4)
+            {
+                btn_nextStep.setEnabled(true);
+                setColorButton();
+            }
         }
     }
 
@@ -154,8 +173,9 @@ public class SignUpFragment extends Fragment {
                 Common.currentServiceType = intent.getParcelableExtra(Common.KEY_SERVICE_SELECTED);
             else if(step == 3)
                 Common.currentBarber = intent.getParcelableExtra(Common.KEY_BARBER_SELECTED);
+            else if(step == 4)
+                Common.currentTimeSlot = intent.getIntExtra(Common.KEY_TIME_SLOT, -1);
 
-            //Common.name = Common.currentService.getName();
             btn_nextStep.setEnabled(true);
             setColorButton();
         }
@@ -221,7 +241,7 @@ public class SignUpFragment extends Fragment {
 
         setupStepView();
         viewPager.setAdapter(new MyViewPagerAdapterSignUp(getChildFragmentManager()));
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(5);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -238,12 +258,34 @@ public class SignUpFragment extends Fragment {
                         .animationType(StepView.ANIMATION_CIRCLE);
 
                 if(position == 0)
+                {
                     btn_prevStep.setEnabled(false);
-                else
+                    btn_nextStep.setVisibility(View.VISIBLE);
+                }
+                else {
                     btn_nextStep.setEnabled(true);
+                    btn_nextStep.setVisibility(View.VISIBLE);
+                }
 
-                if(position == 1)
+                if(position == 1) {
+                    btn_nextStep.setVisibility(View.VISIBLE);
                     btn_prevStep.setEnabled(true);
+                }
+
+                if(position == 2) {
+                    btn_nextStep.setVisibility(View.VISIBLE);
+                    btn_prevStep.setEnabled(true);
+                    btn_nextStep.setEnabled(true);
+                }
+
+                if(position == 3) {
+                    btn_nextStep.setVisibility(View.VISIBLE);
+                    btn_prevStep.setEnabled(true);
+                    btn_nextStep.setEnabled(true);
+                }
+
+                if(position == 4)
+                    btn_nextStep.setVisibility(View.GONE);
 
                 btn_nextStep.setEnabled(false);
 
@@ -273,12 +315,14 @@ public class SignUpFragment extends Fragment {
         return root;
     }
 
-    private BroadcastReceiver buttonNextReciever = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-        }
-    };
+    private void resetStaticData() {
+        Common.STEP = 0;
+        Common.currentDate.add(Calendar.DATE, 0);
+        Common.currentTimeSlot = -1;
+        Common.currentBarber = null;
+        Common.currentService = null;
+        Common.currentServiceType = null;
+    }
 
     private void setupStepView() {
         List<String> stepList = new ArrayList<>();
@@ -286,6 +330,7 @@ public class SignUpFragment extends Fragment {
         stepList.add("Услуги");
         stepList.add("Мастер");
         stepList.add("Дата и время");
+        stepList.add("Подтверждение");
 
         stepView.setSteps(stepList);
     }

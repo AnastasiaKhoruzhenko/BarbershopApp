@@ -53,6 +53,8 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         db = FirebaseFirestore.getInstance();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_profile_settings, parent, false);
+
+
         return new ViewHolder(view);
     }
 

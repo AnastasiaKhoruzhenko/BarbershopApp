@@ -52,7 +52,6 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
 
     ITimeSlotLoadListener iTimeSlotLoadListener;
     Unbinder unbinder;
-    Calendar selected_date;
     LocalBroadcastManager localBroadcastManager;
 
     AlertDialog dialog;
@@ -136,9 +135,6 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
         simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");
 
         //dialog = new SpotsDialog.Builder().setContext(getContext()).setCancelable(false).build();
-
-        selected_date = Calendar.getInstance();
-        selected_date.add(Calendar.DATE, 0);
     }
 
     @Override
@@ -182,9 +178,9 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Calendar date, int position) {
-                if(selected_date.getTime() != date.getTime())
+                if(Common.currentDate.getTime() != date.getTime())
                 {
-                    selected_date = date;
+                    Common.currentDate = date;
                     loadAvailiableTimeSlot(Common.currentBarber.getEmail(), simpleDateFormat.format(date.getTime()));
                     simpleDateFormat.format(date.getTime());
                 }

@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:background="@color/darkGrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,6 +45,7 @@
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
+            android:background="@color/darkGrey"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"

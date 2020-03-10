@@ -21,6 +21,7 @@ import com.coursework.barbershopapp.Interface.IBannerLoadListener;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.Service.PicassoImageLoadService;
 import com.coursework.barbershopapp.model.Banner;
+import com.coursework.barbershopapp.model.Common;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +30,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements IBannerLoadListener {
@@ -56,6 +58,7 @@ public class HomeFragment extends Fragment implements IBannerLoadListener {
         
         loadBanner();
 
+        resetStaticData();
 
 
         //final TextView textView = root.findViewById(R.id.text_home);
@@ -66,6 +69,15 @@ public class HomeFragment extends Fragment implements IBannerLoadListener {
 //            }
 //        });
         return root;
+    }
+
+    private void resetStaticData() {
+        Common.STEP = 0;
+        Common.currentDate.add(Calendar.DATE, 0);
+        Common.currentTimeSlot = -1;
+        Common.currentBarber = null;
+        Common.currentService = null;
+        Common.currentServiceType = null;
     }
 
     private void loadBanner() {

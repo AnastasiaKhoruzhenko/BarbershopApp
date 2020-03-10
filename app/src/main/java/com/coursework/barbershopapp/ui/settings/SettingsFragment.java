@@ -18,6 +18,7 @@ import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.Common;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class SettingsFragment extends Fragment {
@@ -38,6 +39,17 @@ public class SettingsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        resetStaticData();
+
         return view;
+    }
+
+    private void resetStaticData() {
+        Common.STEP = 0;
+        Common.currentDate.add(Calendar.DATE, 0);
+        Common.currentTimeSlot = -1;
+        Common.currentBarber = null;
+        Common.currentService = null;
+        Common.currentServiceType = null;
     }
 }

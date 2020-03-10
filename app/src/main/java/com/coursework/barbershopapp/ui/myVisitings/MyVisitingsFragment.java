@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.coursework.barbershopapp.R;
+import com.coursework.barbershopapp.model.Common;
 import com.coursework.barbershopapp.ui.settings.SettingsViewModel;
 
 import java.text.SimpleDateFormat;
@@ -46,7 +47,18 @@ public class MyVisitingsFragment extends Fragment {
 //            }
 //        });
 
+        resetStaticData();
+
         return root;
+    }
+
+    private void resetStaticData() {
+        Common.STEP = 0;
+        Common.currentDate.add(Calendar.DATE, 0);
+        Common.currentTimeSlot = -1;
+        Common.currentBarber = null;
+        Common.currentService = null;
+        Common.currentServiceType = null;
     }
 
     @Override
