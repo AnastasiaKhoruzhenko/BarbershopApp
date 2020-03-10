@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,9 +53,9 @@ public class SignUpFragment extends Fragment {
     FirebaseFirestore db;
 
     @BindView(R.id.btn_prev_step)
-    Button btn_prevStep;
+    ImageButton btn_prevStep;
     @BindView(R.id.btn_next_step)
-    Button btn_nextStep;
+    ImageButton btn_nextStep;
     @OnClick(R.id.btn_next_step)
     void NextClick(){
         if(Common.STEP < 4 || Common.STEP >= 0)
@@ -64,15 +65,9 @@ public class SignUpFragment extends Fragment {
             {
                 if(Common.currentService != null)
                 {
-//                    Intent intent = new Intent(Common.SERVICE_KEY);
-//                    localBroadcastManager.sendBroadcast(intent);
                     loadServicesMore(Common.currentService.getName());
                     loadBarber(Common.currentService.getName());
                 }
-//                else
-//                {
-//                    Toast.makeText(getContext(), "Выберите тип услуги", Toast.LENGTH_SHORT).show();
-//                }
             }
             else if(Common.STEP == 2)
             {
@@ -120,11 +115,11 @@ public class SignUpFragment extends Fragment {
 
     @OnClick(R.id.btn_prev_step)
     void prevStep(){
-        if(Common.STEP == 3 || Common.STEP > 0)
+        if(Common.STEP == 4 || Common.STEP > 0)
         {
             Common.STEP--;
             viewPager.setCurrentItem(Common.STEP);
-            if(Common.STEP<4)
+            if(Common.STEP < 4)
             {
                 btn_nextStep.setEnabled(true);
                 setColorButton();
@@ -203,19 +198,19 @@ public class SignUpFragment extends Fragment {
 
         if(btn_nextStep.isEnabled())
         {
-            btn_nextStep.setBackgroundResource(R.color.colorLightBrown);
+            btn_nextStep.setBackgroundResource(R.drawable.right);
         }
         else
         {
-            btn_nextStep.setBackgroundResource(R.color.colorGrey);
+            btn_nextStep.setBackgroundResource(R.drawable.right_dis);
         }
         if(btn_prevStep.isEnabled())
         {
-            btn_prevStep.setBackgroundResource(R.color.colorLightBrown);
+            btn_prevStep.setBackgroundResource(R.drawable.left);
         }
         else
         {
-            btn_prevStep.setBackgroundResource(R.color.colorGrey);
+            btn_prevStep.setBackgroundResource(R.drawable.left_dis);
         }
     }
 
@@ -262,10 +257,6 @@ public class SignUpFragment extends Fragment {
                     btn_prevStep.setEnabled(false);
                     btn_nextStep.setVisibility(View.VISIBLE);
                 }
-                else {
-                    btn_nextStep.setEnabled(true);
-                    btn_nextStep.setVisibility(View.VISIBLE);
-                }
 
                 if(position == 1) {
                     btn_nextStep.setVisibility(View.VISIBLE);
@@ -284,15 +275,13 @@ public class SignUpFragment extends Fragment {
                     btn_nextStep.setEnabled(true);
                 }
 
-                if(position == 4)
-                    btn_nextStep.setVisibility(View.GONE);
+                if(position == 4) {
+                    btn_prevStep.setEnabled(true);
+                    btn_nextStep.setVisibility(View.INVISIBLE);
+                }
 
                 btn_nextStep.setEnabled(false);
 
-//                if(position == 3)
-//                    btn_nextStep.setEnabled(false);
-//                else
-//                    btn_nextStep.setEnabled(true);
                 setColorButton();
             }
 
@@ -301,17 +290,6 @@ public class SignUpFragment extends Fragment {
 
             }
         });
-
-
-
-
-//        final TextView textView = root.findViewById(R.id.text_dashboard);
-//        signUpViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
         return root;
     }
 

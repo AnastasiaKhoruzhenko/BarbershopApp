@@ -3,17 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/darkGrey"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_prev_step"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Prev"
+        android:background="@drawable/left"
         android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -28,16 +29,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:sv_animationType="Line"
-        app:sv_doneCircleColor="@color/colorDone"
+        app:sv_doneCircleColor="@color/colorWhite"
         app:sv_doneCircleRadius="12dp"
-        app:sv_doneStepLineColor="@color/colorAccent"
+        app:sv_doneStepLineColor="@color/selectedBlue"
         app:sv_doneStepMarkColor="@color/colorDone"
         app:sv_nextStepLineColor="@color/colorLightBrown"
-        app:sv_nextTextColor="@color/colorAccent"
-        app:sv_selectedCircleColor="@color/colorAccent"
+        app:sv_nextTextColor="@color/partWhite"
+        app:sv_selectedCircleColor="@color/selectedBlue"
         app:sv_selectedCircleRadius="12dp"
         app:sv_selectedStepNumberColor="@color/colorLightBrown"
-        app:sv_selectedTextColor="@color/colorDone"
+        app:sv_selectedTextColor="@color/selectedBlue"
         app:sv_stepLineWidth="1dp"
         app:sv_stepNumberTextSize="12sp"
         app:sv_stepPadding="12dp"
@@ -60,14 +61,14 @@
 
         </androidx.viewpager.widget.ViewPager>
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_next_step"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Next"
+        android:background="@drawable/right"
         android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
