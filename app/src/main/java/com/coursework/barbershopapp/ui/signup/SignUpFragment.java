@@ -84,15 +84,26 @@ public class SignUpFragment extends Fragment {
                     Toast.makeText(getContext(), "Выберите тип услуги", Toast.LENGTH_SHORT).show();
                 }
             }
-//            if(Common.STEP == 3){
-//                if(Common.KEY_DISPLAY_TIMESLOT != ""){
-//
-//                }
-//            }
+            else if(Common.STEP == 3){
+                if(Common.currentBarber != null){
+                    loadTimeSlots(Common.currentBarber.getEmail());
+                    Toast.makeText(getContext(), "Выберите dhtvzzzz", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Выберите", Toast.LENGTH_SHORT).show();
+                }
+            }
             viewPager.setCurrentItem(Common.STEP);
         }
-        // Toast.makeText(getActivity(), Common.currentService.getName(), Toast.LENGTH_LONG).show();
     }
+
+    private void loadTimeSlots(String email) {
+
+        Intent intent = new Intent(Common.KEY_DISPLAY_TIMESLOT);
+        localBroadcastManager.sendBroadcast(intent);
+    }
+
     @OnClick(R.id.btn_prev_step)
     void prevStep(){
         if(Common.STEP == 3 || Common.STEP > 0)
@@ -129,45 +140,8 @@ public class SignUpFragment extends Fragment {
 
     private void loadBarber(String name)
     {
-
         Intent intent = new Intent(Common.KEY_DISPLAY_BARBER);
         localBroadcastManager.sendBroadcast(intent);
-//        // /ServicesMan/HairCut/Barbers/a@a.ri
-//        db.collection("ServicesMan").document(name).collection("Barbers").get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if(task.isSuccessful())
-//                        {
-//                            ArrayList<DocumentReference> personList = new ArrayList<>();
-//
-//                            ArrayList<Person> pList=new ArrayList<>();
-//                            for(QueryDocumentSnapshot person:task.getResult())
-//                            {
-//                                DocumentReference doc = person.getDocumentReference("barber");
-//                                personList.add(doc);
-//                            }
-//
-//                            for(DocumentReference doc : personList)
-//                            {
-//                                doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                                        Person p = task.getResult().toObject(Person.class);
-//                                        Toast.makeText(getActivity(), p.getSurname(), Toast.LENGTH_LONG).show();
-//                                        pList.add(p);
-//                                    }
-//                                });
-//                            }
-//
-//
-//                            // send brouadcast to Fragment3
-//                            Intent intent = new Intent(Common.KEY_SERVICES_LOAD_DONE);
-//                            intent.putParcelableArrayListExtra(Common.KEY_SERVICES_LOAD_DONE, pList);
-//                            localBroadcastManager.sendBroadcast(intent);
-//                        }
-//                    }
-//                });
     }
 
     BroadcastReceiver nextBroadcastReceiver = new BroadcastReceiver() {
@@ -178,7 +152,8 @@ public class SignUpFragment extends Fragment {
                 Common.currentService = intent.getParcelableExtra(Common.KEY_SERVICE_STORE);
             else if (step == 2)
                 Common.currentServiceType = intent.getParcelableExtra(Common.KEY_SERVICE_SELECTED);
-            //else if(step == 3)
+            else if(step == 3)
+                Common.currentBarber = intent.getParcelableExtra(Common.KEY_BARBER_SELECTED);
 
             //Common.name = Common.currentService.getName();
             btn_nextStep.setEnabled(true);

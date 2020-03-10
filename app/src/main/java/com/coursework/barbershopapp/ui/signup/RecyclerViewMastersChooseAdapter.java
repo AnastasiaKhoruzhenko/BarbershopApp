@@ -20,6 +20,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<RecyclerViewMastersChooseAdapter.MyViewHolder>{
@@ -30,6 +31,7 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
     List<String> listScore = new ArrayList<>();
     ArrayList<Person> personList = new ArrayList<>();
     List<CardView> cardViews;
+    LocalBroadcastManager localBroadcastManager;
 
     Context mContext;
 
@@ -45,6 +47,7 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
         this.mContext = mContext;
         this.personList = personList;
         cardViews = new ArrayList<>();
+        localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
     }
 
 
@@ -77,11 +80,10 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
 
                 holder.card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
 
-//                Intent intent = new Intent(Common.KEY_NEXT_BTN);
-//                intent.putExtra(Common., listServices.get(position));
-//                intent.putExtra(Common.KEY_STEP, 2);
-//                //intent.putExtra("Service", Common.currentService.getName());
-//                localBroadcastManager.sendBroadcast(intent);
+                Intent intent = new Intent(Common.KEY_NEXT_BTN);
+                intent.putExtra(Common.KEY_BARBER_SELECTED, personList.get(position));
+                intent.putExtra(Common.KEY_STEP, 3);
+                localBroadcastManager.sendBroadcast(intent);
             }
         });
     }

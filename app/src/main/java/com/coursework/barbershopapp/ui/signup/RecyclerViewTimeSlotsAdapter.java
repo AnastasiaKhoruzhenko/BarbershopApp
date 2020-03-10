@@ -44,9 +44,10 @@ public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerV
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.time.setText(Common.convertTimeSlotToString(position));
 
-        if(timeSlotList.size() == 0)
+        if(timeSlotList.size() == 0) // all are availiable
         {
-            holder.time.setTextColor(mContext.getResources().getColor(R.color.colorGrey));
+            holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorDone));
+            holder.time.setTextColor(mContext.getResources().getColor(R.color.colorLightBrown));
         }
         else {
             for (TimeSlot timeSlot : timeSlotList)
@@ -54,6 +55,7 @@ public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerV
                 int slot = Integer.parseInt(timeSlot.getSlot().toString());
                 if(slot == position)
                 {
+                    holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
                     holder.time.setTextColor(mContext.getResources().getColor(R.color.colorGrey));
                 }
             }
