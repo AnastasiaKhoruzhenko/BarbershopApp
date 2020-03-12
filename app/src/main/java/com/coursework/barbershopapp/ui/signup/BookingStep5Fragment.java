@@ -16,13 +16,20 @@ import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.BookingInformation;
 import com.coursework.barbershopapp.model.Common;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.ColorLong;
 import androidx.annotation.NonNull;
@@ -61,16 +68,20 @@ public class BookingStep5Fragment extends Fragment {
         info.setBarberEmail(Common.currentBarber.getEmail());
         info.setBarberName(Common.currentBarber.getName());
         info.setBarberSurname(Common.currentBarber.getSurname());
+        info.setService(Common.currentServiceType.getTitle());
+        info.setPrice(Long.valueOf(Common.currentServiceType.getPrice()));
         info.setCustomerName(" Cus Name");
+        info.setRating(String.valueOf(-1));
         info.setCustomerSurname("Cus Surname");
         info.setSlot(Long.valueOf(Common.currentTimeSlot));
-        info.setTime(new StringBuilder(Common.convertTimeSlotToString(Common.currentTimeSlot))
-                .append(" ")
-                .append(simpleDateFormat.format(Common.currentDate.getTime())).toString());
+        info.setTime(Common.convertTimeSlotToString(Common.currentTimeSlot));
+        info.setDateId(simpleDateFormat.format(Common.currentDate.getTime()));
+        info.setDate(simpleDateFormatForDB.format(Common.currentDate.getTime()));
 
         DocumentReference doc = FirebaseFirestore.getInstance()
                 .collection("Masters").document(Common.currentBarber.getEmail())
-                .collection(Common.simpleDateFormat.format(Common.currentDate.getTime())).document(String.valueOf(Common.currentTimeSlot));
+                .collection(Common.simpleDateFormat.format(Common.currentDate.getTime()))
+                .document(String.valueOf(Common.currentTimeSlot));
 
         doc.set(info)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -78,16 +89,44 @@ public class BookingStep5Fragment extends Fragment {
                     public void onSuccess(Void aVoid) {
                         // go to some fragment
                         resetStaticData();
-                        Toast.makeText(getContext(), "Confirn done", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Confirn error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
+        //   /Users/rfff@mail.ru/Visitings/1,2,3,4
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> user = new HashMap<>();
+
+        db.collection("Users").document("rfff@mail.ru").collection("Visitings").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful())
+                        {
+                            int count =0;
+                            for(QueryDocumentSnapshot d : task.getResult())
+                                count++;
+
+                            setUserVisiting(count, info);
+
+                        }
+                    }
+                });
     }
+
+    private void setUserVisiting(int count, BookingInformation info) {
+        FirebaseFirestore.getInstance().collection("Users").document("rfff@mail.ru")
+                .collection("Visitings").document(String.valueOf(count)).set(info);
+    }
+
 
     private void resetStaticData() {
         Common.STEP = 0;
@@ -100,7 +139,7 @@ public class BookingStep5Fragment extends Fragment {
 
     private Unbinder unbinder;
 
-    SimpleDateFormat simpleDateFormat;
+    SimpleDateFormat simpleDateFormat, simpleDateFormatForDB;
     LocalBroadcastManager localBroadcastManager;
 
     static BookingStep5Fragment instance;
@@ -117,7 +156,7 @@ public class BookingStep5Fragment extends Fragment {
         chosen_service_my.setText(Common.currentServiceType.getTitle());
         chosen_time_my.setText(new StringBuilder(Common.convertTimeSlotToString(Common.currentTimeSlot))
         .append(" ")
-        .append(simpleDateFormat.format(Common.currentDate.getTime())));
+        .append(simpleDateFormatForDB.format(Common.currentDate.getTime())));
     }
 
     public static BookingStep5Fragment getInstance(){
@@ -130,7 +169,8 @@ public class BookingStep5Fragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        simpleDateFormatForDB = new SimpleDateFormat("dd/MM/yyyy");
+        simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
         localBroadcastManager.registerReceiver(confurmBookingReciever, new IntentFilter(Common.KEY_CONFURM_BOOKING));
     }

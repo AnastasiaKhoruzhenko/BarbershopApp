@@ -26,6 +26,7 @@ public class Common {
     public static final Object DISABLE_TAG = "DISABLED";
     public static final String KEY_TIME_SLOT = "TIME_SLOT";
     public static final String KEY_CONFURM_BOOKING = "CONFURM_BOOKING";
+    public static final String DURATION_OF_SERVICE = "";
 
     // for booking
     public static String SERVICE_TYPE = "";

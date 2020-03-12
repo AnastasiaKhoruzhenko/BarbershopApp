@@ -75,6 +75,7 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
                 holder.step2.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorDone));
                 holder.lay.setBackgroundColor(mContext.getResources().getColor(R.color.colorDone));
 
+
                 Intent intent = new Intent(Common.KEY_NEXT_BTN);
                 intent.putExtra(Common.KEY_SERVICE_SELECTED, listServices.get(position));
                 intent.putExtra(Common.KEY_STEP, 2);
