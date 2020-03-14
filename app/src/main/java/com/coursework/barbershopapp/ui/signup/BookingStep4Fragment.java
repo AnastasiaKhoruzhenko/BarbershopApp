@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +27,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -93,7 +90,7 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
                                             {
                                                 QuerySnapshot querySnapshot = task.getResult();
                                                 if(querySnapshot.isEmpty()) {
-                                                    iTimeSlotLoadListener.onTileSlotLoadEmpty();
+                                                    iTimeSlotLoadListener.onTimeSlotLoadEmpty();
                                                     Toast.makeText(getActivity(), "emptyyy", Toast.LENGTH_SHORT).show();
                                                 }
                                                 else
@@ -170,7 +167,7 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
 
         HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(view, R.id.calendarView)
                 .range(startDate, endDate)
-                .datesNumberOnScreen(7)
+                .datesNumberOnScreen(5)
                 .mode(HorizontalCalendar.Mode.DAYS)
                 .defaultSelectedDate(startDate)
                 .build();
@@ -200,7 +197,7 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
     }
 
     @Override
-    public void onTileSlotLoadEmpty() {
+    public void onTimeSlotLoadEmpty() {
         RecyclerViewTimeSlotsAdapter adapter = new RecyclerViewTimeSlotsAdapter(getContext());
         recyclerViewTime.setAdapter(adapter);
     }

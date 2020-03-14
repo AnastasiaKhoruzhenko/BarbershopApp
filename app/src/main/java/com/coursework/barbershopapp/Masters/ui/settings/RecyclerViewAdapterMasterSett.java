@@ -46,10 +46,16 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
                 switch (position)
                 {
                     case 0:
+                        //showPersonalInfo();
                         break;
                     case 1:
+                        //showWorkTime();
                         break;
                     case 2:
+                        //showServices();
+                        break;
+                    case 3:
+                        //showAppSettings();
                         break;
 
                 }

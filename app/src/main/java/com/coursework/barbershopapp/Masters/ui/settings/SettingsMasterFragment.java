@@ -25,7 +25,7 @@ import java.util.List;
 public class SettingsMasterFragment extends Fragment {
 
     private SettingsMasterViewModel mViewModel;
-    private List<String> arrSettings = new ArrayList<>(Arrays.asList("Личный кабинет", "Время работы", "Предоставляемые услуги", "Моя статистика", "Настройки приложения"));
+    private List<String> arrSettings = new ArrayList<>(Arrays.asList("Личная информация", "Время работы", "Предоставляемые услуги", "Настройки приложения"));
 
     public static SettingsMasterFragment newInstance() {
         return new SettingsMasterFragment();

@@ -2,21 +2,63 @@ package com.coursework.barbershopapp.Masters.ui.myVisitors;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import devs.mulham.horizontalcalendar.HorizontalCalendar;
+import devs.mulham.horizontalcalendar.HorizontalCalendarView;
+import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.coursework.barbershopapp.Interface.ITimeSlotLoadListener;
+import com.coursework.barbershopapp.Interface.IVisitorsLoadListener;
 import com.coursework.barbershopapp.R;
+import com.coursework.barbershopapp.model.BookingInformation;
+import com.coursework.barbershopapp.model.Common;
+import com.coursework.barbershopapp.model.TimeSlot;
+import com.coursework.barbershopapp.ui.signup.RecyclerViewTimeSlotsAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
-public class MyVisitorsFragment extends Fragment {
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public class MyVisitorsFragment extends Fragment implements IVisitorsLoadListener {
 
     private MyVisitorsViewModel mViewModel;
+
+    IVisitorsLoadListener iVisitorsLoadListener;
+    Unbinder unbinder;
+    FirebaseFirestore db;
+
+    @BindView(R.id.tv_empty_visitors)
+    TextView empty;
+    @BindView(R.id.recview_my_visitors)
+    RecyclerView recyclerView;
+    @BindView(R.id.calendar_master)
+    HorizontalCalendarView calendarView;
+    SimpleDateFormat simpleDateFormat;
 
     public static MyVisitorsFragment newInstance() {
         return new MyVisitorsFragment();
@@ -25,14 +67,120 @@ public class MyVisitorsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.my_visitors_fragment, container, false);
+        View view = inflater.inflate(R.layout.my_visitors_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
+
+        iVisitorsLoadListener = this;
+        db = FirebaseFirestore.getInstance();
+        simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");
+        loadAvailiableTimeSlot("r@r.ru", simpleDateFormat.format(Calendar.getInstance().getTime()));
+
+        init(view);
+        return view;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(MyVisitorsViewModel.class);
+    public void onDestroy() {
+        super.onDestroy();
     }
 
-    
+    private void init(View view) {
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        Calendar startDate = Calendar.getInstance();
+        startDate.add(Calendar.MONTH, 0);
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.MONTH, 2);
+
+        Calendar defaultDate = Calendar.getInstance();
+
+        HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(view, R.id.calendar_master)
+                .range(startDate, endDate)
+                .datesNumberOnScreen(5)
+                .mode(HorizontalCalendar.Mode.DAYS)
+                .defaultSelectedDate(defaultDate)
+                .build();
+
+        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
+            @Override
+            public void onDateSelected(Calendar date, int position) {
+                if(Common.currentDate.getTime() != date.getTime())
+                {
+                    Common.currentDate = date;
+                }
+                loadAvailiableTimeSlot("r@r.ru", simpleDateFormat.format(Common.currentDate.getTime()));
+                simpleDateFormat.format(Common.currentDate.getTime());
+            }
+        });
+
+
+    }
+
+    private void loadAvailiableTimeSlot(String s, String format) {
+
+        db.collection("Masters").document(s).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot snapshot = task.getResult();
+                        if(snapshot.exists())
+                        {
+                            //db.collection("masters").document(s).collection(format).orderBy("slot");
+                            db.collection("Masters").document(s)
+                                    .collection(format)
+                                    .orderBy("slot")
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if(task.isSuccessful())
+                                            {
+                                                QuerySnapshot querySnapshot = task.getResult();
+                                                if(querySnapshot.isEmpty())
+                                                {
+                                                    iVisitorsLoadListener.onVisitorsLoadEmpty();
+                                                }
+                                                else{
+                                                    List<BookingInformation> visList=new ArrayList<>();
+                                                    for(DocumentSnapshot doc : querySnapshot)
+                                                        visList.add(doc.toObject(BookingInformation.class));
+
+                                                    iVisitorsLoadListener.onVisitorsSuccessLoadListener(visList);
+                                                }
+                                            }
+                                        }
+                                    })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    iVisitorsLoadListener.onVisitorsLoadFailedListener(e.getMessage());
+                                }
+                            });
+                        }
+                    }
+                });
+
+    }
+
+    @Override
+    public void onVisitorsSuccessLoadListener(List<BookingInformation> visList) {
+        empty.setText("");
+        RecycleViewMyVisitorsAdapter adapter = new RecycleViewMyVisitorsAdapter(getContext(), visList);
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onVisitorsLoadFailedListener(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onVisitorsLoadEmpty() {
+        RecycleViewMyVisitorsAdapter adapter = new RecycleViewMyVisitorsAdapter(getContext());
+        recyclerView.setAdapter(adapter);
+        empty.setText("На данную дату записей нет.");
+    }
+
 }

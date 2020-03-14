@@ -8,5 +8,5 @@ public interface ITimeSlotLoadListener {
 
     void onTimeSlotLoadListener(List<TimeSlot> timeSlotList);
     void onTimeSlotFailedListener(String message);
-    void onTileSlotLoadEmpty();
+    void onTimeSlotLoadEmpty();
 }

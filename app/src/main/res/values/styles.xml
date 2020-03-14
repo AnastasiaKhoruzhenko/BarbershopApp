@@ -12,13 +12,13 @@
         parent="android:style/Widget.Material.RatingBar.Small">
     </style>
 
-<!--    <style name="DialogTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
-<!--        <item name="android:layout_width">fill_parent</item>-->
-<!--        <item name="android:layout_height">fill_parent</item>-->
-<!--        &lt;!&ndash; No backgrounds, titles or window float &ndash;&gt;-->
-<!--        <item name="android:windowBackground">@null</item>-->
-<!--        <item name="android:windowNoTitle">true</item>-->
-<!--        <item name="android:windowIsFloating">false</item>-->
-<!--    </style>-->
+    <style name="CustomAlertDialog"
+        parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/dialog_bd</item>
+    </style>
+
+    <style name="CustomCircleImage">
+        <item name="android:windowBackground">@drawable/circle_img</item>
+    </style>
 
 </resources>
