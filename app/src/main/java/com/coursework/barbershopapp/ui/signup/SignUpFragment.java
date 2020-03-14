@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class SignUpFragment extends Fragment {
+public class SignUpFragment extends Fragment{
 
     LocalBroadcastManager localBroadcastManager;
     FirebaseFirestore db;

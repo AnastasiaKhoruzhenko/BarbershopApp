@@ -32,19 +32,29 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_profile_settings, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.setting.setText(arrSettings.get(position));
-//        holder.card.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        holder.tv_namesett.setText(arrSettings.get(position));
+        holder.tv_descr.setText(arrSettings.get(position));
+
+        holder.setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (position)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+
+                }
+            }
+        });
     }
 
     @Override
@@ -54,16 +64,17 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView setting;
-        ImageView imgNext;
-        CardView card;
+        CardView setting;
+        TextView tv_namesett, tv_descr;
+        View div;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            card = itemView.findViewById(R.id.cardview_profile_sett);
-            //imgNext = itemView.findViewById(R.id.iv_next);
-            setting = itemView.findViewById(R.id.tv_setting);
+            setting = itemView.findViewById(R.id.cardview_profile_sett);
+            tv_namesett = itemView.findViewById(R.id.tv_setting);
+            tv_descr = itemView.findViewById(R.id.tv_descr_profile);
+            div = itemView.findViewById(R.id.divider_sett);
         }
     }
 }

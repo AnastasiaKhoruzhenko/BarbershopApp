@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.coursework.barbershopapp.MainActivity;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.BookingInformation;
 import com.coursework.barbershopapp.model.Common;
@@ -20,13 +21,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.stepstone.apprating.AppRatingDialog;
+import com.stepstone.apprating.listener.RatingDialogListener;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +42,7 @@ import java.util.Map;
 import androidx.annotation.ColorLong;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,8 +51,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class BookingStep5Fragment extends Fragment {
+public class BookingStep5Fragment extends Fragment{
 
+    private static final int TAG = 1;
     @BindView(R.id.tv_chosen_time)
     TextView chosen_time;
     @BindView(R.id.tv_chosen_barber)
@@ -60,66 +70,157 @@ public class BookingStep5Fragment extends Fragment {
     TextView bookingDetails;
     @BindView(R.id.btn_confirm)
     Button confirm;
+    @BindView(R.id.til_name_vis)
+    TextInputLayout layName;
+    @BindView(R.id.til_phone_vis)
+    TextInputLayout layPhone;
+    @BindView(R.id.ti_name_vis)
+    TextInputEditText textName;
+    @BindView(R.id.ti_phone_vis)
+    TextInputEditText textPhone;
+    @BindView(R.id.cardview_name_phone)
+    CardView card;
+
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @OnClick(R.id.btn_confirm)
-    void setConfirm(){
-        BookingInformation info = new BookingInformation();
+    void setConfirm() {
 
-        info.setBarberEmail(Common.currentBarber.getEmail());
-        info.setBarberName(Common.currentBarber.getName());
-        info.setBarberSurname(Common.currentBarber.getSurname());
-        info.setService(Common.currentServiceType.getTitle());
-        info.setPrice(Long.valueOf(Common.currentServiceType.getPrice()));
-        info.setCustomerName(" Cus Name");
-        info.setRating(String.valueOf(-1));
-        info.setCustomerSurname("Cus Surname");
-        info.setSlot(Long.valueOf(Common.currentTimeSlot));
-        info.setTime(Common.convertTimeSlotToString(Common.currentTimeSlot));
-        info.setDateId(simpleDateFormat.format(Common.currentDate.getTime()));
-        info.setDate(simpleDateFormatForDB.format(Common.currentDate.getTime()));
+        if (user != null)
+        {
+            BookingInformation info = new BookingInformation();
+            db.collection("Users").document(user.getEmail()).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            String name = task.getResult().getString("name");
+                            String phone = task.getResult().getString("phone");
+                            String surname = task.getResult().getString("surname");
 
-        DocumentReference doc = FirebaseFirestore.getInstance()
-                .collection("Masters").document(Common.currentBarber.getEmail())
-                .collection(Common.simpleDateFormat.format(Common.currentDate.getTime()))
-                .document(String.valueOf(Common.currentTimeSlot));
+                            info.setBarberEmail(Common.currentBarber.getEmail());
+                            info.setBarberName(Common.currentBarber.getName());
+                            info.setBarberSurname(Common.currentBarber.getSurname());
+                            info.setService(Common.currentServiceType.getTitle());
+                            info.setPrice(Long.valueOf(Common.currentServiceType.getPrice()));
+                            info.setCustomerName(name);
+                            info.setRating(String.valueOf(-1));
+                            info.setCustomerPhone(phone);
+                            info.setCustomerSurname(surname);
+                            info.setSlot(Long.valueOf(Common.currentTimeSlot));
+                            info.setTime(Common.convertTimeSlotToString(Common.currentTimeSlot));
+                            info.setDateId(simpleDateFormat.format(Common.currentDate.getTime()));
+                            info.setDate(simpleDateFormatForDB.format(Common.currentDate.getTime()));
 
-        doc.set(info)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // go to some fragment
-                        resetStaticData();
-                        Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
+                            DocumentReference doc = FirebaseFirestore.getInstance()
+                                    .collection("Masters").document(Common.currentBarber.getEmail())
+                                    .collection(Common.simpleDateFormat.format(Common.currentDate.getTime()))
+                                    .document(String.valueOf(Common.currentTimeSlot));
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
-            }
-        });
+                            doc.set(info)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // go to some fragment
+                                            resetStaticData();
+                                            Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
 
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
+                            //   /Users/rfff@mail.ru/Visitings/1,2,3,4
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            Map<String, Object> user = new HashMap<>();
 
-        //   /Users/rfff@mail.ru/Visitings/1,2,3,4
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Map<String, Object> user = new HashMap<>();
+                            db.collection("Users").document(task.getResult().getString("email"))
+                                    .collection("Visitings").get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                int count = 0;
+                                                for (QueryDocumentSnapshot d : task.getResult())
+                                                    count++;
 
-        db.collection("Users").document("rfff@mail.ru").collection("Visitings").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful())
-                        {
-                            int count =0;
-                            for(QueryDocumentSnapshot d : task.getResult())
-                                count++;
+                                                setUserVisiting(count, info);
 
-                            setUserVisiting(count, info);
+                                            }
+                                        }
+                                    });
 
                         }
-                    }
-                });
+                    });
+        } else
+            {
+                if (textName.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "Введите имя", Toast.LENGTH_SHORT).show();
+                } else if (textPhone.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "Введите телефон", Toast.LENGTH_SHORT).show();
+                } else {
+                    BookingInformation info = new BookingInformation();
+
+                    info.setBarberEmail(Common.currentBarber.getEmail());
+                    info.setBarberName(Common.currentBarber.getName());
+                    info.setBarberSurname(Common.currentBarber.getSurname());
+                    info.setService(Common.currentServiceType.getTitle());
+                    info.setPrice(Long.valueOf(Common.currentServiceType.getPrice()));
+                    info.setCustomerName(textName.getText().toString());
+                    info.setRating(String.valueOf(-1));
+                    info.setCustomerPhone(textPhone.getText().toString());
+                    info.setCustomerSurname("");
+                    info.setSlot(Long.valueOf(Common.currentTimeSlot));
+                    info.setTime(Common.convertTimeSlotToString(Common.currentTimeSlot));
+                    info.setDateId(simpleDateFormat.format(Common.currentDate.getTime()));
+                    info.setDate(simpleDateFormatForDB.format(Common.currentDate.getTime()));
+
+                    DocumentReference doc = FirebaseFirestore.getInstance()
+                            .collection("Masters").document(Common.currentBarber.getEmail())
+                            .collection(Common.simpleDateFormat.format(Common.currentDate.getTime()))
+                            .document(String.valueOf(Common.currentTimeSlot));
+
+                    doc.set(info)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // go to some fragment
+                                    resetStaticData();
+                                    Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+                    //   /Users/rfff@mail.ru/Visitings/1,2,3,4
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    Map<String, Object> user = new HashMap<>();
+
+                    db.collection("Users").document("rfff@mail.ru").collection("Visitings").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        int count = 0;
+                                        for (QueryDocumentSnapshot d : task.getResult())
+                                            count++;
+
+                                        setUserVisiting(count, info);
+
+                                    }
+                                }
+                            });
+            }
+        }
     }
 
     private void setUserVisiting(int count, BookingInformation info) {
@@ -189,6 +290,12 @@ public class BookingStep5Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_booking_step5, container, false);
 
         unbinder = ButterKnife.bind(this, view);
+
+        user = mAuth.getCurrentUser();
+        if(user!=null)
+            card.setVisibility(View.GONE);
+        else
+            card.setVisibility(View.VISIBLE);
 
         return view;
     }

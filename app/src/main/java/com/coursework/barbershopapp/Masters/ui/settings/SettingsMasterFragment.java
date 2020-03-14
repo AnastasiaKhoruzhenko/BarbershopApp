@@ -25,7 +25,7 @@ import java.util.List;
 public class SettingsMasterFragment extends Fragment {
 
     private SettingsMasterViewModel mViewModel;
-    private List<String> arrSettings = new ArrayList<>(Arrays.asList("Личный кабинет", "Время работы", "Предоставляемые услуги"));
+    private List<String> arrSettings = new ArrayList<>(Arrays.asList("Личный кабинет", "Время работы", "Предоставляемые услуги", "Моя статистика", "Настройки приложения"));
 
     public static SettingsMasterFragment newInstance() {
         return new SettingsMasterFragment();
@@ -36,7 +36,7 @@ public class SettingsMasterFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.settings_master_fragment, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.rec_master_sett);
+        RecyclerView recyclerView = view.findViewById(R.id.recview_sett_mas);
         RecyclerViewAdapterMasterSett adapterMasterSett =
                 new RecyclerViewAdapterMasterSett(getContext(), arrSettings);
         recyclerView.setAdapter(adapterMasterSett);
