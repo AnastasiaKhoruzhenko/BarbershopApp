@@ -61,6 +61,7 @@ public class SignUpFragment extends Fragment{
         if(Common.STEP < 4 || Common.STEP >= 0)
         {
             Common.STEP++;
+            btn_prevStep.setVisibility(View.VISIBLE);
             if(Common.STEP == 1) // after choose service type
             {
                 if(Common.currentService != null)
@@ -229,6 +230,9 @@ public class SignUpFragment extends Fragment{
         myViewPagerAdapterSignUp = new MyViewPagerAdapterSignUp(getChildFragmentManager());
 
         unbinder = ButterKnife.bind(this, root);
+
+        btn_prevStep.setVisibility(View.INVISIBLE);
+        btn_nextStep.setEnabled(false);
         setColorButton();
 
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());

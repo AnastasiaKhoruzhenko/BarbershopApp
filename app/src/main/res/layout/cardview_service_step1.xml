@@ -10,13 +10,16 @@
     android:padding="5dp"
     app:cardElevation="10dp"
     android:layout_margin="10dp"
+    android:background="@color/GreyForCard"
     app:cardPreventCornerOverlap="false"
     app:cardCornerRadius="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/const_lay_step1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/GreyForCard"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView

@@ -1,41 +1,23 @@
 package com.coursework.barbershopapp.ui.myVisitings;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.coursework.barbershopapp.R;
-import com.coursework.barbershopapp.model.BookingInformation;
-import com.coursework.barbershopapp.model.Common;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import com.google.android.material.tabs.TabLayout;
 
 public class MyVisitingsFragment extends Fragment{
 
-    private MyVisitingsViewModel myVisitingsViewModel;
-    FirebaseFirestore db;
-
-    List<BookingInformation> bookingList;
-    RecyclerView recyclerView;
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
     public static MyVisitingsFragment newInstance() {
         return new MyVisitingsFragment();
@@ -44,58 +26,32 @@ public class MyVisitingsFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        myVisitingsViewModel =
-                ViewModelProviders.of(this).get(MyVisitingsViewModel.class);
 
-        bookingList = new ArrayList<>();
         View root = inflater.inflate(R.layout.my_visitings_fragment, container, false);
-        recyclerView = root.findViewById(R.id.recview_my_vis);
 
-        loadData();
 
-        resetStaticData();
+        viewPager  = root.findViewById(R.id.viewpager_visitings);
+        setupViewPager(viewPager);
+
+        tabLayout = root.findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
+
 
         return root;
     }
 
-    private void loadData() {
+    private void setupViewPager(ViewPager viewPager) {
 
-        db = FirebaseFirestore.getInstance();
-        db.collection("Users").document("rfff@mail.ru").collection("Visitings")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful())
-                {
-                    List<BookingInformation> list = new ArrayList<>();
-                    for(QueryDocumentSnapshot doc : task.getResult())
-                    {
-                        list.add(doc.toObject(BookingInformation.class));
-                    }
-                    initRecView(list);
-                }
-            }
-        });
-    }
-
-    private void initRecView(List<BookingInformation> list) {
-        RecyclerViewMyVisitingAdapter recView = new RecyclerViewMyVisitingAdapter(getContext(), list);
-        recyclerView.setAdapter(recView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    private void resetStaticData() {
-        Common.STEP = 0;
-        Common.currentDate.add(Calendar.DATE, 0);
-        Common.currentTimeSlot = -1;
-        Common.currentBarber = null;
-        Common.currentService = null;
-        Common.currentServiceType = null;
+        int a=1, b=2;
+        ViewPagerFragmentAdapter adapter = new ViewPagerFragmentAdapter(getChildFragmentManager());
+        adapter.addFragment(new TabVisitingFragment(a), "Nearest");
+        adapter.addFragment(new TabVisitingFragment(b), "Past");
+        viewPager.setAdapter(adapter);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        myVisitingsViewModel = ViewModelProviders.of(this).get(MyVisitingsViewModel.class);
     }
 }

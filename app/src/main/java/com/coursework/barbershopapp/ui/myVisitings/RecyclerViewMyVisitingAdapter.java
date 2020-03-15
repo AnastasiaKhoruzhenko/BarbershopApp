@@ -7,20 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.coursework.barbershopapp.Masters.ui.myVisitors.RecycleViewMyVisitorsAdapter;
-import com.coursework.barbershopapp.Masters.ui.settings.RecyclerViewAdapterMasterSett;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.BookingInformation;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,17 +24,19 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.coursework.barbershopapp.model.Common.simpleDateFormat;
-
 public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<RecyclerViewMyVisitingAdapter.ViewHolder> {
 
     List<BookingInformation> bookingList;
     private Context mContext;
     FirebaseFirestore db;
+    FirebaseAuth user;
+    int title;
 
-    public RecyclerViewMyVisitingAdapter(Context mContext, List<BookingInformation> bookingList) {
+    public RecyclerViewMyVisitingAdapter(Context mContext, List<BookingInformation> bookingList, int title) {
         this.bookingList = bookingList;
         this.mContext = mContext;
+        this.title = title;
+        user = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
     }
 
@@ -53,26 +50,24 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.barber_name.setText(bookingList.get(position).getBarberName()+ " " + bookingList.get(position).getBarberSurname());
-        holder.service_name.setText(bookingList.get(position).getService());
-        holder.time.setText(bookingList.get(position).getTime() + "  " + bookingList.get(position).getDate());
-        holder.rating.setVisibility(View.VISIBLE);
-        holder.price.setText("RUB " + bookingList.get(position).getPrice().toString());
-
-        long inDays = 0;
-
-        try {
-            Date nowDate = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
-            Date appointmentDate = simpleDateFormat.parse(bookingList.get(position).getDateId());
-            inDays = (nowDate.getTime() - appointmentDate.getTime())/ (24 * 60 * 60 * 1000);
-        }
-        catch (ParseException e)
+        if(title == 1)
         {
-            e.printStackTrace();
-        }
+            holder.barber_name.setText(bookingList.get(position).getBarberName()+ " " + bookingList.get(position).getBarberSurname());
+            holder.service_name.setText(bookingList.get(position).getService());
+            holder.time.setText(bookingList.get(position).getTime() + "  " + bookingList.get(position).getDate());
+            holder.rating.setVisibility(View.INVISIBLE);
+            holder.price.setText("RUB " + bookingList.get(position).getPrice().toString());
 
-        if(inDays > 0)
-        {
+            holder.rate_me.setText("Оценивание доступно после посещения салона");
+
+        }
+        else if (title == 2){
+            holder.barber_name.setText(bookingList.get(position).getBarberName()+ " " + bookingList.get(position).getBarberSurname());
+            holder.service_name.setText(bookingList.get(position).getService());
+            holder.time.setText(bookingList.get(position).getTime() + "  " + bookingList.get(position).getDate());
+            holder.rating.setVisibility(View.VISIBLE);
+            holder.price.setText("RUB " + bookingList.get(position).getPrice().toString());
+
             switch (Integer.valueOf(bookingList.get(position).getRating()))
             {
                 case 0:
@@ -107,22 +102,19 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                     break;
                 default:
                     holder.rating.setVisibility(View.INVISIBLE);
-                    holder.rate_me.setText("Оценить");
+                    holder.rate_me.setText("Доступно для оценивания");
+                    holder.rate_me.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(user.getCurrentUser() == null)
+                                showDialogRegister();
+                            else
+                                showDialogForGetStars(holder, position);
+                        }
+                    });
                     break;
             }
         }
-        else
-        {
-            holder.rating.setVisibility(View.INVISIBLE);
-            holder.rate_me.setText("Оценивание доступно после посещения салона");
-        }
-
-        holder.rate_me.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialogForGetStars(holder, position);
-            }
-        });
     }
 
     @Override
@@ -195,5 +187,26 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
 
+    }
+
+    private void showDialogRegister() {
+
+        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+        //alertDialog.setTitle("Alert");
+        alertDialog.setMessage("Чтобы оставлять комментарии, вам необходимо зарегистрироваться");
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Не сейчас",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Зарегистрироваться",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        alertDialog.show();
     }
 }

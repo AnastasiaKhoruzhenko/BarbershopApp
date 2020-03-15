@@ -16,6 +16,8 @@ import com.coursework.barbershopapp.model.TimeSlot;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.spec.IvParameterSpec;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -53,11 +55,12 @@ public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.time.setText(Common.convertTimeSlotToString(position));
+        holder.cardViewTime.setEnabled(true);
 
         if(timeSlotList.size() == 0) // all are availiable
         {
             holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorDone));
-            holder.time.setTextColor(mContext.getResources().getColor(R.color.colorLightBrown));
+            holder.time.setTextColor(mContext.getResources().getColor(R.color.colorWhite));
         }
         else {
             for (TimeSlot timeSlot : timeSlotList)
@@ -68,6 +71,7 @@ public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerV
                     holder.cardViewTime.setTag(Common.DISABLE_TAG);
                     holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
                     holder.time.setTextColor(mContext.getResources().getColor(R.color.colorGrey));
+                    holder.cardViewTime.setEnabled(false);
                 }
             }
         }

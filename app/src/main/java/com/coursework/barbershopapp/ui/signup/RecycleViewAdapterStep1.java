@@ -21,6 +21,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,12 +31,14 @@ public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAda
     private Context mContext;
     private LocalBroadcastManager localBroadcastManager;
     private List<CardView> listCard;
+    private List<ConstraintLayout> lays;
 
     public RecycleViewAdapterStep1(Context mContext, List<Banner> listService) {
         this.listService = listService;
         this.mContext = mContext;
         localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
         listCard = new ArrayList<>();
+        lays = new ArrayList<>();
     }
 
     @NonNull
@@ -53,16 +56,21 @@ public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAda
 //                .into(holder.img);
         holder.text.setText(listService.get(position).getText());
 
-        if(!listCard.contains(holder.step1))
+        if(!listCard.contains(holder.step1)) {
             listCard.add(holder.step1);
+            lays.add(holder.lay);
+        }
 
         holder.setiRecyclerItemSelectedListener(new IRecyclerItemSelectedListener() {
             @Override
             public void OnItemSelectedListener(View view, int position) {
                 for(CardView card:listCard)
-                    card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorGrey));
+                    card.setCardBackgroundColor(mContext.getResources().getColor(R.color.GreyForCard));
+                for(ConstraintLayout lay:lays)
+                    lay.setBackgroundColor(mContext.getResources().getColor(R.color.GreyForCard));
 
                 holder.step1.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
+                holder.lay.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
 
                 Intent intent = new Intent(Common.KEY_NEXT_BTN);
                 intent.putExtra(Common.KEY_SERVICE_STORE, listService.get(position));
@@ -94,6 +102,7 @@ public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAda
         CardView step1;
         TextView text;
         ImageView img;
+        ConstraintLayout lay;
         IRecyclerItemSelectedListener iRecyclerItemSelectedListener;
 
         public void setiRecyclerItemSelectedListener(IRecyclerItemSelectedListener iRecyclerItemSelectedListener) {
@@ -103,11 +112,10 @@ public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAda
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-
-
             step1 = itemView.findViewById(R.id.cardview_step1);
             text = itemView.findViewById(R.id.tv_name_step1);
             img = itemView.findViewById(R.id.img_step1);
+            lay = itemView.findViewById(R.id.const_lay_step1);
 
             itemView.setOnClickListener(this);
 

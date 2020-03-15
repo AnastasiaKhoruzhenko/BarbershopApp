@@ -13,24 +13,14 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
         app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tab1"
-            android:text="Предстоящие записи"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tab2"
-            android:text="Прошедшие записи"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent" />
 
     </com.google.android.material.tabs.TabLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recview_my_vis"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_visitings"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
