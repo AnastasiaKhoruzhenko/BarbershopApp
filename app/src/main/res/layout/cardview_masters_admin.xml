@@ -19,7 +19,8 @@
             android:id="@+id/rellay_masters_admin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:background="@color/GreyForCard">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/masterPhoto"
@@ -43,6 +44,8 @@
                 android:layout_toRightOf="@id/masterPhoto"
                 android:text="Name Surname"
                 android:textSize="18sp"
+                android:textColor="@color/partWhite"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/iv_star_admin"
                 app:layout_constraintHorizontal_bias="0.016"
                 app:layout_constraintStart_toEndOf="@+id/masterPhoto"
@@ -56,6 +59,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:textSize="17sp"
+                android:textColor="@color/partWhite"
+                android:textStyle="bold"
                 android:textAlignment="gravity"
                 android:text="4.6"
                 app:layout_constraintEnd_toEndOf="parent"

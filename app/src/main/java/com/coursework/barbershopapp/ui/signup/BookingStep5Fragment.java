@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.coursework.barbershopapp.MainActivity;
 import com.coursework.barbershopapp.R;
@@ -25,6 +26,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -105,6 +107,7 @@ public class BookingStep5Fragment extends Fragment{
                             info.setService(Common.currentServiceType.getTitle());
                             info.setPrice(Long.valueOf(Common.currentServiceType.getPrice()));
                             info.setCustomerName(name);
+                            info.setTimeService(Common.currentServiceType.getTime());
                             info.setRating(String.valueOf(-1));
                             info.setCustomerPhone(phone);
                             info.setCustomerSurname(surname);
@@ -113,26 +116,55 @@ public class BookingStep5Fragment extends Fragment{
                             info.setDateId(simpleDateFormat.format(Common.currentDate.getTime()));
                             info.setDate(simpleDateFormatForDB.format(Common.currentDate.getTime()));
 
-                            DocumentReference doc = FirebaseFirestore.getInstance()
-                                    .collection("Masters").document(Common.currentBarber.getEmail())
-                                    .collection(Common.simpleDateFormat.format(Common.currentDate.getTime()))
-                                    .document(String.valueOf(Common.currentTimeSlot));
 
-                            doc.set(info)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            int count = Math.round(Integer.valueOf(Common.currentServiceType.getTime())/20);
+                            Toast.makeText(getActivity(), count, Toast.LENGTH_LONG).show();
+
+                            for(int i=0;i<=count;i++)
+                            {
+                                CollectionReference colRef = FirebaseFirestore.getInstance()
+                                        .collection("Masters").document(Common.currentBarber.getEmail())
+                                        .collection(Common.simpleDateFormat.format(Common.currentDate.getTime()));
+
+                                if(i == 0)
+                                {
+                                    colRef.document(String.valueOf(Common.currentTimeSlot))
+                                            .set(info)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    // go to some fragment
+                                                    resetStaticData();
+                                                    //Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
+
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
                                         @Override
-                                        public void onSuccess(Void aVoid) {
-                                            // go to some fragment
-                                            resetStaticData();
-                                            Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
-
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
                                         }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
+                                    });
                                 }
-                            });
+                                else
+                                {
+                                    colRef.document(String.valueOf(Common.currentTimeSlot)+"."+i)
+                                            .set(info)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    // go to some fragment
+                                                    resetStaticData();
+                                                    //Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
+
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
 
                             //   /Users/rfff@mail.ru/Visitings/1,2,3,4
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -172,6 +204,7 @@ public class BookingStep5Fragment extends Fragment{
                     info.setPrice(Long.valueOf(Common.currentServiceType.getPrice()));
                     info.setCustomerName(textName.getText().toString());
                     info.setRating(String.valueOf(-1));
+                    info.setTimeService(Common.currentServiceType.getTime());
                     info.setCustomerPhone(textPhone.getText().toString());
                     info.setCustomerSurname("");
                     info.setSlot(Long.valueOf(Common.currentTimeSlot));
@@ -179,26 +212,50 @@ public class BookingStep5Fragment extends Fragment{
                     info.setDateId(simpleDateFormat.format(Common.currentDate.getTime()));
                     info.setDate(simpleDateFormatForDB.format(Common.currentDate.getTime()));
 
-                    DocumentReference doc = FirebaseFirestore.getInstance()
-                            .collection("Masters").document(Common.currentBarber.getEmail())
-                            .collection(Common.simpleDateFormat.format(Common.currentDate.getTime()))
-                            .document(String.valueOf(Common.currentTimeSlot));
+                    int count = Math.round(Integer.valueOf(Common.currentServiceType.getTime())/20);
+                    Toast.makeText(getActivity(), String.valueOf(count), Toast.LENGTH_LONG).show();
 
-                    doc.set(info)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                    for(int i=0;i<=count;i++) {
+
+                        CollectionReference colRef = FirebaseFirestore.getInstance()
+                                .collection("Masters").document(Common.currentBarber.getEmail())
+                                .collection(Common.simpleDateFormat.format(Common.currentDate.getTime()));
+                        if(i==0) {
+                            colRef.document(String.valueOf(Common.currentTimeSlot)).set(info)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // go to some fragment
+                                            resetStaticData();
+                                            //Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
                                 @Override
-                                public void onSuccess(Void aVoid) {
-                                    // go to some fragment
-                                    resetStaticData();
-                                    Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
-
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
+                            });
                         }
-                    });
+                        else{
+                            colRef.document(String.valueOf(Common.currentTimeSlot)+"."+i).set(info)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // go to some fragment
+                                            resetStaticData();
+                                            //Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
 
 
                     //   /Users/rfff@mail.ru/Visitings/1,2,3,4

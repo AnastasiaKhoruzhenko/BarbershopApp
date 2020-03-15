@@ -1,7 +1,10 @@
 package com.coursework.barbershopapp.ui.settings;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
@@ -14,11 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coursework.barbershopapp.R;
+import com.coursework.barbershopapp.RegistrationActivity;
 import com.coursework.barbershopapp.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -40,6 +46,8 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
     Context mContext;
     private LocalBroadcastManager localBroadcastManager;
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
 
     public RecyclerViewSettingsAdapter(Context mContext, List<String> listName, List<String> listDescr) {
         this.listName = listName;
@@ -54,6 +62,8 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
         db = FirebaseFirestore.getInstance();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_profile_settings, parent, false);
 
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
         return new ViewHolder(view);
     }
@@ -69,7 +79,10 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
                 switch (position)
                 {
                     case 0:
-                        showInfoDialog();
+                        if(user == null)
+                            showRegisterDialog();
+                        else
+                            showInfoDialog();
                         break;
                     case 1:
                         showAppDialog();
@@ -125,7 +138,7 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
         EditText phone = dialog.findViewById(R.id.ti_phone_sett);
         Button ok = dialog.findViewById(R.id.btn_alert_ok);
 
-        db.collection("Users").document("rfff@mail.ru").get()
+        db.collection("Users").document(user.getEmail()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -152,7 +165,7 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
                     data.put("surname", surname.getText().toString());
                     data.put("name", name.getText().toString());
                     data.put("phone", phone.getText().toString());
-                    db.collection("Users").document("rfff@mail.ru").update(data);
+                    db.collection("Users").document(mAuth.getCurrentUser().getEmail()).update(data);
                     dialog.dismiss();
                 }
             }
@@ -186,5 +199,27 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     private void showLoyaltyDialog() {
+    }
+
+    private void showRegisterDialog() {
+
+        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+        //alertDialog.setTitle("Alert");
+        alertDialog.setMessage("Редактирование доступно только после регитсрации");
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Не сейчас",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Зарегистрироваться",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(mContext, RegistrationActivity.class);
+                        mContext.startActivity(intent);
+                    }
+                });
+        alertDialog.show();
     }
 }

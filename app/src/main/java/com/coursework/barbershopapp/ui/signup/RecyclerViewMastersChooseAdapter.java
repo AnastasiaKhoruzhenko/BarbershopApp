@@ -90,6 +90,13 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
             }
         });
 
+        holder.info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+
 //        holder.info.setOnClickListener(new View.OnClickListener() {
 //        });
     }

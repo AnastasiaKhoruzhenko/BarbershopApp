@@ -2,12 +2,12 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="500dp"
+    android:layout_height="wrap_content"
     app:behavior_hideable="true"
     android:id="@+id/bottom_sheet"
-    android:background="@android:color/holo_orange_light"
     app:behavior_peekHeight="40dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -15,10 +15,13 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center"
-        android:text="bottom sheet peek"/>
+        android:textStyle="bold"
+        android:textColor="@color/partWhite"
+        android:text="Добавить мастера"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/GreyForCard"
         android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -26,10 +29,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:textColorHint="@color/normGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -38,6 +40,8 @@
                 android:id="@+id/tit_surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/partWhite"
+                android:textColorHint="@color/normGrey"
                 android:hint="Фамилия" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -46,11 +50,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColorHint="@color/normGrey"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/til_surname">
 
@@ -58,6 +61,8 @@
                 android:id="@+id/tit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/partWhite"
+                android:textColorHint="@color/normGrey"
                 android:hint="Имя" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,11 +71,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColorHint="@color/normGrey"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/til_name">
 
@@ -78,6 +82,8 @@
                 android:id="@+id/tit_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/partWhite"
+                android:textColorHint="@color/normGrey"
                 android:hint="Телефон" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,10 +91,13 @@
             android:id="@+id/btn_create_master"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/selectedBlue"
             android:text="Создать"
+            android:textColor="@color/partWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.472"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/til_email" />
 
@@ -97,18 +106,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:textColorHint="@color/normGrey"
             app:layout_constraintTop_toBottomOf="@+id/til_phone">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tit_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/partWhite"
+                android:textColorHint="@color/normGrey"
                 android:hint="Email" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

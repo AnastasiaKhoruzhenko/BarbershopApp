@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,7 +98,17 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
                                                 {
                                                     List<TimeSlot> times = new ArrayList<>();
                                                     for(QueryDocumentSnapshot doc : task.getResult())
-                                                        times.add(doc.toObject(TimeSlot.class));
+                                                    {
+                                                        String str = doc.getId();
+                                                        if(!str.contains("."))
+                                                            times.add(doc.toObject(TimeSlot.class));
+                                                        else
+                                                        {
+                                                            String strCopy = str;
+                                                            String[] arr = str.split("\\.");
+                                                            times.add(new TimeSlot(Long.valueOf(arr[0])+Long.valueOf(arr[1])));
+                                                        }
+                                                    }
                                                     Toast.makeText(getActivity(), String.valueOf(times.size()), Toast.LENGTH_SHORT).show();
                                                     iTimeSlotLoadListener.onTimeSlotLoadListener(times);
                                                 }

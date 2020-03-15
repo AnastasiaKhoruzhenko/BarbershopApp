@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darkGrey"
     android:orientation="vertical">
 
     <TextView
@@ -18,6 +19,7 @@
         android:layout_marginRight="8dp"
         android:gravity="center_vertical"
         android:text="Акции и скидки"
+        android:textColor="@color/partWhite"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

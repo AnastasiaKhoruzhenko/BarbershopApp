@@ -5,9 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".Admin.ui.home.HomeAdminFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/review_admin_homeMasters"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Home" />
+        android:padding="5dp"/>
 
 </FrameLayout>

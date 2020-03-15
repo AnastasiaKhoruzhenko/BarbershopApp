@@ -3,6 +3,7 @@ package com.coursework.barbershopapp.ui.myVisitings;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.coursework.barbershopapp.R;
+import com.coursework.barbershopapp.RegistrationActivity;
 import com.coursework.barbershopapp.model.BookingInformation;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -204,7 +205,8 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        Intent intent = new Intent(mContext, RegistrationActivity.class);
+                        mContext.startActivity(intent);
                     }
                 });
         alertDialog.show();

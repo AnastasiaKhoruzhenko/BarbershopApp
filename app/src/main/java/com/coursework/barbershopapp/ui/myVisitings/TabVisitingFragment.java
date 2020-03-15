@@ -132,7 +132,7 @@ public class TabVisitingFragment extends Fragment {
 
     private void initRecView(int title, List<BookingInformation> list) {
 
-        RecyclerViewMyVisitingAdapter recView = new RecyclerViewMyVisitingAdapter(getContext(), list, title);
+        RecyclerViewMyVisitingAdapter recView = new RecyclerViewMyVisitingAdapter(getActivity(), list, title);
         recyclerView.setAdapter(recView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
