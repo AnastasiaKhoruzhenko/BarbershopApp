@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/darkGrey</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="colorControlNormal">@color/normGrey</item>
+        <item name="colorControlActivated">@color/selectedBlue</item>
     </style>
 
     <style name="AppThemeNoAct" parent="Theme.AppCompat.Light.NoActionBar">

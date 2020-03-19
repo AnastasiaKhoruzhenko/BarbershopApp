@@ -103,7 +103,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     showMessage("Аккаунт успешно создан");
                     updateInfo(email, name, surname, phone, birth, mAuth.getCurrentUser());
-
                 }
                 else
                 {
@@ -121,6 +120,7 @@ public class RegistrationActivity extends AppCompatActivity {
         user.put("phone", phone);
         user.put("surname", surname);
         user.put("birth", birth);
+
         db.collection("Users").document(email).set(user);
 
         Toast.makeText(getApplicationContext(), mPreferences.getString("email", "default")

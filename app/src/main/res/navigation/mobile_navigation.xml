@@ -8,25 +8,25 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.coursework.barbershopapp.ui.home.HomeFragment"
+        android:name="com.coursework.barbershopapp.User.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_signup"
-        android:name="com.coursework.barbershopapp.ui.signup.SignUpFragment"
+        android:name="com.coursework.barbershopapp.User.ui.signup.SignUpFragment"
         android:label="@string/title_singup"
         tools:layout="@layout/fragment_signup" />
 
     <fragment
         android:id="@+id/navigation_myvisitings"
-        android:name="com.coursework.barbershopapp.ui.myVisitings.MyVisitingsFragment"
+        android:name="com.coursework.barbershopapp.User.ui.myVisitings.MyVisitingsFragment"
         android:label="@string/title_myvisitings"
         tools:layout="@layout/my_visitings_fragment" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.coursework.barbershopapp.ui.settings.SettingsFragment"
+        android:name="com.coursework.barbershopapp.User.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 

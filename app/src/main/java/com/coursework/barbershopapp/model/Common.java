@@ -1,10 +1,5 @@
 package com.coursework.barbershopapp.model;
 
-import android.os.Parcelable;
-
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,7 +37,7 @@ public class Common {
     public static List<String> list_settings_descr = new ArrayList<String>(){{add("Имя, фамилия, дата рождения ..."); add("Push-уведомления, тема, язык"); add("Пригласи друга и получи бонусы"); add("Баллы, сроки начисления");}};
     public static AboutService currentServiceType;
     //public static String name = "";
-    public static Person currentBarber;
+    public static Master currentBarber;
     public static int currentTimeSlot = -1;
     public static Calendar currentDate = Calendar.getInstance();
 

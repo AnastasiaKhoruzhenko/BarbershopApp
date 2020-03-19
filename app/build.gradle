@@ -87,6 +87,8 @@ dependencies {
 
     // dialog
     implementation 'com.stepstone.apprating:app-rating:2.3.1'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
 
     //implementation 'com.michalsvec:single-row-calednar:1.0.0'
 

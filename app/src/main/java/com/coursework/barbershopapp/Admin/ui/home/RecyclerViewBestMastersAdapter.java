@@ -4,12 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.coursework.barbershopapp.Admin.ui.masters.RecyclerViewAdapter;
 import com.coursework.barbershopapp.R;
-import com.coursework.barbershopapp.model.Person;
+import com.coursework.barbershopapp.model.Master;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +19,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<RecyclerViewBestMastersAdapter.ViewHolder>{
 
-    List<Person> list;
+    List<Master> list;
     Context mContext;
 
-    public RecyclerViewBestMastersAdapter(List<Person> list, Context mContext) {
+    public RecyclerViewBestMastersAdapter(List<Master> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
     }

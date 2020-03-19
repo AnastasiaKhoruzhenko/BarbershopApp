@@ -1,15 +1,10 @@
 package com.coursework.barbershopapp.Masters.ui.myVisitors;
 
-import androidx.lifecycle.ViewModelProviders;
-
-import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -25,13 +20,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.coursework.barbershopapp.Interface.ITimeSlotLoadListener;
 import com.coursework.barbershopapp.Interface.IVisitorsLoadListener;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.BookingInformation;
 import com.coursework.barbershopapp.model.Common;
-import com.coursework.barbershopapp.model.TimeSlot;
-import com.coursework.barbershopapp.ui.signup.RecyclerViewTimeSlotsAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;

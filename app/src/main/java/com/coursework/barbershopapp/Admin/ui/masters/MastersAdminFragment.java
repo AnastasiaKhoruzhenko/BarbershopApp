@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.coursework.barbershopapp.model.Person;
+import com.coursework.barbershopapp.model.Master;
 import com.coursework.barbershopapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,7 +50,7 @@ public class MastersAdminFragment extends Fragment {
     private Button create_master;
 
 
-    private List<Person> personList = new ArrayList<>();
+    private List<Master> personList = new ArrayList<>();
 
     FirebaseFirestore db;
 
@@ -187,7 +187,7 @@ public class MastersAdminFragment extends Fragment {
         master.put("phone", phone);
         master.put("email", email);
         master.put("defaultPass", true);
-        master.put("score", 0.0);
+        master.put("score", String.valueOf(0.0));
         db.collection("Masters").document(email).set(master);
 
         // clear input text after creation
@@ -215,7 +215,7 @@ public class MastersAdminFragment extends Fragment {
                         for(int i = 0; i < count; ++i)
                         {
                             d = list.get(i).getData();
-                            personList.add(new Person(d.get("email").toString(),
+                            personList.add(new Master(d.get("email").toString(),
                                     d.get("name").toString(),
                                     d.get("surname").toString(),
                                     d.get("phone").toString(),
@@ -228,9 +228,9 @@ public class MastersAdminFragment extends Fragment {
                 });
     }
 
-    private void initImageBitmaps(List<Person> personList){
+    private void initImageBitmaps(List<Master> personList){
 
-        for(Person person:personList){
+        for(Master person:personList){
             mImageUrls.add("https://20.cspnz.ru/images/boy.jpg");
             mNames.add(person.getName());
             mScore.add(person.getScore());
