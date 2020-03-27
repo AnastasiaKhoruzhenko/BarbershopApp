@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.coursework.barbershopapp.Interface.IRecyclerItemSelectedListener;
 import com.coursework.barbershopapp.R;
@@ -48,9 +49,8 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //Toast.makeText(mContext, String.valueOf(listPrices.get(position)), Toast.LENGTH_LONG).show();
         holder.s_name.setText(listServices.get(position).getTitle());
-        holder.s_price.setText(listServices.get(position).getPrice());
+        holder.s_price.setText(listServices.get(position).getPrice() + " " + "RUB");
         holder.s_descr.setText(listServices.get(position).getDescr());
         holder.s_time.setText(listServices.get(position).getTime() + " мин");
 
@@ -63,15 +63,15 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
             @Override
             public void OnItemSelectedListener(View view, int position) {
                 for(CardView card:cardViews) {
-                    card.setCardBackgroundColor(mContext.getResources().getColor(R.color.GreyForCard));
+                    card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
                 }
                 for(ConstraintLayout lay:lays) {
 
-                    lay.setBackgroundColor(mContext.getResources().getColor(R.color.GreyForCard));
+                    lay.setBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
                 }
 
-                holder.step2.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorDone));
-                holder.lay.setBackgroundColor(mContext.getResources().getColor(R.color.colorDone));
+                holder.step2.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorLightBrown));
+                holder.lay.setBackgroundColor(mContext.getResources().getColor(R.color.colorLightBrown));
 
 
                 Intent intent = new Intent(Common.KEY_NEXT_BTN);

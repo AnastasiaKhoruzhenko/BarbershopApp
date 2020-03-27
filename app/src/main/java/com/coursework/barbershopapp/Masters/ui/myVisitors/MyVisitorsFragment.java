@@ -27,6 +27,7 @@ import com.coursework.barbershopapp.model.Common;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -52,6 +53,8 @@ public class MyVisitorsFragment extends Fragment implements IVisitorsLoadListene
     HorizontalCalendarView calendarView;
     SimpleDateFormat simpleDateFormat;
 
+    FirebaseAuth mAuth;
+
     public static MyVisitorsFragment newInstance() {
         return new MyVisitorsFragment();
     }
@@ -64,8 +67,12 @@ public class MyVisitorsFragment extends Fragment implements IVisitorsLoadListene
 
         iVisitorsLoadListener = this;
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");
-        loadAvailiableTimeSlot("r@r.ru", simpleDateFormat.format(Calendar.getInstance().getTime()));
+//        if(mAuth.getCurrentUser() != null)
+//            loadAvailiableTimeSlot(mAuth.getCurrentUser().getEmail(), simpleDateFormat.format(Calendar.getInstance().getTime()));
+//        else
+//            loadAvailiableTimeSlot("r@r.ru", simpleDateFormat.format(Calendar.getInstance().getTime()));
 
         init(view);
         return view;
@@ -102,7 +109,7 @@ public class MyVisitorsFragment extends Fragment implements IVisitorsLoadListene
                 {
                     Common.currentDate = date;
                 }
-                loadAvailiableTimeSlot("r@r.ru", simpleDateFormat.format(Common.currentDate.getTime()));
+                loadAvailiableTimeSlot(mAuth.getCurrentUser().getEmail(), simpleDateFormat.format(Common.currentDate.getTime()));
                 simpleDateFormat.format(Common.currentDate.getTime());
             }
         });
@@ -137,7 +144,8 @@ public class MyVisitorsFragment extends Fragment implements IVisitorsLoadListene
                                                 else{
                                                     List<BookingInformation> visList=new ArrayList<>();
                                                     for(DocumentSnapshot doc : querySnapshot)
-                                                        visList.add(doc.toObject(BookingInformation.class));
+                                                        if(!doc.getId().contains("."))
+                                                            visList.add(doc.toObject(BookingInformation.class));
 
                                                     iVisitorsLoadListener.onVisitorsSuccessLoadListener(visList);
                                                 }
@@ -174,5 +182,4 @@ public class MyVisitorsFragment extends Fragment implements IVisitorsLoadListene
         recyclerView.setAdapter(adapter);
         empty.setText("На данную дату записей нет.");
     }
-
 }

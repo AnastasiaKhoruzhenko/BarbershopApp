@@ -5,16 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/GreyForCard"
     android:padding="5dp"
-    app:cardElevation="10dp"
+    app:cardElevation="4dp"
     android:layout_margin="10dp"
     android:id="@+id/cardview_service"
-    app:cardCornerRadius="15dp">
+    app:cardCornerRadius="7dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constr_card_serv"
-        android:background="@color/GreyForCard"
+        android:background="@drawable/circle_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,45 +22,48 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="3dp"
             android:layout_marginBottom="16dp"
             android:text="Название услуги"
-            android:textColor="@color/partWhite"
+            android:textColor="@color/darkGrey"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/divider_service"
             app:layout_constraintStart_toEndOf="@+id/checkBox_choose"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_cardserv_time" />
 
         <TextView
             android:id="@+id/tw_serviceDescription"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:inputType="textMultiLine"
             android:text="Краткое описание услуги"
             android:textColor="@color/normGrey"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider_service" />
 
         <View
             android:id="@+id/divider_service"
-            android:layout_width="409dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="@+id/tv_price"
+            app:layout_constraintStart_toStartOf="@+id/checkBox_choose"
             app:layout_constraintTop_toBottomOf="@+id/tx_serviceName" />
 
         <TextView
             android:id="@+id/tv_price"
-            android:textColor="@color/selectedBlue"
+            android:textColor="@color/colorDone"
             android:layout_width="wrap_content"
             android:textStyle="bold"
             android:layout_height="wrap_content"
@@ -76,10 +78,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/divider_service"
+            app:layout_constraintBottom_toBottomOf="@+id/tx_serviceName"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.444" />
+            app:layout_constraintTop_toTopOf="@+id/tx_serviceName" />
 
         <TextView
             android:id="@+id/tv_cardserv_time"

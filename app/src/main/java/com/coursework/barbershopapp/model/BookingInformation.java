@@ -2,19 +2,20 @@ package com.coursework.barbershopapp.model;
 
 public class BookingInformation {
 
-    String customerName, customerSurname, customerPhone, barberEmail, barberName, barberSurname,
+    String customerName, customerSurname, customerEmail, customerPhone, barberEmail, barberName, barberSurname,
             barberPhone, time, date, dateId, service, rating, comment, timeService;
     Long slot, price;
 
     public BookingInformation() {
     }
 
-    public BookingInformation(String customerName, String customerSurname, String customerPhone,
+    public BookingInformation(String customerName, String customerSurname, String customerEmail, String customerPhone,
                               String barberEmail, String barberName, String barberSurname,
-                              String barberPhone, String time, String date,String dateId,
+                              String barberPhone, String time, String date, String dateId,
                               String service, Long slot, String rating, String comment, String timeService, Long price) {
         this.customerName = customerName;
         this.customerSurname = customerSurname;
+        this.customerEmail = customerEmail;
         this.customerPhone = customerPhone;
         this.barberEmail = barberEmail;
         this.barberName = barberName;
@@ -157,5 +158,13 @@ public class BookingInformation {
 
     public void setTimeService(String timeService) {
         this.timeService = timeService;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 }

@@ -8,23 +8,26 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ss.com.bannerslider.Slider;
 
+import com.coursework.barbershopapp.Admin.ui.home.RecyclerViewBestMastersAdapter;
 import com.coursework.barbershopapp.Interface.IBannerLoadListener;
 import com.coursework.barbershopapp.LoginActivity;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.RegistrationActivity;
 import com.coursework.barbershopapp.Service.PicassoImageLoadService;
+import com.coursework.barbershopapp.User.ui.signup.RecyclerViewMastersChooseAdapter;
 import com.coursework.barbershopapp.model.Common;
+import com.coursework.barbershopapp.model.Master;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -43,39 +46,61 @@ public class HomeFragment extends Fragment implements IBannerLoadListener {
 
     @BindView(R.id.slidingPaneLayout)
     Slider sliderNews;
+    @BindView(R.id.recview_masters_user)
+    RecyclerView recyclerView;
 
     IBannerLoadListener iBannerLoadListener;
 
     private FirebaseFirestore db;
     FirebaseAuth auth;
 
-    private HomeViewModel homeViewModel;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        unbinder = ButterKnife.bind(this, root);
+
         setHasOptionsMenu(true);
         auth = FirebaseAuth.getInstance();
 
-        unbinder = ButterKnife.bind(this, root);
         Slider.init(new PicassoImageLoadService());
         iBannerLoadListener = this;
         
         loadBanner();
+        loadMasters();
 
         resetStaticData();
 
-
-        //final TextView textView = root.findViewById(R.id.text_home);
-//        homeViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                //textView.setText(s);
-//            }
-//        });
         return root;
+    }
+
+    private void loadMasters() {
+        db.collection("Masters").orderBy("score").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful())
+                        {
+                            List<Master> list=new ArrayList<>();
+                            for (QueryDocumentSnapshot doc : task.getResult())
+                            {
+                                list.add(doc.toObject(Master.class));
+                            }
+
+                            initRecVie(list);
+                        }
+                    }
+                });
+    }
+
+    private void initRecVie(List<Master> list) {
+
+        RecyclerViewBestMastersAdapter adapter = new RecyclerViewBestMastersAdapter(list, getContext());
+        recyclerView.setAdapter(adapter);
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     private void resetStaticData() {

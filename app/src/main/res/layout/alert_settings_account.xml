@@ -18,12 +18,15 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ti_surname_sett"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/selectedBlue"
+            android:textColorHint="@color/normGrey"
             android:hint="Фамилия" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -36,12 +39,15 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_surname_sett">
+        app:layout_constraintTop_toBottomOf="@+id/til_surname_sett"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ti_name_sett"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/selectedBlue"
+            android:textColorHint="@color/normGrey"
             android:hint="Имя" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,13 +61,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:helperText="@string/birth_error"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_name_sett">
+        app:layout_constraintTop_toBottomOf="@+id/til_name_sett"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ti_birth_sett"
             android:layout_width="match_parent"
             android:editable="false"
             android:layout_height="wrap_content"
+            android:textColor="@color/selectedBlue"
+            android:textColorHint="@color/normGrey"
             android:hint="Дата рождения" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,12 +83,15 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_birth_sett">
+        app:layout_constraintTop_toBottomOf="@+id/til_birth_sett"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ti_phone_sett"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/selectedBlue"
+            android:textColorHint="@color/normGrey"
             android:hint="Телефон" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,12 +105,15 @@
         app:helperText="@string/email_error"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_phone_sett">
+        app:layout_constraintTop_toBottomOf="@+id/til_phone_sett"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ti_email_sett"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/selectedBlue"
+            android:textColorHint="@color/normGrey"
             android:editable="false"
             android:hint="E-mail" />
     </com.google.android.material.textfield.TextInputLayout>

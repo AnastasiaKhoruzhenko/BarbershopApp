@@ -16,7 +16,7 @@
         android:layout_height="40dp"
         android:gravity="center"
         android:textStyle="bold"
-        android:textColor="@color/partWhite"
+        android:textColor="@color/colorPrimary"
         android:text="Добавить мастера"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,15 +32,16 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
             android:textColorHint="@color/normGrey"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/tit_surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/partWhite"
+                android:textColor="@color/colorDone"
                 android:textColorHint="@color/normGrey"
                 android:hint="Фамилия" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -55,13 +56,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:textColorHint="@color/normGrey"
             app:layout_constraintStart_toStartOf="parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintTop_toBottomOf="@+id/til_surname">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/tit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/partWhite"
+                android:textColor="@color/colorDone"
                 android:textColorHint="@color/normGrey"
                 android:hint="Имя" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -76,13 +78,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:textColorHint="@color/normGrey"
             app:layout_constraintStart_toStartOf="parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintTop_toBottomOf="@+id/til_name">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/tit_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/partWhite"
+                android:textColor="@color/colorDone"
+                android:inputType="number|text"
+                android:maxLength="15"
                 android:textColorHint="@color/normGrey"
                 android:hint="Телефон" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -93,9 +98,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"
-            android:background="@color/selectedBlue"
+            android:background="@color/colorPrimary"
             android:text="Создать"
-            android:textColor="@color/partWhite"
+            android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -111,13 +116,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textColorHint="@color/normGrey"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintTop_toBottomOf="@+id/til_phone">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/tit_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/partWhite"
+                android:textColor="@color/colorDone"
                 android:textColorHint="@color/normGrey"
                 android:hint="Email" />
         </com.google.android.material.textfield.TextInputLayout>

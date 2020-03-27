@@ -41,6 +41,9 @@ public class Common {
     public static int currentTimeSlot = -1;
     public static Calendar currentDate = Calendar.getInstance();
 
+
+    public static String KEY_EMAIL_USER  = "email";
+
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");
 
     public static String convertTimeSlotToString(int position) {

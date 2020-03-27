@@ -56,8 +56,8 @@ public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerV
 
         if(timeSlotList.size() == 0) // all are availiable
         {
-            holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorDone));
-            holder.time.setTextColor(mContext.getResources().getColor(R.color.colorWhite));
+            holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
+            holder.time.setTextColor(mContext.getResources().getColor(R.color.darkGrey));
         }
         else {
             for (TimeSlot timeSlot : timeSlotList)
@@ -83,11 +83,11 @@ public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerV
                 for(CardView card : cardViews)
                 {
                     if(card.getTag() == null)
-                        card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorDone));
+                        card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
                 }
 
                 // selected card
-                holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+                holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorLightBrown));
 
                 Intent intent = new Intent(Common.KEY_NEXT_BTN);
                 intent.putExtra(Common.KEY_TIME_SLOT, position);

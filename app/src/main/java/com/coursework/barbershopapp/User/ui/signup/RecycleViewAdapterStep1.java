@@ -62,9 +62,9 @@ public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAda
             @Override
             public void OnItemSelectedListener(View view, int position) {
                 for(CardView card:listCard)
-                    card.setCardBackgroundColor(mContext.getResources().getColor(R.color.GreyForCard));
+                    card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorLightBrown));
                 for(ConstraintLayout lay:lays)
-                    lay.setBackgroundColor(mContext.getResources().getColor(R.color.GreyForCard));
+                    lay.setBackgroundColor(mContext.getResources().getColor(R.color.colorLightBrown));
 
                 holder.step1.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
                 holder.lay.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));

@@ -10,17 +10,17 @@
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="@color/darkGrey"
+        android:background="@color/colorPrimary"
         app:colorMiddleText="@color/partWhite"
         app:layout_constraintCircleRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:selectorColor="@color/selectedBlue"
+        app:selectorColor="@color/colorWhite"
         app:sizeBottomText="10sp"
         app:sizeMiddleText="16sp"
         app:sizeTopText="10sp"
-        app:textColorSelected="@color/selectedBlue" />
+        app:textColorSelected="@color/colorWhite" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recview_time"

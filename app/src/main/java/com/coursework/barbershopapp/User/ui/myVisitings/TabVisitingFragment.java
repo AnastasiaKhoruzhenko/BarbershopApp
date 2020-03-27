@@ -37,11 +37,13 @@ public class TabVisitingFragment extends Fragment {
     FirebaseAuth user;
 
     int title;
+    String email;
 
     public TabVisitingFragment() { }
 
-    public TabVisitingFragment(int title) {
+    public TabVisitingFragment(int title, String email) {
         this.title = title;
+        this.email = email;
     }
 
     @Override
@@ -57,18 +59,18 @@ public class TabVisitingFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recview_my_vis);
 
-        loadData(title);
+        loadData(title, email);
 
         resetStaticData();
 
         return view;
     }
 
-    private void loadData(int title) {
+    private void loadData(int title, String email) {
 
         db = FirebaseFirestore.getInstance();
 
-        db.collection("Users").document("rfff@mail.ru").collection("Visitings")
+        db.collection("Users").document(email).collection("Visitings")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

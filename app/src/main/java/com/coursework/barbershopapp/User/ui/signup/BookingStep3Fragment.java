@@ -47,7 +47,6 @@ public class BookingStep3Fragment extends Fragment {
     private BroadcastReceiver barberDoneReciever = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //ArrayList<Master> aboutServices = intent.getParcelableArrayListExtra(Common.KEY_SERVICES_LOAD_DONE);
             loadBarbers(Common.currentService.getName());
             Toast.makeText(getContext(), Common.currentService.getName(), Toast.LENGTH_LONG).show();
         }
@@ -78,7 +77,7 @@ public class BookingStep3Fragment extends Fragment {
                                         Master p = task.getResult().toObject(Master.class);
                                         pList.add(p);
                                         Toast.makeText(getActivity(), String.valueOf(pList.size()), Toast.LENGTH_LONG).show();
-                                        RecyclerViewMastersChooseAdapter adapter = new RecyclerViewMastersChooseAdapter(getContext(), pList);
+                                        RecyclerViewMastersChooseAdapter adapter = new RecyclerViewMastersChooseAdapter(getContext(), pList, true);
                                         recyclerView.setAdapter(adapter);
                                         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                                     }

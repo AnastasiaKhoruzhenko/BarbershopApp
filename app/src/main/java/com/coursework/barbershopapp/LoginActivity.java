@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.coursework.barbershopapp.model.Master;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -20,6 +21,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -51,10 +56,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(login_str.isEmpty() || pass_str.isEmpty())
                 {
-                    showMessage("Не введен логин лии пароль");
+                    showMessage("Не введен логин или пароль");
                 }
                 else
                 {
+                    //checkIfIfNewMaster(login_str, pass_str);
                     signIn(login_str, pass_str);
                 }
             }
@@ -62,7 +68,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signIn(final String login_str, final String pass_str) {
-        mAuth.signInWithEmailAndPassword(login_str, pass_str).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(login_str, pass_str)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful())
@@ -70,9 +77,15 @@ public class LoginActivity extends AppCompatActivity {
                     showMessage("Логин или пароль введены верно");
                     updateUI(login_str);
                 }
-                else{
-                    showMessage("Логин или пароль введены неверно");
-                }
+//                else{
+//                    showMessage("Логин или пароль введены неверно");
+//                }
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                checkIfIfNewMaster(login_str, pass_str);
             }
         });
 //        .addOnFailureListener(new OnFailureListener() {
@@ -81,6 +94,57 @@ public class LoginActivity extends AppCompatActivity {
 //                showMessage("Логин или пароль введены неверно err");
 //            }
 //        });
+    }
+
+    private void checkIfIfNewMaster(String login_str, String pass_str) {
+        db.collection("Masters").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    boolean flag = false;
+                    List<String> masterList = new ArrayList<>();
+                    List<Boolean> newPass = new ArrayList<>();
+                    List<Master> masters = new ArrayList<>();
+                    for(DocumentSnapshot doc : task.getResult()) {
+                        masterList.add(doc.toObject(Master.class).getEmail());
+                        masters.add(doc.toObject(Master.class));
+                        //newPass
+                    }
+
+                    for(int i =0;i<masters.size();i++)
+                    {
+                        if(masters.get(i).getEmail().equals(login_str)){
+                            flag = true;
+                            break;
+                        }
+                    }
+
+                    if(flag)
+                        if(pass_str.equals("barbershop"))
+                            createMaster(login_str, pass_str);
+                        else
+                            showMessage("Пароль неверен");
+                    else
+                        showMessage("Логин или пароль неверен");
+                }
+            }
+        });
+    }
+
+    private void createMaster(String login_str, String pass_str) {
+        mAuth.createUserWithEmailAndPassword(login_str, pass_str).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    updateUI(login_str);
+                }
+//                else
+//                {
+//                    showMessage("Пользователь с такой почтой уже существует");
+//                }
+            }
+        });
     }
 
     private void updateUI(String login_str) {

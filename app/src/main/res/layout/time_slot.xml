@@ -9,10 +9,11 @@
     app:cardElevation="7dp"
     android:layout_margin="10dp"
     android:id="@+id/cardview_choose_time"
-    app:cardBackgroundColor="@color/colorDone">
+    android:background="@drawable/circle_img">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@drawable/circle_img"
         android:layout_height="match_parent">
 
         <TextView
@@ -25,7 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@color/colorWhite"/>
+            android:textColor="@color/darkGrey"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

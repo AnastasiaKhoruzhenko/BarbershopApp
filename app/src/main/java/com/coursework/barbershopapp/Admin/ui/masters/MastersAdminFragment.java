@@ -14,10 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.coursework.barbershopapp.model.MaskWatcherPhone;
 import com.coursework.barbershopapp.model.Master;
 import com.coursework.barbershopapp.R;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -46,7 +50,7 @@ public class MastersAdminFragment extends Fragment {
     private ArrayList<String> mScore = new ArrayList<>();
 
     private TextInputLayout tilSurname, tilName, tilPhone, tilEmail;
-    private TextInputEditText tit_surname, tit_name, tit_phone, tit_email;
+    private EditText tit_surname, tit_name, tit_phone, tit_email;
     private Button create_master;
 
 
@@ -82,6 +86,8 @@ public class MastersAdminFragment extends Fragment {
         tit_surname = root.findViewById(R.id.tit_surname);
         tit_phone = root.findViewById(R.id.tit_phone);
         tit_email = root.findViewById(R.id.tit_email);
+
+        tit_phone.addTextChangedListener(new MaskWatcherPhone("#(###)###-##-##"));
 
         db = FirebaseFirestore.getInstance();
 
@@ -153,7 +159,7 @@ public class MastersAdminFragment extends Fragment {
     private void checkInfo(String name, String surname, String phone, String email) {
         if(name.isEmpty() || surname.isEmpty() || email.isEmpty() || phone.isEmpty())
         {
-            Toast.makeText(getContext(), "Add all required information", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Заполните всю необходимую информацию", Toast.LENGTH_SHORT).show();
         }else{
             registerNewMasterWithDefaultPassword(email, name, surname, phone);
         }
@@ -164,19 +170,37 @@ public class MastersAdminFragment extends Fragment {
 
         // дефолтный пароль -> сделать для изменения в профиле админа
         String defaultPassword = "barbershop";
-        mAuth.createUserWithEmailAndPassword(email, defaultPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+        db.collection("Masters").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    showMessage("Аккаунт успешно создан");
-                    updateInfo(name, surname, email, phone);
-                }
-                else
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful())
                 {
-                    showMessage("Пользователь с такой почтой уже существует");
+                    List<String> masterList = new ArrayList<>();
+                    for(DocumentSnapshot doc : task.getResult())
+                        masterList.add(doc.toObject(Master.class).getEmail());
+
+                    if(masterList.contains(email))
+                        showMessage("Мастер с такой почтой уже существует");
+                    else
+                        updateInfo(name, surname, email, phone);
                 }
             }
         });
+
+//        mAuth.createUserWithEmailAndPassword(email, defaultPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                if(task.isSuccessful()){
+//                    showMessage("Аккаунт успешно создан");
+//                    updateInfo(name, surname, email, phone);
+//                }
+//                else
+//                {
+//                    showMessage("Пользователь с такой почтой уже существует");
+//                }
+//            }
+//        });
     }
 
     private void updateInfo(String name, String surname, String email, String phone) {
@@ -188,6 +212,7 @@ public class MastersAdminFragment extends Fragment {
         master.put("email", email);
         master.put("defaultPass", true);
         master.put("score", String.valueOf(0.0));
+        master.put("services", null);
         db.collection("Masters").document(email).set(master);
 
         // clear input text after creation

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coursework.barbershopapp.R;
+import com.coursework.barbershopapp.User.ui.settings.SettingsFragment;
 import com.coursework.barbershopapp.model.BookingInformation;
 import com.coursework.barbershopapp.model.Common;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -78,6 +80,8 @@ public class BookingStep5Fragment extends Fragment{
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    public final static String DEFAULT = "N/A";
+
     @OnClick(R.id.btn_confirm)
     void setConfirm() {
 
@@ -109,7 +113,7 @@ public class BookingStep5Fragment extends Fragment{
 
 
                             int count = Math.round(Integer.valueOf(Common.currentServiceType.getTime())/20);
-                            Toast.makeText(getActivity(), count, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getActivity(), count, Toast.LENGTH_LONG).show();
 
                             for(int i=0;i<=count;i++)
                             {
@@ -182,9 +186,9 @@ public class BookingStep5Fragment extends Fragment{
         } else
             {
                 if (textName.getText().toString().isEmpty()) {
-                    Toast.makeText(getContext(), "Введите имя", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Имя", Toast.LENGTH_SHORT).show();
                 } else if (textPhone.getText().toString().isEmpty()) {
-                    Toast.makeText(getContext(), "Введите телефон", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Email", Toast.LENGTH_SHORT).show();
                 } else {
                     BookingInformation info = new BookingInformation();
 
@@ -195,8 +199,9 @@ public class BookingStep5Fragment extends Fragment{
                     info.setPrice(Long.valueOf(Common.currentServiceType.getPrice()));
                     info.setCustomerName(textName.getText().toString());
                     info.setRating(String.valueOf(-1));
+                    info.setCustomerPhone("");
                     info.setTimeService(Common.currentServiceType.getTime());
-                    info.setCustomerPhone(textPhone.getText().toString());
+                    info.setCustomerEmail(textPhone.getText().toString());
                     info.setCustomerSurname("");
                     info.setSlot(Long.valueOf(Common.currentTimeSlot));
                     info.setTime(Common.convertTimeSlotToString(Common.currentTimeSlot));
@@ -212,7 +217,8 @@ public class BookingStep5Fragment extends Fragment{
                         CollectionReference colRef = FirebaseFirestore.getInstance()
                                 .collection("Masters").document(Common.currentBarber.getEmail())
                                 .collection(Common.simpleDateFormat.format(Common.currentDate.getTime()));
-                        if(i==0) {
+                        if(i==0)
+                        {
                             colRef.document(String.valueOf(Common.currentTimeSlot)).set(info)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -253,7 +259,8 @@ public class BookingStep5Fragment extends Fragment{
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     Map<String, Object> user = new HashMap<>();
 
-                    db.collection("Users").document("rfff@mail.ru").collection("Visitings").get()
+                    db.collection("Users").document(textPhone.getText().toString())
+                            .collection("Visitings").get()
                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -272,8 +279,10 @@ public class BookingStep5Fragment extends Fragment{
     }
 
     private void setUserVisiting(int count, BookingInformation info) {
-        FirebaseFirestore.getInstance().collection("Users").document("rfff@mail.ru")
+        FirebaseFirestore.getInstance().collection("Users").document(textPhone.getText().toString())
                 .collection("Visitings").document(String.valueOf(count)).set(info);
+
+        saveText();
     }
 
 
@@ -345,6 +354,25 @@ public class BookingStep5Fragment extends Fragment{
         else
             card.setVisibility(View.VISIBLE);
 
+        loadEmail();
+
+//        if(PreferenceUtils.getEmail(getContext()) != null)
+//            textPhone.setText(PreferenceUtils.getEmail(getContext()));
+
         return view;
+    }
+
+    private  void saveText(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("myData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("email", textPhone.getText().toString());
+        editor.commit();
+    }
+
+    private void loadEmail(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("myData", Context.MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", DEFAULT);
+        if(!email.equals(DEFAULT))
+            textPhone.setText(email);
     }
 }

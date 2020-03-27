@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lay_master_admin_card"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
@@ -11,11 +12,9 @@
         android:id="@+id/cardview_master_admin_for_list"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         app:cardCornerRadius="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/rellay_masters_admin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -69,12 +68,13 @@
 
             <ImageView
                 android:id="@+id/iv_star_admin"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="3dp"
+                android:src="@drawable/star"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_score_master_admin"
                 app:layout_constraintEnd_toStartOf="@+id/tv_score_master_admin"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/btn_star_big_on" />
+                app:layout_constraintTop_toTopOf="@+id/tv_score_master_admin" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
