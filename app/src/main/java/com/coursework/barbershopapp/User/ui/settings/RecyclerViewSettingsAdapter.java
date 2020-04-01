@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.RegistrationActivity;
+import com.coursework.barbershopapp.model.MaskWatcherBirthDate;
+import com.coursework.barbershopapp.model.MaskWatcherPhone;
 import com.coursework.barbershopapp.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -133,6 +135,12 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
         EditText birth = dialog.findViewById(R.id.ti_birth_sett);
         EditText phone = dialog.findViewById(R.id.ti_phone_sett);
         Button ok = dialog.findViewById(R.id.btn_alert_ok);
+
+        birth.setEnabled(false);
+        email.setEnabled(false);
+
+        phone.addTextChangedListener(new MaskWatcherPhone("#(###)###-##-##"));
+        birth.addTextChangedListener(new MaskWatcherBirthDate("##.##.####"));
 
         db.collection("Users").document(user.getEmail()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

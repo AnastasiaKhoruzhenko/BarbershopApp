@@ -1,14 +1,21 @@
 package com.coursework.barbershopapp.Admin.ui.home;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.BookingInformation;
+import com.coursework.barbershopapp.model.Comment;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -19,10 +26,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewCommentAdapter extends RecyclerView.Adapter<RecyclerViewCommentAdapter.ViewHolder>{
 
-    List<BookingInformation> list;
+    List<Comment> list;
     Context mContext;
 
-    public RecyclerViewCommentAdapter(Context mContext, List<BookingInformation> list) {
+    public RecyclerViewCommentAdapter(Context mContext, List<Comment> list) {
         this.list = list;
         this.mContext = mContext;
     }
@@ -39,7 +46,26 @@ public class RecyclerViewCommentAdapter extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.text.setText(list.get(position).getComment());
         holder.score.setText(list.get(position).getRating());
-        holder.name_surname.setText(list.get(position).getCustomerName()+ " "+ list.get(position).getCustomerSurname());
+        holder.name_surname.setText(list.get(position).getName() + " " + list.get(position).getSurname());
+
+        StorageReference phRef = FirebaseStorage.getInstance().getReference()
+                .child("personal_photos/"+list.get(position).getCustomerEmail());
+        phRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                //img.setImageURI(uri);
+
+                Glide.with(mContext)
+                        .load(uri)
+                        .into(holder.photo);
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     @Override
@@ -52,6 +78,7 @@ public class RecyclerViewCommentAdapter extends RecyclerView.Adapter<RecyclerVie
         CardView card;
         TextView name_surname, score, text;
         ImageView img;
+        CircleImageView photo;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +88,7 @@ public class RecyclerViewCommentAdapter extends RecyclerView.Adapter<RecyclerVie
             score = itemView.findViewById(R.id.tv_score_comment);
             text = itemView.findViewById(R.id.tv_comment_text);
             img = itemView.findViewById(R.id.imageView3);
+            photo = itemView.findViewById(R.id.imageView2);
         }
     }
 }

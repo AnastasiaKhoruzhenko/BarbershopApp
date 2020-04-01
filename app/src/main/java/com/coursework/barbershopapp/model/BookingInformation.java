@@ -3,7 +3,7 @@ package com.coursework.barbershopapp.model;
 public class BookingInformation {
 
     String customerName, customerSurname, customerEmail, customerPhone, barberEmail, barberName, barberSurname,
-            barberPhone, time, date, dateId, service, rating, comment, timeService;
+            barberPhone, time, date, dateId, service, rating, comment, timeService, serviceId;
     Long slot, price;
 
     public BookingInformation() {
@@ -12,7 +12,7 @@ public class BookingInformation {
     public BookingInformation(String customerName, String customerSurname, String customerEmail, String customerPhone,
                               String barberEmail, String barberName, String barberSurname,
                               String barberPhone, String time, String date, String dateId,
-                              String service, Long slot, String rating, String comment, String timeService, Long price) {
+                              String service, Long slot, String rating, String comment, String timeService, Long price, String serviceId) {
         this.customerName = customerName;
         this.customerSurname = customerSurname;
         this.customerEmail = customerEmail;
@@ -30,6 +30,7 @@ public class BookingInformation {
         this.price = price;
         this.comment = comment;
         this.timeService = timeService;
+        this.serviceId = serviceId;
     }
 
     public String getCustomerName() {
@@ -166,5 +167,13 @@ public class BookingInformation {
 
     public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
+    }
+
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
     }
 }

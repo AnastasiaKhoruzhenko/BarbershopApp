@@ -2,14 +2,19 @@ package com.coursework.barbershopapp.Masters.ui.settings;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
@@ -17,9 +22,13 @@ import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.AboutService;
 import com.coursework.barbershopapp.model.Banner;
 import com.coursework.barbershopapp.model.BookingInformation;
+import com.coursework.barbershopapp.model.MaskWatcherBirthDate;
+import com.coursework.barbershopapp.model.MaskWatcherPhone;
 import com.coursework.barbershopapp.model.Master;
+import com.coursework.barbershopapp.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -71,7 +80,7 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
                 switch (position)
                 {
                     case 0:
-                        //showPersonalInfo();
+                        showPersonalInfo();
                         break;
                     case 1:
                         //showWorkTime();
@@ -137,28 +146,29 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
                 {
                     Master master = task.getResult().toObject(Master.class);
                     List<String> arr = master.getServices();
-                    for(String serv : arr)
-                    {
-                        switch (serv){
-                            case "Barber-SPA":
-                                ch3.setChecked(true);break;
-                            case "HairCut":
-                                ch1.setChecked(true);break;
-                            case "Coloring":
-                                ch2.setChecked(true);break;
-                            case "BeardAndMustacheCut":
-                                ch4.setChecked(true);break;
-                            case "Tatoo":
-                                ch5.setChecked(true);break;
-                            case "CombineService":
-                                ch6.setChecked(true);break;
+                    if(arr != null)
+                        for(String serv : arr)
+                        {
+                            switch (serv){
+                                case "BarberSPA":
+                                    ch3.setChecked(true);break;
+                                case "HairCut":
+                                    ch1.setChecked(true);break;
+                                case "Coloring":
+                                    ch2.setChecked(true);break;
+                                case "BeardAndMustacheCut":
+                                    ch4.setChecked(true);break;
+                                case "Tatoo":
+                                    ch5.setChecked(true);break;
+                                case "CombineService":
+                                    ch6.setChecked(true);break;
+                            }
                         }
-                    }
 
                     ch3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            addServiceToBarber("Barber-SPA", isChecked);
+                            addServiceToBarber("BarberSPA", isChecked);
                         }
                     });
                     ch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -201,7 +211,7 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
                             if(ch2.isChecked())
                                 list.add("Coloring");
                             if(ch3.isChecked())
-                                list.add("Barber-SPA");
+                                list.add("BarberSPA");
                             if(ch4.isChecked())
                                 list.add("BeardAndMustacheCut");
                             if(ch5.isChecked())
@@ -233,5 +243,73 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
         else
             db.collection("ServicesMan").document(s)
                 .collection("Barbers").document(mAuth.getCurrentUser().getEmail()).delete();
+    }
+
+    public void showPersonalInfo(){
+        final Dialog dialog = new Dialog(mContext);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setContentView(R.layout.alert_settings_account);
+        dialog.setTitle("Настройки аккаунта");
+        TextInputLayout surname1 = dialog.findViewById(R.id.til_surname_sett);
+        TextInputLayout name1 = dialog.findViewById(R.id.til_name_sett);
+        TextInputLayout email1 = dialog.findViewById(R.id.til_email_sett);
+        TextInputLayout birth1 = dialog.findViewById(R.id.til_birth_sett);
+        TextInputLayout phone1 = dialog.findViewById(R.id.til_phone_sett);
+        EditText surname = dialog.findViewById(R.id.ti_surname_sett);
+        EditText name = dialog.findViewById(R.id.ti_name_sett);
+        EditText email = dialog.findViewById(R.id.ti_email_sett);
+        EditText birth = dialog.findViewById(R.id.ti_birth_sett);
+        EditText phone = dialog.findViewById(R.id.ti_phone_sett);
+        Button ok = dialog.findViewById(R.id.btn_alert_ok);
+
+        birth1.setHelperText("Не рекомендуется изменять дату рождения");
+        phone.addTextChangedListener(new MaskWatcherPhone("#(###)###-##-##"));
+        birth.addTextChangedListener(new MaskWatcherBirthDate("##.##.####"));
+
+        db.collection("Masters").document(mAuth.getCurrentUser().getEmail()).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            Master user = task.getResult().toObject(Master.class);
+                            surname.setText(user.getSurname());
+                            name.setText(user.getName());
+                            birth.setText(user.getBirth());
+                            phone.setText(user.getPhone());
+                            email.setText(user.getEmail());
+                        }
+                    }
+                });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(surname.getText().equals("") || name.getText().equals("") || phone.getText().equals("")){
+                    Toast.makeText(mContext, "Заполните все поля", Toast.LENGTH_SHORT).show();
+                }
+                else if(phone.getText().toString().length() != 15)
+                    Toast.makeText(mContext, "Телефон должен содержать 11 цифр", Toast.LENGTH_LONG).show();
+                else if (birth.getText().toString().length() != 10
+                        || Integer.valueOf(birth.getText().toString().substring(0,2)) > 31
+                        || Integer.valueOf(birth.getText().toString().substring(0,2)) < 1
+                        || Integer.valueOf(birth.getText().toString().substring(3,5)) < 1
+                        || Integer.valueOf(birth.getText().toString().substring(3,5)) > 12
+                        || Integer.valueOf(birth.getText().toString().substring(6,10)) > 2020
+                        || Integer.valueOf(birth.getText().toString().substring(6,10)) < 1920)
+                    Toast.makeText(mContext, "Дата рождения введена неверно", Toast.LENGTH_SHORT).show();
+                else{
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("surname", surname.getText().toString());
+                    data.put("name", name.getText().toString());
+                    data.put("phone", phone.getText().toString());
+                    data.put("birth", birth.getText().toString());
+                    db.collection("Masters").document(mAuth.getCurrentUser().getEmail()).update(data);
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialog.show();
     }
 }

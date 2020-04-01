@@ -8,13 +8,13 @@ import java.util.List;
 
 public class Master implements Parcelable {
 
-    String email, name, surname, phone, score;
+    String email, name, surname, phone, score, birth;
     Boolean defaultPass;
-    List<String> services;
+    List<String> services, dates;
 
     public Master(){}
 
-    public Master(String email, String name, String surname, String phone, String score, Boolean defaultPass, List<String> services) {
+    public Master(String email, String name, String surname, String phone, String score, String birth, Boolean defaultPass, List<String> services, List<String> dates) {
         this.email = email;
         this.name = name;
         this.surname = surname;
@@ -22,6 +22,8 @@ public class Master implements Parcelable {
         this.score = score;
         this.defaultPass = defaultPass;
         this.services = services;
+        this.dates = dates;
+        this.birth = birth;
     }
 
     public Master(String email, String name, String surname, String phone, String score, Boolean defaultPass) {
@@ -77,6 +79,14 @@ public class Master implements Parcelable {
         return defaultPass;
     }
 
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
+    }
+
     public void setDefaultPass(Boolean defaultPass) {
         this.defaultPass = defaultPass;
     }
@@ -89,15 +99,25 @@ public class Master implements Parcelable {
         this.services = services;
     }
 
+    public List<String> getDates() {
+        return dates;
+    }
+
+    public void setDates(List<String> dates) {
+        this.dates = dates;
+    }
+
     protected Master(Parcel in) {
         email = in.readString();
         name = in.readString();
         surname = in.readString();
         phone = in.readString();
         score = in.readString();
+        birth = in.readString();
         byte tmpDefaultPass = in.readByte();
         defaultPass = tmpDefaultPass == 0 ? null : tmpDefaultPass == 1;
         services = in.createStringArrayList();
+        dates = in.createStringArrayList();
     }
 
     public static final Creator<Master> CREATOR = new Creator<Master>() {
@@ -124,7 +144,9 @@ public class Master implements Parcelable {
         dest.writeString(surname);
         dest.writeString(phone);
         dest.writeString(score);
+        dest.writeString(birth);
         dest.writeByte((byte) (defaultPass == null ? 0 : defaultPass ? 1 : 2));
         dest.writeStringList(services);
+        dest.writeStringList(dates);
     }
 }

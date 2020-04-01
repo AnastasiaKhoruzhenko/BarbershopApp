@@ -19,16 +19,19 @@
 
         <TextView
             android:id="@+id/tx_serviceName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="3dp"
+            android:layout_marginEnd="24dp"
             android:layout_marginBottom="16dp"
+            android:autoSizeTextType="uniform"
             android:text="Название услуги"
             android:textColor="@color/darkGrey"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/divider_service"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/checkBox_choose"
             app:layout_constraintTop_toBottomOf="@+id/tv_cardserv_time" />
 
@@ -44,6 +47,7 @@
             android:text="Краткое описание услуги"
             android:textColor="@color/normGrey"
             android:textSize="14sp"
+            android:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

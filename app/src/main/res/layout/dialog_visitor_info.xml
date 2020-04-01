@@ -5,15 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorLightBrown">
+    android:background="@color/colorWhite">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_dialog_photo"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/circle_img"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/barber"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -23,10 +23,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="In "
-        android:textColor="@color/colorWhite"
+        android:text="Через "
+        android:textColor="@color/normGrey"
         android:textAlignment="textStart"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,40 +36,41 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="2 Days"
-        android:textSize="24sp"
-        android:textColor="@color/selectedBlue"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_dialog_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:text="Name Surname"
-        android:textSize="20sp"
         android:textColor="@color/darkGrey"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/img_dialog_photo"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/img_dialog_photo"
         app:layout_constraintTop_toTopOf="@+id/img_dialog_photo" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_service"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/circle_img"
+        android:id="@+id/img_service_"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_dialog_service"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider4" />
+        app:layout_constraintTop_toTopOf="@+id/tv_appointment_service" />
 
     <View
         android:id="@+id/divider4"
         android:layout_width="409dp"
         android:layout_height="1dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,91 +81,100 @@
         android:id="@+id/tv_appointment_service"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:text="Услуга"
         android:textColor="@color/normGrey"
-        app:layout_constraintStart_toEndOf="@+id/img_service"
-        app:layout_constraintTop_toTopOf="@+id/img_service" />
+        app:layout_constraintStart_toEndOf="@+id/img_service_"
+        app:layout_constraintTop_toBottomOf="@+id/divider4" />
 
     <TextView
         android:id="@+id/tv_dialog_service"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:autoSizeTextType="uniform"
         android:text="Стрижка коротких волос"
         android:textColor="@color/darkGrey"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/img_service"
-        app:layout_constraintStart_toEndOf="@+id/img_service" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/img_service_"
+        app:layout_constraintTop_toBottomOf="@+id/tv_appointment_service" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circleImageView3"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
         android:adjustViewBounds="false"
-        android:background="@drawable/calendar2"
+        android:background="@drawable/calendar"
         android:cropToPadding="false"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_dialog_date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_service" />
+        app:layout_constraintTop_toTopOf="@+id/tv_appointment_date" />
 
     <TextView
         android:id="@+id/tv_appointment_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="Дата"
         android:textColor="@color/normGrey"
         app:layout_constraintStart_toEndOf="@+id/circleImageView3"
-        app:layout_constraintTop_toTopOf="@+id/circleImageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_dialog_service" />
 
     <TextView
         android:id="@+id/tv_dialog_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:text="12/10/2020"
         android:textColor="@color/darkGrey"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/circleImageView3"
-        app:layout_constraintStart_toEndOf="@+id/circleImageView3" />
+        app:layout_constraintStart_toEndOf="@+id/circleImageView3"
+        app:layout_constraintTop_toBottomOf="@+id/tv_appointment_date" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circleImageView4"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
         android:background="@drawable/clock"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_dialog_time"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/circleImageView3" />
+        app:layout_constraintTop_toTopOf="@+id/tv_appointment_time" />
 
     <TextView
         android:id="@+id/tv_appointment_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="Время"
         android:textColor="@color/normGrey"
         app:layout_constraintStart_toEndOf="@+id/circleImageView4"
-        app:layout_constraintTop_toTopOf="@+id/circleImageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_dialog_date" />
 
     <TextView
         android:id="@+id/tv_dialog_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="32dp"
         android:text="10:00"
         android:textColor="@color/darkGrey"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/circleImageView4"
-        app:layout_constraintStart_toEndOf="@+id/circleImageView4" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/circleImageView4"
+        app:layout_constraintTop_toBottomOf="@+id/tv_appointment_time" />
 
     <ImageView
         android:id="@+id/btn_dialog_close"

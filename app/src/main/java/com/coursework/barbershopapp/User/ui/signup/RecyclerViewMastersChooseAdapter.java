@@ -3,6 +3,7 @@ package com.coursework.barbershopapp.User.ui.signup;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +11,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.coursework.barbershopapp.Admin.ui.home.RecyclerViewBestMastersAdapter;
 import com.coursework.barbershopapp.Admin.ui.home.RecyclerViewCommentAdapter;
 import com.coursework.barbershopapp.Interface.IRecyclerItemSelectedListener;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.BookingInformation;
+import com.coursework.barbershopapp.model.Comment;
 import com.coursework.barbershopapp.model.Common;
 import com.coursework.barbershopapp.model.Master;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.protobuf.StringValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +42,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<RecyclerViewMastersChooseAdapter.MyViewHolder>{
 
-    // /ServicesMan/HairCut/Barbers/a@a.ri
-    List<String> listNameSurname = new ArrayList<>();
-    List<String> listOffers = new ArrayList<>();
-    List<String> listScore = new ArrayList<>();
     List<Master> personList = new ArrayList<>();
     List<CardView> cardViews;
     List<ConstraintLayout> lays;
@@ -79,6 +84,75 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
         holder.score.setText(personList.get(position).getScore());
         holder.name_surname.setText(personList.get(position).getName() + " " + personList.get(position).getSurname());
         holder.offer.setText(personList.get(position).getPhone());
+        holder.info.setClickable(true);
+
+        List<String> services = personList.get(position).getServices();
+        if(services!=null)
+        {
+            String offerStr = "";
+            for (String serv : services){
+                switch (serv)
+                {
+                    case "HairCut":
+                        offerStr += "стрижка, ";break;
+                    case "BarberSPA":
+                        offerStr += "SPA-процедуры, ";break;
+                    case "BeardAndMustacheCut":
+                        offerStr += "оформление бороды и усов, ";break;
+                    case "Coloring":
+                        offerStr += "покраска волос, ";break;
+                    case "CombineService":
+                        offerStr += "комбинированные услуги, ";break;
+                    case "Tatoo":
+                        offerStr += "нанесение татуировок, ";break;
+                }
+            }
+            offerStr = offerStr.substring(0, offerStr.length()-2);
+            holder.offer.setText(offerStr);
+        }
+
+        db.collection("Comments").document(personList.get(position).getEmail())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                int count  = Integer.valueOf(task.getResult().getString("count"));
+                if(count == 0)
+                    holder.info.setClickable(false);
+                switch (count%10)
+                {
+                    case 1:
+                        holder.info.setText(count + " комментарий");
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                        holder.info.setText(count + " комментария");
+                        break;
+                    default:
+                        holder.info.setText(count + " комментариев");
+                        break;
+                }
+            }
+        });
+
+        StorageReference phRef = FirebaseStorage.getInstance().getReference()
+                .child("personal_photos/"+personList.get(position).getEmail());
+        phRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                //img.setImageURI(uri);
+
+                Glide.with(mContext)
+                        .load(uri)
+                        .into(holder.img);
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
 
         if(flag)
         {
@@ -116,6 +190,7 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
         }
         else{
             holder.card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
+
             holder.setiRecyclerItemSelectedListener(new IRecyclerItemSelectedListener() {
                 @Override
                 public void OnItemSelectedListener(View view, int position) {
@@ -134,16 +209,17 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
 
         CardView card;
         TextView name_surname, offer, score;
-        ImageView img, info;
+        TextView info;
+        CircleImageView img;
         ConstraintLayout lay;
 
         IRecyclerItemSelectedListener iRecyclerItemSelectedListener;
 
-        public void setiRecyclerItemSelectedListener(IRecyclerItemSelectedListener iRecyclerItemSelectedListener) {
+        void setiRecyclerItemSelectedListener(IRecyclerItemSelectedListener iRecyclerItemSelectedListener) {
             this.iRecyclerItemSelectedListener = iRecyclerItemSelectedListener;
         }
 
-        public MyViewHolder(@NonNull View itemView) {
+        MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             card = itemView.findViewById(R.id.cardview_master_foruser);
@@ -164,26 +240,6 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
         }
     }
 
-//    private void getCommentCount(View view, int position){
-//        db.collection("MastersDates").document(personList.get(position).getEmail())
-//                .collection("Dates").get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if(task.isSuccessful())
-//                        {
-//                            List<String> dates = new ArrayList<>();
-//                            for(DocumentSnapshot doc : task.getResult())
-//                            {
-//                               dates.add(doc.getId());
-//                            }
-//
-//                            showFullDialog(view, position, dates);
-//                        }
-//                    }
-//                });
-//    }
-
     private void showFullDialog(View view, int position) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.full_master_comments_dialog, null);
         dialog = new Dialog(mContext, R.style.AppTheme_FullScreenDialog);
@@ -192,17 +248,16 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
         TextView close = dialog.findViewById(R.id.close_img);
         RecyclerView recyclerView = dialog.findViewById(R.id.recview_comments);
 
-            db.collection("Masters").document(personList.get(position).getEmail())
-                    .collection("16_03_2020").get()
+            db.collection("Comments").document(personList.get(position).getEmail())
+                    .collection("Comments").get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
-                                List<BookingInformation> listQ = new ArrayList<>();
+                                List<Comment> listQ = new ArrayList<>();
                                 for (QueryDocumentSnapshot querySnapshot : task.getResult()) {
-                                    BookingInformation bookInfo = querySnapshot.toObject(BookingInformation.class);
-                                    if (!querySnapshot.getId().contains(".") && !bookInfo.getRating().equals("-1"))
-                                        listQ.add(bookInfo);
+                                    Comment comment = querySnapshot.toObject(Comment.class);
+                                    listQ.add(comment);
                                 }
 
                                 initRecViewComment(listQ, recyclerView);
@@ -220,7 +275,7 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
         dialog.show();
     }
 
-    private void initRecViewComment(List<BookingInformation> list, RecyclerView recyclerView) {
+    private void initRecViewComment(List<Comment> list, RecyclerView recyclerView) {
         RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(mContext, list);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager

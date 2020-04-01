@@ -26,6 +26,7 @@ import com.coursework.barbershopapp.model.Master;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -114,7 +115,7 @@ public class HomeAdminFragment extends Fragment {
 
     private void initMasters() {
 
-        db.collection("Masters").orderBy("score").get()
+        db.collection("Masters").orderBy("score", Query.Direction.DESCENDING).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

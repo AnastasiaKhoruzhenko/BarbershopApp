@@ -12,14 +12,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.RegistrationActivity;
 import com.coursework.barbershopapp.model.AboutService;
+import com.coursework.barbershopapp.model.Master;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -41,7 +49,12 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
     List<ConstraintLayout> lays;
     LocalBroadcastManager localBroadcastManager;
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
     String serv;
+
+    ConstraintLayout constraintLayout;
+
+    Dialog dialog;
 
     public RecyclerViewEditServicesAdapter(Context mContext, List<AboutService> listServices, String serv) {
         this.listServices = listServices;
@@ -50,6 +63,7 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
         cardViews = new ArrayList<>();
         lays = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
     }
 
@@ -63,16 +77,16 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //Toast.makeText(mContext, String.valueOf(listPrices.get(position)), Toast.LENGTH_LONG).show();
+        holder.check.setVisibility(View.INVISIBLE);
         holder.s_name.setText(listServices.get(position).getTitle());
-        holder.s_price.setText(listServices.get(position).getPrice());
+        holder.s_price.setText(listServices.get(position).getPrice() + "RUB");
         holder.s_descr.setText(listServices.get(position).getDescr());
         holder.s_time.setText(listServices.get(position).getTime() + " мин");
 
         holder.step2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(listServices.get(position).getId());
+                showEditInfo(v, position);
             }
         });
     }
@@ -104,26 +118,55 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
         }
     }
 
-    private void showDialog(String id) {
+    private void showEditInfo(View view, int position) {
+        View v = LayoutInflater.from(mContext).inflate(R.layout.edit_service_info, null);
+        dialog = new Dialog(mContext, R.style.AppTheme_FullScreenDialog);
+        dialog.setContentView(v);
+        Toolbar toolbar = (Toolbar)dialog.findViewById(R.id.toolbar_edit_close);
 
-        final Dialog dialog = new Dialog(mContext);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setContentView(R.layout.alert_edit_service_info);
-        dialog.setTitle("Настройки аккаунта");
+        EditText eName = dialog.findViewById(R.id.ti_admin_edit_name);
+        EditText ePrice = dialog.findViewById(R.id.ti_admin_edit_price);
+        EditText eTime = dialog.findViewById(R.id.ti_admin_edit_time);
+        EditText eDescr = dialog.findViewById(R.id.ti_admin_edit_descr);
+        TextView close = dialog.findViewById(R.id.close_edit_img);
 
-        TextInputLayout pricel = dialog.findViewById(R.id.til_edit_price);
-        TextInputLayout namel = dialog.findViewById(R.id.til_edit_service_name);
-        TextInputLayout descl = dialog.findViewById(R.id.til_edit_service_desc);
-        TextInputEditText price = dialog.findViewById(R.id.ti_edit_price);
-        TextInputEditText name = dialog.findViewById(R.id.ti_edit_service_name);
-        TextInputEditText desc = dialog.findViewById(R.id.ti_edit_service_desc);
 
-//        save.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
+        db.collection("ServicesMan").document(serv)
+                .collection("Services").document(listServices.get(position).getId())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    AboutService service = task.getResult().toObject(AboutService.class);
+
+                    eName.setText(service.getTitle());
+                    ePrice.setText(service.getPrice());
+                    eTime.setText(service.getTime());
+                    eDescr.setText(service.getDescr());
+
+                    constraintLayout = view.findViewById(R.id.constr_admin_edit_serv);
+                    dialog.show();
+                }
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("price", ePrice.getText().toString());
+                map.put("time", eTime.getText().toString());
+                map.put("title", eName.getText().toString());
+                map.put("descr", eDescr.getText().toString());
+
+                db.collection("ServicesMan").document(serv)
+                        .collection("Services").document(listServices.get(position).getId())
+                        .update(map);
+
+                dialog.dismiss();
+            }
+        });
 
         dialog.show();
     }

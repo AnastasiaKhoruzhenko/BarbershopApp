@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.User.ui.settings.SettingsFragment;
 import com.coursework.barbershopapp.model.BookingInformation;
 import com.coursework.barbershopapp.model.Common;
+import com.coursework.barbershopapp.model.Master;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,8 +34,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -106,6 +110,8 @@ public class BookingStep5Fragment extends Fragment{
                             info.setRating(String.valueOf(-1));
                             info.setCustomerPhone(phone);
                             info.setCustomerSurname(surname);
+                            info.setCustomerEmail(mAuth.getCurrentUser().getEmail());
+                            info.setServiceId(Common.currentService.getName());
                             info.setSlot(Long.valueOf(Common.currentTimeSlot));
                             info.setTime(Common.convertTimeSlotToString(Common.currentTimeSlot));
                             info.setDateId(simpleDateFormat.format(Common.currentDate.getTime()));
@@ -129,7 +135,7 @@ public class BookingStep5Fragment extends Fragment{
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
                                                     // go to some fragment
-                                                    resetStaticData();
+
                                                     //Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
 
                                                 }
@@ -148,7 +154,7 @@ public class BookingStep5Fragment extends Fragment{
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
                                                     // go to some fragment
-                                                    resetStaticData();
+
                                                     //Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
 
                                                 }
@@ -175,7 +181,7 @@ public class BookingStep5Fragment extends Fragment{
                                                 for (QueryDocumentSnapshot d : task.getResult())
                                                     count++;
 
-                                                setUserVisiting(count, info);
+                                                setUserVisiting(count, info, mAuth.getCurrentUser().getEmail());
 
                                             }
                                         }
@@ -203,6 +209,7 @@ public class BookingStep5Fragment extends Fragment{
                     info.setTimeService(Common.currentServiceType.getTime());
                     info.setCustomerEmail(textPhone.getText().toString());
                     info.setCustomerSurname("");
+                    info.setServiceId(Common.currentService.getName());
                     info.setSlot(Long.valueOf(Common.currentTimeSlot));
                     info.setTime(Common.convertTimeSlotToString(Common.currentTimeSlot));
                     info.setDateId(simpleDateFormat.format(Common.currentDate.getTime()));
@@ -224,7 +231,7 @@ public class BookingStep5Fragment extends Fragment{
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             // go to some fragment
-                                            resetStaticData();
+
                                             //Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
 
                                         }
@@ -241,7 +248,7 @@ public class BookingStep5Fragment extends Fragment{
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             // go to some fragment
-                                            resetStaticData();
+
                                             //Toast.makeText(getContext(), "Confirm done", Toast.LENGTH_SHORT).show();
 
                                         }
@@ -269,17 +276,49 @@ public class BookingStep5Fragment extends Fragment{
                                         for (QueryDocumentSnapshot d : task.getResult())
                                             count++;
 
-                                        setUserVisiting(count, info);
+                                        setUserVisiting(count, info, textPhone.getText().toString());
 
                                     }
                                 }
                             });
             }
         }
+
+        db.collection("Masters").document(Common.currentBarber.getEmail())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    Master master = task.getResult().toObject(Master.class);
+                    if(master.getDates() == null) {
+                        Map<String, Object> map = new HashMap<>();
+                        List<String> datesList = new ArrayList<>();
+                        datesList.add(simpleDateFormat.format(Common.currentDate.getTime()));
+                        //master.getDates().add(simpleDateFormat.format(Common.currentDate.getTime()));
+                        map.put("dates", datesList);
+                        Toast.makeText(getActivity(), Common.currentBarber.getEmail(), Toast.LENGTH_LONG).show();
+                        db.collection("Masters").document(Common.currentBarber.getEmail())
+                                .update(map);
+                    }
+                    else if(!master.getDates().contains(simpleDateFormat.format(Common.currentDate.getTime())))
+                    {
+                        Map<String, Object> map = new HashMap<>();
+                        master.getDates().add(simpleDateFormat.format(Common.currentDate.getTime()));
+                        map.put("dates", master.getDates());
+                        Toast.makeText(getActivity(), Common.currentBarber.getEmail(), Toast.LENGTH_LONG).show();
+                        db.collection("Masters").document(Common.currentBarber.getEmail())
+                                .update(map);
+                    }
+                }
+            }
+        });
+
+        //resetStaticData();
     }
 
-    private void setUserVisiting(int count, BookingInformation info) {
-        FirebaseFirestore.getInstance().collection("Users").document(textPhone.getText().toString())
+    private void setUserVisiting(int count, BookingInformation info, String email) {
+        FirebaseFirestore.getInstance().collection("Users").document(email)
                 .collection("Visitings").document(String.valueOf(count)).set(info);
 
         saveText();

@@ -12,7 +12,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circleImageViewMaster"
         android:layout_width="100dp"
-        android:src="@drawable/common_google_signin_btn_icon_light"
+        android:src="@drawable/barber"
         android:layout_height="100dp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"

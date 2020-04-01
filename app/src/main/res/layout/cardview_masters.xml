@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardview_master_foruser"
@@ -9,17 +8,16 @@
     android:layout_margin="5dp"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
-    android:orientation="vertical"
-    android:padding="5dp"
     android:background="@color/colorWhite"
+    android:orientation="vertical"
     app:cardCornerRadius="10dp"
     app:cardElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rel"
-        android:background="@color/colorWhite"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_photo"
@@ -27,21 +25,22 @@
             android:layout_height="70dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/barber"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/barber" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textV_name_sur"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="32dp"
             android:text="Name Surname"
             android:textColor="@color/darkGrey"
+            android:textSize="16dp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_photo"
             app:layout_constraintTop_toTopOf="@+id/image_photo" />
 
@@ -49,6 +48,7 @@
             android:id="@+id/image_star"
             android:layout_width="15dp"
             android:layout_height="15dp"
+            android:layout_marginEnd="2dp"
             android:src="@drawable/star"
             app:layout_constraintBottom_toBottomOf="@+id/text_score"
             app:layout_constraintEnd_toStartOf="@+id/text_score"
@@ -60,8 +60,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:textAlignment="center"
+            android:gravity="center"
             android:text="4.6"
+            android:textAlignment="center"
             android:textColor="@color/normGrey"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -74,27 +75,26 @@
             android:layout_below="@id/textV_name_sur"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_toEndOf="@id/image_photo"
             android:layout_toRightOf="@id/image_photo"
-            android:padding="5dp"
+            android:autoSizeTextType="uniform"
             android:text="Стрижка, покраска"
             android:textColor="@color/normGrey"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/image_choose"
+            android:padding="3dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_photo"
             app:layout_constraintTop_toBottomOf="@+id/textV_name_sur" />
 
-        <ImageView
+        <TextView
             android:id="@+id/image_choose"
-            android:layout_width="20dp"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_alignBottom="@id/image_photo"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:src="@drawable/comment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_offers" />

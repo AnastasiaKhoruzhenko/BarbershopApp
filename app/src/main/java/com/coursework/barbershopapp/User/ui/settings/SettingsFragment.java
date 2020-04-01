@@ -8,23 +8,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.bumptech.glide.Glide;
 import com.coursework.barbershopapp.R;
-import com.coursework.barbershopapp.User.ui.signup.BookingStep5Fragment;
 import com.coursework.barbershopapp.model.Common;
+import com.coursework.barbershopapp.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -38,9 +40,9 @@ import static android.app.Activity.RESULT_OK;
 
 public class SettingsFragment extends Fragment {
 
-    private SettingsViewModel settingsViewModel;
     private RecyclerView recyclerView;
     CircleImageView img;
+    TextView nameSurname;
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -52,48 +54,55 @@ public class SettingsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        settingsViewModel =
-                ViewModelProviders.of(this).get(SettingsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        nameSurname = view.findViewById(R.id.tv_namesurname_insettings);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("personal_photos");
 
-        Toast.makeText(getContext(), getEmailPref(), Toast.LENGTH_LONG).show();
-
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
         recyclerView = view.findViewById(R.id.recview_sett_profile);
         img = view.findViewById(R.id.circleImageView);
         img.setClickable(true);
 
         if(mAuth.getCurrentUser() != null || checkPref())
         {
+            String email = "";
+            if(mAuth.getCurrentUser() != null)
+                email = mAuth.getCurrentUser().getEmail();
+            else if(checkPref())
+                email = getEmailPref();
 
-//            StorageReference riversRef = FirebaseStorage.getInstance().getReference()
-//                    .child("personal_photos/"+getEmailPref());
-//            riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                @Override
-//                public void onSuccess(Uri uri) {
-//                    img.setImageURI(uri);
-//                }
-//            })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
-//                        }
-//                    });
+            setNameAndSurname(email);
 
-            Glide.with(getContext())
-                    .load(FirebaseStorage.getInstance().getReference("personal_photos/"+getEmailPref()))
-                    .into(img);
+            Toast.makeText(getContext(), email, Toast.LENGTH_LONG).show();
 
-            img.setOnClickListener(new View.OnClickListener() {
+            StorageReference phRef = FirebaseStorage.getInstance().getReference()
+                    .child("personal_photos/"+email);
+            phRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
-                public void onClick(View v) {
-                    choosePhoto();
+                public void onSuccess(Uri uri) {
+                    //img.setImageURI(uri);
+
+                    Glide.with(getContext())
+                            .load(uri)
+                            .into(img);
                 }
-            });
+            })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
         }
+
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                choosePhoto();
+            }
+        });
 
 
         RecyclerViewSettingsAdapter adapter = new RecyclerViewSettingsAdapter(getContext(), Common.list_settings, Common.list_settings_descr);
@@ -184,5 +193,19 @@ public class SettingsFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("myData", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "def");
         return email;
+    }
+
+    public void setNameAndSurname(String email){
+        db.collection("Users").document(email)
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    User user = task.getResult().toObject(User.class);
+                    nameSurname.setText(user.getName() + " " + user.getSurname());
+                }
+            }
+        });
     }
 }

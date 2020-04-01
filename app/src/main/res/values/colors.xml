@@ -14,5 +14,7 @@
     <color name="darkGrey">#2c2e3d</color>
     <color name="partWhite">#e6e6e8</color>
 
+    <color name="greyBarber">#4D4C4B</color>
+
     <!--    <color name="colorBrown">#B59B7C</color>-->
 </resources>

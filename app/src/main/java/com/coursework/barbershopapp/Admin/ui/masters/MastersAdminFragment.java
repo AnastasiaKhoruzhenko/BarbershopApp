@@ -213,7 +213,13 @@ public class MastersAdminFragment extends Fragment {
         master.put("defaultPass", true);
         master.put("score", String.valueOf(0.0));
         master.put("services", null);
+        master.put("dates", null);
         db.collection("Masters").document(email).set(master);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("count", String.valueOf(0));
+        map.put("rating", String.valueOf(0));
+        db.collection("Comments").document(email).set(map);
 
         // clear input text after creation
         tit_name.getText().clear();
@@ -256,7 +262,7 @@ public class MastersAdminFragment extends Fragment {
     private void initImageBitmaps(List<Master> personList){
 
         for(Master person:personList){
-            mImageUrls.add("https://20.cspnz.ru/images/boy.jpg");
+            //mImageUrls.add("https://20.cspnz.ru/images/boy.jpg");
             mNames.add(person.getName());
             mScore.add(person.getScore());
         }

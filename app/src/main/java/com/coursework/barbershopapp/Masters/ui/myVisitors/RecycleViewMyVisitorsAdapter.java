@@ -2,6 +2,7 @@ package com.coursework.barbershopapp.Masters.ui.myVisitors;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.BookingInformation;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,8 +58,27 @@ public class RecycleViewMyVisitorsAdapter extends RecyclerView.Adapter<RecycleVi
 
         if(getItemCount() != 0)
         {
-            holder.name.setText(bookList.get(position).getCustomerName());
+            holder.name.setText(bookList.get(position).getCustomerName() + " " + bookList.get(position).getCustomerSurname());
             holder.time.setText(bookList.get(position).getTime());
+
+            StorageReference phRef = FirebaseStorage.getInstance().getReference()
+                    .child("personal_photos/"+bookList.get(position).getCustomerEmail());
+            phRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    //img.setImageURI(uri);
+
+                    Glide.with(mContext)
+                            .load(uri)
+                            .into(holder.img);
+                }
+            })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(mContext, "Error", Toast.LENGTH_LONG).show();
+                        }
+                    });
 
             holder.card.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -99,25 +124,61 @@ public class RecycleViewMyVisitorsAdapter extends RecyclerView.Adapter<RecycleVi
         TextView service = dialogView.findViewById(R.id.tv_dialog_service);
         TextView inDays = dialogView.findViewById(R.id.tv_dialog_days);
         ImageView img = dialogView.findViewById(R.id.btn_dialog_close);
+        CircleImageView photo = dialogView.findViewById(R.id.img_dialog_photo);
+        CircleImageView img_serv = dialogView.findViewById(R.id.img_service_);
+
+        StorageReference phRef = FirebaseStorage.getInstance().getReference()
+                .child("personal_photos/"+bookList.get(position).getCustomerEmail());
+        phRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                //img.setImageURI(uri);
+
+                Glide.with(mContext)
+                        .load(uri)
+                        .into(photo);
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(mContext, "Error", Toast.LENGTH_LONG).show();
+                    }
+                });
 
         try {
             Date nowDate = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
             Date appointmentDate = simpleDateFormat.parse(bookList.get(position).getDate());
             long count;
             if((count = (appointmentDate.getTime() - nowDate.getTime())/ (24 * 60 * 60 * 1000)) == 1)
-                inDays.setText(count + " Day");
+                inDays.setText(count + " день");
             else
-                inDays.setText(count + "Days");
+                inDays.setText(count + " дней");
         }
         catch (ParseException e)
         {
             e.printStackTrace();
         }
 
-        name.setText(bookList.get(position).getCustomerName());
+        name.setText(bookList.get(position).getCustomerName() + " "+ bookList.get(position).getCustomerSurname());
         time.setText(bookList.get(position).getTime());
         date.setText(bookList.get(position).getDate());
         service.setText(bookList.get(position).getService());
+        switch (bookList.get(position).getServiceId())
+        {
+            case "BarberSPA":
+                img_serv.setImageDrawable(mContext.getDrawable(R.drawable.barberspa)); break;
+            case "BeardAndMustacheCut":
+                img_serv.setImageDrawable(mContext.getDrawable(R.drawable.beardandmustache)); break;
+            case "Coloring":
+                img_serv.setImageDrawable(mContext.getDrawable(R.drawable.coloring)); break;
+            case "HairCut":
+                img_serv.setImageDrawable(mContext.getDrawable(R.drawable.scissor_haircut)); break;
+            case "CombineService":
+                img_serv.setImageDrawable(mContext.getDrawable(R.drawable.combine)); break;
+            case "Tatoo":
+                img_serv.setImageDrawable(mContext.getDrawable(R.drawable.tattoo)); break;
+        }
 
         builder.setView(dialogView);
         AlertDialog alertDialog = builder.create();

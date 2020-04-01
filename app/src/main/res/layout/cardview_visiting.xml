@@ -10,31 +10,29 @@
     android:padding="5dp"
     android:layout_margin="5dp"
     android:background="@color/colorWhite"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="10dp">
+    app:cardCornerRadius="7dp"
+    app:cardElevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:background="@color/colorWhite"
         android:layout_height="match_parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_service"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:src="@drawable/common_google_signin_btn_icon_light"
-            app:layout_constraintBottom_toTopOf="@+id/divider3"
+            android:src="@drawable/barber"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_barber_vis"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/tv_service_name_vis" />
 
         <TextView
             android:id="@+id/tv_price_visiting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:text="RUB 1200"
             android:textColor="@color/colorPrimary"
@@ -44,23 +42,25 @@
 
         <TextView
             android:id="@+id/tv_service_name_vis"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:autoSizeTextType="uniform"
             android:text="Service name"
             android:textColor="@color/darkGrey"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img_service"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_price_visiting" />
 
         <TextView
             android:id="@+id/tv_date_vis"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:text="Дата:"
             android:textColor="@color/normGrey"
             app:layout_constraintStart_toEndOf="@+id/img_service"
@@ -71,9 +71,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:textColor="@color/darkGrey"
+            android:layout_marginTop="8dp"
             android:text=" 19:00 23/02/2020"
+            android:textColor="@color/darkGrey"
             app:layout_constraintStart_toEndOf="@+id/tv_date_vis"
             app:layout_constraintTop_toBottomOf="@+id/tv_service_name_vis" />
 
@@ -104,7 +104,7 @@
             android:layout_width="409dp"
             android:layout_height="1dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"

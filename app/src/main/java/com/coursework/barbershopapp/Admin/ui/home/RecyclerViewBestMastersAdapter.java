@@ -2,20 +2,30 @@ package com.coursework.barbershopapp.Admin.ui.home;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.BookingInformation;
+import com.coursework.barbershopapp.model.Comment;
+import com.coursework.barbershopapp.model.Common;
 import com.coursework.barbershopapp.model.Master;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +69,37 @@ public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<Recycle
         holder.score.setText(list.get(position).getScore());
         holder.name_surname.setText(list.get(position).getName()+" "+list.get(position).getSurname());
 
+        StorageReference phRef = FirebaseStorage.getInstance().getReference()
+                .child("personal_photos/"+list.get(position).getEmail());
+        phRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                //img.setImageURI(uri);
+
+                Glide.with(mContext)
+                        .load(uri)
+                        .into(holder.photo);
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFullDialog(v, position);
+
+                if(!list.get(position).getScore().equals(String.valueOf(0.0)))
+                    showFullDialog(v, position);
+                else
+                    Toast.makeText(mContext, "На этого мастера еще не оставили ни одного комментария", Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 
     @Override
@@ -96,23 +131,24 @@ public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<Recycle
         TextView close = dialog.findViewById(R.id.close_img);
         RecyclerView recyclerView = dialog.findViewById(R.id.recview_comments);
 
-        db.collection("Masters").document(list.get(position).getEmail())
-                .collection("16_03_2020").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<BookingInformation> listQ = new ArrayList<>();
-                            for (QueryDocumentSnapshot querySnapshot : task.getResult()) {
-                                BookingInformation bookInfo = querySnapshot.toObject(BookingInformation.class);
-                                if (!querySnapshot.getId().contains(".") && !bookInfo.getRating().equals("-1"))
-                                    listQ.add(bookInfo);
-                            }
+        // add
 
-                            initRecViewComment(listQ, recyclerView);
-                        }
-                    }
-                });
+        db.collection("Comments")
+                .document(list.get(position).getEmail())
+                .collection("Comments")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    List<Comment> commentList = new ArrayList<>();
+                    for(DocumentSnapshot comment : task.getResult())
+                        commentList.add(comment.toObject(Comment.class));
+
+                    initRecViewComment(commentList, recyclerView);
+                }
+            }
+        });
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,7 +160,7 @@ public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<Recycle
         dialog.show();
     }
 
-    private void initRecViewComment(List<BookingInformation> list, RecyclerView recyclerView) {
+    private void initRecViewComment(List<Comment> list, RecyclerView recyclerView) {
         RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(mContext, list);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager

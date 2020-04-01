@@ -10,12 +10,17 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.RegistrationActivity;
 import com.coursework.barbershopapp.model.BookingInformation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +29,7 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<RecyclerViewMyVisitingAdapter.ViewHolder> {
 
@@ -109,7 +115,7 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                         public void onClick(View v) {
                             if(user.getCurrentUser() == null)
                                 showDialogRegister();
-                            else
+                            else if(!holder.rate_me.getText().equals("Оценено"))
                                 showDialogForGetStars(holder, position);
                         }
                     });
@@ -128,6 +134,7 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
         CardView card;
         TextView barber_name, time, price, service_name, rate_me;
         RatingBar rating;
+        CircleImageView img;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -139,6 +146,7 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
             service_name = itemView.findViewById(R.id.tv_service_name_vis);
             rate_me = itemView.findViewById(R.id.tv_rate_me);
             rating = itemView.findViewById(R.id.ratingBar);
+            img = itemView.findViewById(R.id.img_service);
         }
     }
 
@@ -152,11 +160,14 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
         RatingBar ratingBar = dialogView.findViewById(R.id.ratingBar_master);
 
         builder.setView(dialogView);
+
+        Toast.makeText(mContext, bookingList.get(position).getBarberEmail(), Toast.LENGTH_LONG).show();
+
         builder.setPositiveButton("ОК", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String com = comment.getText().toString();
-                Float rat = ratingBar.getRating();
+                float rat = ratingBar.getRating();
 
                 Map<String, Object> map = new HashMap<>();
                 map.put("rating", String.valueOf(Math.round(rat)));
@@ -167,8 +178,45 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                         .document(String.valueOf(bookingList.get(position).getSlot()))
                         .update(map);
 
+                db.collection("Comments").document(bookingList.get(position).getBarberEmail())
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        int count = Integer.valueOf(task.getResult().getString("count"));
+                        Float ratingMaster = Float.valueOf(task.getResult().getString("rating"));
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("comment", com);
+                        map.put("rating", String.valueOf(Math.round(rat)));
+                        map.put("customerEmail", bookingList.get(position).getCustomerEmail());
+                        map.put("name", bookingList.get(position).getCustomerName());
+                        map.put("surname", bookingList.get(position).getCustomerSurname());
+                        db.collection("Comments").document(bookingList.get(position).getBarberEmail())
+                                .collection("Comments").document(String.valueOf(count)).set(map);
+
+                        db.collection("Comments").document(bookingList.get(position).getBarberEmail())
+                                .update("count", String.valueOf(count+1));
+
+                        if(count>0)
+                        {
+                            float rating = ((ratingMaster * (count-1)) + rat)/count;
+
+                            db.collection("Comments").document(bookingList.get(position).getBarberEmail())
+                                    .update("rating", String.valueOf(rating/count));
+                            db.collection("Masters").document(bookingList.get(position).getBarberEmail())
+                                    .update("score", String.valueOf(rating/count));
+                        }
+                        else
+                        {
+                            db.collection("Comments").document(bookingList.get(position).getBarberEmail())
+                                    .update("rating", String.valueOf(rat));
+                            db.collection("Masters").document(bookingList.get(position).getBarberEmail())
+                                    .update("score", String.valueOf(rat));
+                        }
+                    }
+                });
+
                 //   /Users/rfff@mail.ru/Visitings/1
-                db.collection("Users").document("rfff@mail.ru")
+                db.collection("Users").document(user.getCurrentUser().getEmail())
                         .collection("Visitings")
                         .document(String.valueOf(position)).update(map);
 

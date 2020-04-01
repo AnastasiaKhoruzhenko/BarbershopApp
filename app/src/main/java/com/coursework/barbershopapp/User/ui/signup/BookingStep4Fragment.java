@@ -91,7 +91,6 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
                                                 QuerySnapshot querySnapshot = task.getResult();
                                                 if(querySnapshot.isEmpty()) {
                                                     iTimeSlotLoadListener.onTimeSlotLoadEmpty();
-                                                    Toast.makeText(getActivity(), "emptyyy", Toast.LENGTH_SHORT).show();
                                                 }
                                                 else
                                                 {

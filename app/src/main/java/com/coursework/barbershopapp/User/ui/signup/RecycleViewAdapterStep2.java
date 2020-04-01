@@ -50,7 +50,7 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.s_name.setText(listServices.get(position).getTitle());
-        holder.s_price.setText(listServices.get(position).getPrice() + " " + "RUB");
+        holder.s_price.setText(listServices.get(position).getPrice() + " " + " RUB");
         holder.s_descr.setText(listServices.get(position).getDescr());
         holder.s_time.setText(listServices.get(position).getTime() + " мин");
 

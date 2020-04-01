@@ -24,8 +24,10 @@ import android.widget.Toast;
 import com.coursework.barbershopapp.Admin.ui.home.RecyclerViewCommentAdapter;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.BookingInformation;
+import com.coursework.barbershopapp.model.Comment;
 import com.coursework.barbershopapp.model.Master;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,7 +65,7 @@ public class HomeMasterFragment extends Fragment {
                 public void run() {
                     checkDefaulPassword(mAuth.getCurrentUser().getEmail());
                 }
-            }, 2000);
+            }, 200);
         }
 
         recComments = view.findViewById(R.id.recview_my_comments);
@@ -76,32 +78,32 @@ public class HomeMasterFragment extends Fragment {
 
         String email = mAuth.getCurrentUser().getEmail();
 
-        db.collection("Masters").document(mAuth.getCurrentUser().getEmail())
-                .collection("16_03_2020").get()
+        db.collection("Comments").document(email)
+                .collection("Comments").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful())
-                        {
-                            List<BookingInformation> list = new ArrayList<>();
-                            for (QueryDocumentSnapshot querySnapshot : task.getResult())
-                            {
-                                BookingInformation bookInfo = querySnapshot.toObject(BookingInformation.class);
-                                if(!bookInfo.getRating().equals("-1") && !querySnapshot.getId().contains("\\."))
-                                    list.add(bookInfo);
+                        if (task.isSuccessful()) {
+                            List<Comment> listQ = new ArrayList<>();
+                            for (QueryDocumentSnapshot querySnapshot : task.getResult()) {
+                                Comment comment = querySnapshot.toObject(Comment.class);
+                                listQ.add(comment);
                             }
-                            initRecViewComment(list);
+
+                            RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(getContext(), listQ);
+                            recComments.setAdapter(adapter);
+                            LinearLayoutManager layoutManager
+                                    = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                            recComments.setLayoutManager(layoutManager);
                         }
                     }
-                });
-    }
-
-    private void initRecViewComment(List<BookingInformation> list) {
-        RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(getContext(), list);
-        recComments.setAdapter(adapter);
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recComments.setLayoutManager(layoutManager);
+                })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(), "На вас еще не оставили ни одного комментария", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void checkDefaulPassword(String email) {
