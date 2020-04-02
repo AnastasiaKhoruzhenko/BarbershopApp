@@ -75,18 +75,6 @@ public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAda
                 localBroadcastManager.sendBroadcast(intent);
             }
         });
-
-//        holder.step1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Common.SERVICE_KEY = listService.get(position).getName();
-//                Intent intent = new Intent(Common.KEY_NEXT_BTN);
-//                intent.putExtra(Common.SERVICE_KEY, listService.get(position).getName());
-//                localBroadcastManager.sendBroadcast(intent);
-//                //Common.STEP = 1;
-//                Toast.makeText(mContext, "In rec view holder", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     @Override
@@ -115,13 +103,6 @@ public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAda
             lay = itemView.findViewById(R.id.const_lay_step1);
 
             itemView.setOnClickListener(this);
-
-//            step1.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    OnCardViewClicked();
-//                }
-//            });
         }
 
         @Override

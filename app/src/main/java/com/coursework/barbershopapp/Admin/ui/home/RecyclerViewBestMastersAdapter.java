@@ -39,11 +39,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<RecyclerViewBestMastersAdapter.ViewHolder>{
 
-    List<Master> list;
-    Context mContext;
-    Dialog dialog;
-    FirebaseFirestore db;
-    ConstraintLayout constraintLayout;
+    private List<Master> list;
+    private Context mContext;
+    private Dialog dialog;
+    private FirebaseFirestore db;
+    private ConstraintLayout constraintLayout;
 
     public RecyclerViewBestMastersAdapter(List<Master> list, Context mContext) {
         this.list = list;
@@ -95,7 +95,7 @@ public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<Recycle
                 if(!list.get(position).getScore().equals(String.valueOf(0.0)))
                     showFullDialog(v, position);
                 else
-                    Toast.makeText(mContext, "На этого мастера еще не оставили ни одного комментария", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.no_comments_master), Toast.LENGTH_SHORT).show();
             }
         });
 

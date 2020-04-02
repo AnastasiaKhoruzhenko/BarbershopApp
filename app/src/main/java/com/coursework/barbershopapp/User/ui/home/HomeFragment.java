@@ -176,14 +176,14 @@ public class HomeFragment extends Fragment implements IBannerLoadListener {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         //alertDialog.setTitle("Вы не авторизованы");
         alertDialog.setCanceledOnTouchOutside(true);
-        alertDialog.setMessage("Этот раздел доступен только авторизированным пользователям");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Не сейчас",
+        alertDialog.setMessage(getResources().getString(R.string.this_can_do_only_registered));
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getResources().getString(R.string.not_now),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 });
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Регистрация",
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.register),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -191,7 +191,7 @@ public class HomeFragment extends Fragment implements IBannerLoadListener {
                         startActivity(intent);
                     }
                 });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Вход",
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.sign_in),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

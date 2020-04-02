@@ -10,7 +10,7 @@
     <item
         android:id="@+id/navigation_mynearestvisitors_master"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="Ближайшие"/>
+        android:title="@string/nearest"/>
 
     <item
         android:id="@+id/navigation_settings_master"

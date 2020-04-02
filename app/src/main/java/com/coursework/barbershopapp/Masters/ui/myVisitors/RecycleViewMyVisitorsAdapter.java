@@ -32,8 +32,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecycleViewMyVisitorsAdapter extends RecyclerView.Adapter<RecycleViewMyVisitorsAdapter.MyViewHolder>{
 
-    List<BookingInformation> bookList;
-    Context mContext;
+    private List<BookingInformation> bookList;
+    private Context mContext;
 
     public RecycleViewMyVisitorsAdapter(Context mContext, List<BookingInformation> bookList) {
         this.bookList = bookList;
@@ -149,11 +149,15 @@ public class RecycleViewMyVisitorsAdapter extends RecyclerView.Adapter<RecycleVi
         try {
             Date nowDate = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
             Date appointmentDate = simpleDateFormat.parse(bookList.get(position).getDate());
-            long count;
-            if((count = (appointmentDate.getTime() - nowDate.getTime())/ (24 * 60 * 60 * 1000)) == 1)
-                inDays.setText(count + " день");
-            else
-                inDays.setText(count + " дней");
+            long count = (appointmentDate.getTime() - nowDate.getTime())/ (24 * 60 * 60 * 1000);
+            switch ((int) (count%10))
+            {
+                case 1: inDays.setText(count + mContext.getResources().getString(R.string.day1)); break;
+                case 2:
+                case 3:
+                case 4: inDays.setText(count + mContext.getResources().getString(R.string.day234)); break;
+                default: inDays.setText(count + mContext.getResources().getString(R.string.dayDef)); break;
+            }
         }
         catch (ParseException e)
         {

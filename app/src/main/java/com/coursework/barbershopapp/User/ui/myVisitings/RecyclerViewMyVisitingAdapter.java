@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +64,7 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
             holder.rating.setVisibility(View.INVISIBLE);
             holder.price.setText("RUB " + bookingList.get(position).getPrice().toString());
 
-            holder.rate_me.setText("Оценивание доступно после посещения салона");
+            holder.rate_me.setText(R.string.rate_is_avail_after_visiting);
 
         }
         else if (title == 2){
@@ -79,43 +78,43 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
             {
                 case 0:
                     holder.rating.setRating(0);
-                    holder.rate_me.setText("Оценено");
+                    holder.rate_me.setText(R.string.already_rated);
                     holder.rating.setIsIndicator(true);
                     break;
                 case 1:
                     holder.rating.setRating(1);
-                    holder.rate_me.setText("Оценено");
+                    holder.rate_me.setText(R.string.already_rated);
                     holder.rating.setIsIndicator(true);
                     break;
                 case 2:
                     holder.rating.setRating(2);
-                    holder.rate_me.setText("Оценено");
+                    holder.rate_me.setText(R.string.already_rated);
                     holder.rating.setIsIndicator(true);
                     break;
                 case 3:
                     holder.rating.setRating(3);
-                    holder.rate_me.setText("Оценено");
+                    holder.rate_me.setText(R.string.already_rated);
                     holder.rating.setIsIndicator(true);
                     break;
                 case 4:
                     holder.rating.setRating(4);
-                    holder.rate_me.setText("Оценено");
+                    holder.rate_me.setText(R.string.already_rated);
                     holder.rating.setIsIndicator(true);
                     break;
                 case 5:
                     holder.rating.setRating(5);
-                    holder.rate_me.setText("Оценено");
+                    holder.rate_me.setText(R.string.already_rated);
                     holder.rating.setIsIndicator(true);
                     break;
                 default:
                     holder.rating.setVisibility(View.INVISIBLE);
-                    holder.rate_me.setText("Доступно для оценивания");
+                    holder.rate_me.setText(R.string.avail_for_raiting);
                     holder.rate_me.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if(user.getCurrentUser() == null)
                                 showDialogRegister();
-                            else if(!holder.rate_me.getText().equals("Оценено"))
+                            else if(!holder.rate_me.getText().equals(R.string.already_rated))
                                 showDialogForGetStars(holder, position);
                         }
                     });
@@ -163,7 +162,7 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
 
         Toast.makeText(mContext, bookingList.get(position).getBarberEmail(), Toast.LENGTH_LONG).show();
 
-        builder.setPositiveButton("ОК", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String com = comment.getText().toString();
@@ -221,12 +220,12 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                         .document(String.valueOf(position)).update(map);
 
                 holder.rating.setVisibility(View.VISIBLE);
-                holder.rate_me.setText("Оценено");
+                holder.rate_me.setText(R.string.already_rated);
                 holder.rating.setRating(Math.round(rat));
                 holder.rating.setIsIndicator(true);
             }
         });
-        builder.setNegativeButton("ЗАКРЫТЬ", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -242,14 +241,14 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
 
         AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
         //alertDialog.setTitle("Alert");
-        alertDialog.setMessage("Чтобы оставлять комментарии, вам необходимо зарегистрироваться");
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Не сейчас",
+        alertDialog.setMessage(mContext.getResources().getString(R.string.to_comment_should_register));
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getResources().getString(R.string.not_now),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 });
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Зарегистрироваться",
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getResources().getString(R.string.registration),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Время:"
+                android:text="@string/time_with_points"
                 android:textColor="@color/normGrey"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Услуга:"
+                android:text="@string/service_with_points"
                 android:textColor="@color/normGrey"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Барбер:"
+                android:text="@string/barber_with_points"
                 android:textColor="@color/normGrey"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                android:text="10^20"
                 android:textColor="@color/darkGrey"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/tv_chosen_time"
@@ -79,7 +78,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                android:text="my service"
                 android:textColor="@color/darkGrey"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/tv_chosen_service"
@@ -92,7 +90,6 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="Name Surname"
                 android:textColor="@color/darkGrey"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -140,12 +137,12 @@
                     android:id="@+id/ti_name_vis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Имя"
+                    android:hint="@string/name"
                     android:textColor="@color/colorDone"
                     android:textColorHint="@color/normGrey"
                     android:textColorHighlight="@color/partWhite"
                     android:textColorLink="@color/normGrey"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -167,12 +164,12 @@
                     android:id="@+id/ti_phone_vis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     android:textColor="@color/colorDone"
                     android:textColorHighlight="@color/partWhite"
                     android:textColorHint="@color/normGrey"
                     android:textColorLink="@color/normGrey"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -180,7 +177,7 @@
 
     <View
         android:id="@+id/divider"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="32dp"
         android:background="?android:attr/listDivider"
@@ -195,9 +192,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="24dp"
         android:textColor="@color/darkGrey"
-        android:text="Детали посещения"
+        android:text="@string/booking_details"
         android:textStyle="bold"
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/cardview_confirmation"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -219,7 +216,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:background="@color/colorPrimary"
-        android:text="Подтвердить"
+        android:text="@string/confirm"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/normGrey"
         app:layout_constraintEnd_toEndOf="parent"

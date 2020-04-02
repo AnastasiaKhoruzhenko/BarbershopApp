@@ -59,10 +59,9 @@ public class HomeAdminFragment extends Fragment {
 //        startActivity(intent);
     }
 
-    private HomeAdminViewModel mViewModel;
-    RecyclerView recyclerView, recyclerViewServices;
-    FirebaseFirestore db;
-    Unbinder unbinder;
+    private RecyclerView recyclerView, recyclerViewServices;
+    private FirebaseFirestore db;
+    private Unbinder unbinder;
 
     public static HomeAdminFragment newInstance() {
         return new HomeAdminFragment();
@@ -140,13 +139,6 @@ public class HomeAdminFragment extends Fragment {
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(HomeAdminViewModel.class);
-        // TODO: Use the ViewModel
     }
 
 }

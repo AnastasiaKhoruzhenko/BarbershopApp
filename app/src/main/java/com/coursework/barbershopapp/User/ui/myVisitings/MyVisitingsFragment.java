@@ -48,7 +48,7 @@ public class MyVisitingsFragment extends Fragment{
         tabLayout = root.findViewById(R.id.tabs);
 
         if(!checkPref() && mAuth.getCurrentUser() == null)
-            text.setText("Вы еще не записались ни на одну услугу");
+            text.setText(getResources().getString(R.string.you_have_no_bookings));
         else if (mAuth.getCurrentUser() != null)
             setupViewPager(viewPager, mAuth.getCurrentUser().getEmail());
         else if(checkPref())
@@ -63,8 +63,8 @@ public class MyVisitingsFragment extends Fragment{
 
         int a=1, b=2;
         ViewPagerFragmentAdapter adapter = new ViewPagerFragmentAdapter(getChildFragmentManager());
-        adapter.addFragment(new TabVisitingFragment(a, email), "Nearest");
-        adapter.addFragment(new TabVisitingFragment(b, email), "Past");
+        adapter.addFragment(new TabVisitingFragment(a, email), getResources().getString(R.string.nearest));
+        adapter.addFragment(new TabVisitingFragment(b, email), getResources().getString(R.string.past));
         viewPager.setAdapter(adapter);
     }
 

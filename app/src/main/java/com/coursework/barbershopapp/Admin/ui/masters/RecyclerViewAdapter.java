@@ -41,15 +41,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_masters_admin, parent, false);
-        ViewHolder holder = new ViewHolder(view);
 
-        return holder;
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        Log.d(TAG, "onBindViewHolder: called");
-
 //        Glide.with(mContext)
 //                .asBitmap()
 //                .load(mImages.get(position))
@@ -75,17 +72,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         CircleImageView photo;
         TextView nameSurname, score;
-        ConstraintLayout relativeLayout;
         ImageView starImg;
         CardView cardView;
-        LinearLayout lin;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            //lin = itemView.findViewById(R.id.lay_master_admin_card);
             photo = itemView.findViewById(R.id.masterPhoto);
             nameSurname = itemView.findViewById(R.id.masterNameSurname);
-            //relativeLayout = itemView.findViewById(R.id.rellay_masters_admin);
             score = itemView.findViewById(R.id.tv_score_master_admin);
             starImg = itemView.findViewById(R.id.iv_star_admin);
             cardView = itemView.findViewById(R.id.cardview_master_admin_for_list);

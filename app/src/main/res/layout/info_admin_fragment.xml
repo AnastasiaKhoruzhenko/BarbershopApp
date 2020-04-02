@@ -8,6 +8,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="info" />
+        android:text="@string/title_info_admin"/>
 
 </FrameLayout>

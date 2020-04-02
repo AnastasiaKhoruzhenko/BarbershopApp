@@ -1,25 +1,32 @@
 package com.coursework.barbershopapp.User.ui.settings;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.RegistrationActivity;
 import com.coursework.barbershopapp.model.MaskWatcherBirthDate;
 import com.coursework.barbershopapp.model.MaskWatcherPhone;
+import com.coursework.barbershopapp.model.Master;
 import com.coursework.barbershopapp.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,8 +36,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -40,18 +49,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerViewSettingsAdapter.ViewHolder>{
 
-    List<String> listName, listDescr;
-    Context mContext;
-    private LocalBroadcastManager localBroadcastManager;
-    FirebaseFirestore db;
-    FirebaseAuth mAuth;
-    FirebaseUser user;
+    private List<String> listName, listDescr;
+    private Context mContext;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    Dialog dialog;
 
     public RecyclerViewSettingsAdapter(Context mContext, List<String> listName, List<String> listDescr) {
         this.listName = listName;
         this.listDescr = listDescr;
         this.mContext = mContext;
-        localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
     }
 
     @NonNull
@@ -123,7 +131,7 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
         final Dialog dialog = new Dialog(mContext);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.alert_settings_account);
-        dialog.setTitle("Настройки аккаунта");
+        dialog.setTitle(mContext.getResources().getString(R.string.account_settings));
         TextInputLayout surname1 = dialog.findViewById(R.id.til_surname_sett);
         TextInputLayout name1 = dialog.findViewById(R.id.til_name_sett);
         TextInputLayout email1 = dialog.findViewById(R.id.til_email_sett);
@@ -162,7 +170,7 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
             public void onClick(View v) {
 
                 if(surname.getText().equals("") || name.getText().equals("") || phone.getText().equals("")){
-                    Toast.makeText(mContext, "Заполните все поля", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.set_all_fields), Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Map<String, Object> data = new HashMap<>();
@@ -179,24 +187,36 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     private void showAppDialog() {
-        final Dialog dialog = new Dialog(mContext);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setContentView(R.layout.alert_settings_app);
-        dialog.setTitle("Настройки аккаунта");
 
-        Switch push = dialog.findViewById(R.id.switch_push);
-        Switch theme = dialog.findViewById(R.id.switch_theme);
-        Switch lan = dialog.findViewById(R.id.switch_language);
-        Button save = dialog.findViewById(R.id.btn_save_settapp);
+        Intent intent = new Intent(mContext, SettingsSelectActivity.class);
+        mContext.startActivity(intent);
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
+//        final Dialog dialog = new Dialog(mContext);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialog.setContentView(R.layout.alert_settings_app);
+//        dialog.setTitle("Настройки аккаунта");
+//
+//        Switch push = dialog.findViewById(R.id.switch_push);
+//        Switch theme = dialog.findViewById(R.id.switch_theme);
+//        Switch lan = dialog.findViewById(R.id.switch_language);
+//        Button save = dialog.findViewById(R.id.btn_save_settapp);
+//
+//        save.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(lan.isChecked()) {
+//                    setLocale("en");
+//
+//                }
+//                else {
+//                    setLocale("ru");
+//                    recreate();
+//                }
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        dialog.show();
     }
 
     private void showInviteDialog() {
@@ -209,14 +229,14 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
 
         AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
         //alertDialog.setTitle("Alert");
-        alertDialog.setMessage("Редактирование доступно только после регитсрации");
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Не сейчас",
+        alertDialog.setMessage(mContext.getResources().getString(R.string.can_edit_after_register));
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getResources().getString(R.string.not_now),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 });
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Зарегистрироваться",
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getResources().getString(R.string.registration),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

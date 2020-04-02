@@ -33,8 +33,6 @@ public class MyViewPagerAdapterSignUp extends FragmentPagerAdapter {
         return null;
     }
 
-
-    // add thisss------------------------
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         if (position >= getCount()) {

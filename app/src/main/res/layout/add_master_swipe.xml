@@ -17,7 +17,7 @@
         android:gravity="center"
         android:textStyle="bold"
         android:textColor="@color/colorPrimary"
-        android:text="Добавить мастера"/>
+        android:text="@string/add_master"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorDone"
                 android:textColorHint="@color/normGrey"
-                android:hint="Фамилия" />
+                android:hint="@string/surname"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorDone"
                 android:textColorHint="@color/normGrey"
-                android:hint="Имя" />
+                android:hint="@string/name" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -89,7 +89,7 @@
                 android:inputType="number|text"
                 android:maxLength="15"
                 android:textColorHint="@color/normGrey"
-                android:hint="Телефон" />
+                android:hint="@string/phone_number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -99,7 +99,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"
             android:background="@color/colorPrimary"
-            android:text="Создать"
+            android:text="@string/add"
             android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorDone"
                 android:textColorHint="@color/normGrey"
-                android:hint="Email" />
+                android:hint="@string/email" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

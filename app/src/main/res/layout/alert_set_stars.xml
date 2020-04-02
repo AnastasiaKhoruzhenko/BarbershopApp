@@ -15,7 +15,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:textColor="@color/normGrey"
-        android:text="Please select some starts and give us your feedback"
+        android:text="@string/give_stars_and_feedback"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Оцените работу мастера"
+        android:text="@string/set_master_stars"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/darkGrey"

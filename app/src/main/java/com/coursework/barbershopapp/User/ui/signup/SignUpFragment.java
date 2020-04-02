@@ -68,7 +68,7 @@ public class SignUpFragment extends Fragment{
                 }
                 else
                 {
-                    Toast.makeText(getContext(), "Выберите тип услуги", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.choose_service_type), Toast.LENGTH_SHORT).show();
                 }
             }
             else if(Common.STEP == 3){
@@ -149,7 +149,7 @@ public class SignUpFragment extends Fragment{
         localBroadcastManager.sendBroadcast(intent);
     }
 
-    BroadcastReceiver nextBroadcastReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver nextBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             int step = intent.getIntExtra(Common.KEY_STEP, 0);
@@ -172,7 +172,6 @@ public class SignUpFragment extends Fragment{
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
-    private SignUpViewModel signUpViewModel;
     private TextView serviceName, serviceDescription, servicePrice;
 
     private Unbinder unbinder;
@@ -213,8 +212,6 @@ public class SignUpFragment extends Fragment{
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        signUpViewModel =
-                ViewModelProviders.of(this).get(SignUpViewModel.class);
         View root = inflater.inflate(R.layout.fragment_signup, container, false);
 
         myViewPagerAdapterSignUp = new MyViewPagerAdapterSignUp(getChildFragmentManager());
@@ -298,11 +295,11 @@ public class SignUpFragment extends Fragment{
 
     private void setupStepView() {
         List<String> stepList = new ArrayList<>();
-        stepList.add("Раздел");
-        stepList.add("Услуги");
-        stepList.add("Мастер");
-        stepList.add("Дата и время");
-        stepList.add("Подтверждение");
+        stepList.add(getResources().getString(R.string.part));
+        stepList.add(getResources().getString(R.string.service));
+        stepList.add(getResources().getString(R.string.master));
+        stepList.add(getResources().getString(R.string.date_and_time));
+        stepList.add(getResources().getString(R.string.confirmation));
 
         stepView.setSteps(stepList);
     }

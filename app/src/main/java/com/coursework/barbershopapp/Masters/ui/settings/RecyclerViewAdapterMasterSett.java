@@ -249,7 +249,7 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
         final Dialog dialog = new Dialog(mContext);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.alert_settings_account);
-        dialog.setTitle("Настройки аккаунта");
+        dialog.setTitle(mContext.getResources().getString(R.string.account_settings));
         TextInputLayout surname1 = dialog.findViewById(R.id.til_surname_sett);
         TextInputLayout name1 = dialog.findViewById(R.id.til_name_sett);
         TextInputLayout email1 = dialog.findViewById(R.id.til_email_sett);
@@ -262,7 +262,7 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
         EditText phone = dialog.findViewById(R.id.ti_phone_sett);
         Button ok = dialog.findViewById(R.id.btn_alert_ok);
 
-        birth1.setHelperText("Не рекомендуется изменять дату рождения");
+        birth1.setHelperText(mContext.getResources().getString(R.string.not_change_datebirth));
         phone.addTextChangedListener(new MaskWatcherPhone("#(###)###-##-##"));
         birth.addTextChangedListener(new MaskWatcherBirthDate("##.##.####"));
 
@@ -286,10 +286,10 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
             public void onClick(View v) {
 
                 if(surname.getText().equals("") || name.getText().equals("") || phone.getText().equals("")){
-                    Toast.makeText(mContext, "Заполните все поля", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.set_all_fields), Toast.LENGTH_SHORT).show();
                 }
                 else if(phone.getText().toString().length() != 15)
-                    Toast.makeText(mContext, "Телефон должен содержать 11 цифр", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.numbers_11), Toast.LENGTH_LONG).show();
                 else if (birth.getText().toString().length() != 10
                         || Integer.valueOf(birth.getText().toString().substring(0,2)) > 31
                         || Integer.valueOf(birth.getText().toString().substring(0,2)) < 1
@@ -297,7 +297,7 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
                         || Integer.valueOf(birth.getText().toString().substring(3,5)) > 12
                         || Integer.valueOf(birth.getText().toString().substring(6,10)) > 2020
                         || Integer.valueOf(birth.getText().toString().substring(6,10)) < 1920)
-                    Toast.makeText(mContext, "Дата рождения введена неверно", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.incorrect_date_of_birth), Toast.LENGTH_SHORT).show();
                 else{
                     Map<String, Object> data = new HashMap<>();
                     data.put("surname", surname.getText().toString());

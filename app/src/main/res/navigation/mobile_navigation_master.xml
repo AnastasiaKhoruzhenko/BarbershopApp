@@ -16,7 +16,7 @@
     <fragment
         android:id="@+id/navigation_mynearestvisitors_master"
         android:name="com.coursework.barbershopapp.Masters.ui.myVisitors.MyVisitorsFragment"
-        android:label="Ближайшие"
+        android:label="@string/nearest"
         tools:layout="@layout/my_visitors_fragment"/>
 
     <fragment

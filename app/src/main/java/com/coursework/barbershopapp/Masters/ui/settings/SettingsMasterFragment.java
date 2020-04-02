@@ -39,13 +39,13 @@ import static android.app.Activity.RESULT_OK;
 
 public class SettingsMasterFragment extends Fragment {
 
-    FirebaseAuth mAuth;
-    CircleImageView img;
-    private List<String> arrSettings = new ArrayList<>(Arrays.asList("Личная информация", "Время работы", "Предоставляемые услуги", "Настройки приложения"));
+    private FirebaseAuth mAuth;
+    private CircleImageView img;
+    private List<String> arrSettings = new ArrayList<>(Arrays.asList(getResources().getString(R.string.personal_info), "Время работы", "Предоставляемые услуги", getResources().getString(R.string.app_settings)));
 
     private static final int PICK_IMAGE_REQUEST = 1;
-    StorageReference mStorageRef;
-    Uri mImageUri;
+    private StorageReference mStorageRef;
+    private Uri mImageUri;
 
 
     public static SettingsMasterFragment newInstance() {

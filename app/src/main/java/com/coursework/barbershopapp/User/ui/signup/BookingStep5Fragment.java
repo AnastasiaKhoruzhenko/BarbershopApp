@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coursework.barbershopapp.R;
-import com.coursework.barbershopapp.User.ui.settings.SettingsFragment;
 import com.coursework.barbershopapp.model.BookingInformation;
 import com.coursework.barbershopapp.model.Common;
 import com.coursework.barbershopapp.model.Master;
@@ -192,9 +190,9 @@ public class BookingStep5Fragment extends Fragment{
         } else
             {
                 if (textName.getText().toString().isEmpty()) {
-                    Toast.makeText(getContext(), "Имя", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.set_all_fields), Toast.LENGTH_SHORT).show();
                 } else if (textPhone.getText().toString().isEmpty()) {
-                    Toast.makeText(getContext(), "Email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.set_all_fields), Toast.LENGTH_SHORT).show();
                 } else {
                     BookingInformation info = new BookingInformation();
 
@@ -336,12 +334,12 @@ public class BookingStep5Fragment extends Fragment{
 
     private Unbinder unbinder;
 
-    SimpleDateFormat simpleDateFormat, simpleDateFormatForDB;
-    LocalBroadcastManager localBroadcastManager;
+    private SimpleDateFormat simpleDateFormat, simpleDateFormatForDB;
+    private LocalBroadcastManager localBroadcastManager;
 
-    static BookingStep5Fragment instance;
+    private static BookingStep5Fragment instance;
 
-    BroadcastReceiver confurmBookingReciever = new BroadcastReceiver() {
+    private BroadcastReceiver confirmBookingReciever = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             setData();
@@ -369,12 +367,12 @@ public class BookingStep5Fragment extends Fragment{
         simpleDateFormatForDB = new SimpleDateFormat("dd/MM/yyyy");
         simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
-        localBroadcastManager.registerReceiver(confurmBookingReciever, new IntentFilter(Common.KEY_CONFURM_BOOKING));
+        localBroadcastManager.registerReceiver(confirmBookingReciever, new IntentFilter(Common.KEY_CONFURM_BOOKING));
     }
 
     @Override
     public void onDestroy() {
-        localBroadcastManager.unregisterReceiver(confurmBookingReciever);
+        localBroadcastManager.unregisterReceiver(confirmBookingReciever);
         super.onDestroy();
     }
 

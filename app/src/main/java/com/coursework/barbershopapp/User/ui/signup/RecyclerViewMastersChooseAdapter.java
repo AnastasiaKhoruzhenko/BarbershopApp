@@ -46,17 +46,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<RecyclerViewMastersChooseAdapter.MyViewHolder>{
 
-    List<Master> personList = new ArrayList<>();
-    List<CardView> cardViews;
-    List<ConstraintLayout> lays;
-    LocalBroadcastManager localBroadcastManager;
-    boolean flag;
+    private List<Master> personList = new ArrayList<>();
+    private List<CardView> cardViews;
+    private List<ConstraintLayout> lays;
+    private LocalBroadcastManager localBroadcastManager;
+    private boolean flag;
 
-    Dialog dialog;
-    ConstraintLayout constraintLayout;
-    FirebaseFirestore db;
+    private Dialog dialog;
+    private ConstraintLayout constraintLayout;
+    private FirebaseFirestore db;
 
-    Context mContext;
+    private Context mContext;
 
     public RecyclerViewMastersChooseAdapter(Context mContext, List<Master> personList, boolean flag)
     {
@@ -121,15 +121,15 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
                 switch (count%10)
                 {
                     case 1:
-                        holder.info.setText(count + " комментарий");
+                        holder.info.setText(count + " "+ mContext.getResources().getString(R.string.comment1));
                         break;
                     case 2:
                     case 3:
                     case 4:
-                        holder.info.setText(count + " комментария");
+                        holder.info.setText(count + " "+ mContext.getResources().getString(R.string.comment234));
                         break;
                     default:
-                        holder.info.setText(count + " комментариев");
+                        holder.info.setText(count + " "+ mContext.getResources().getString(R.string.commentDef));
                         break;
                 }
             }

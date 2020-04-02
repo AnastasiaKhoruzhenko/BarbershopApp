@@ -39,11 +39,9 @@ import java.util.List;
 
 public class MyVisitorsFragment extends Fragment implements IVisitorsLoadListener {
 
-    private MyVisitorsViewModel mViewModel;
-
-    IVisitorsLoadListener iVisitorsLoadListener;
-    Unbinder unbinder;
-    FirebaseFirestore db;
+    private IVisitorsLoadListener iVisitorsLoadListener;
+    private Unbinder unbinder;
+    private FirebaseFirestore db;
 
     @BindView(R.id.tv_empty_visitors)
     TextView empty;
@@ -51,9 +49,9 @@ public class MyVisitorsFragment extends Fragment implements IVisitorsLoadListene
     RecyclerView recyclerView;
     @BindView(R.id.calendar_master)
     HorizontalCalendarView calendarView;
-    SimpleDateFormat simpleDateFormat;
+    private SimpleDateFormat simpleDateFormat;
 
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
     public static MyVisitorsFragment newInstance() {
         return new MyVisitorsFragment();
@@ -69,10 +67,6 @@ public class MyVisitorsFragment extends Fragment implements IVisitorsLoadListene
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");
-//        if(mAuth.getCurrentUser() != null)
-//            loadAvailiableTimeSlot(mAuth.getCurrentUser().getEmail(), simpleDateFormat.format(Calendar.getInstance().getTime()));
-//        else
-//            loadAvailiableTimeSlot("r@r.ru", simpleDateFormat.format(Calendar.getInstance().getTime()));
 
         init(view);
         return view;
@@ -180,6 +174,6 @@ public class MyVisitorsFragment extends Fragment implements IVisitorsLoadListene
     public void onVisitorsLoadEmpty() {
         RecycleViewMyVisitorsAdapter adapter = new RecycleViewMyVisitorsAdapter(getContext());
         recyclerView.setAdapter(adapter);
-        empty.setText("На данную дату записей нет.");
+        empty.setText(getResources().getString(R.string.no_bookings_on_date));
     }
 }

@@ -42,7 +42,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_toEndOf="@id/masterPhoto"
                 android:layout_toRightOf="@id/masterPhoto"
-                android:text="Name Surname"
                 android:textSize="18sp"
                 android:textColor="@color/darkGrey"
                 android:textStyle="bold"
@@ -62,7 +61,6 @@
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:textAlignment="gravity"
-                android:text="4.6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:gravity="center"/>

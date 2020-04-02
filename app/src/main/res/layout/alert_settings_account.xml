@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/normGrey"
-            android:hint="Фамилия" />
+            android:hint="@string/surname" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/normGrey"
-            android:hint="Имя" />
+            android:hint="@string/name"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -72,7 +72,7 @@
             android:maxLength="10"
             android:inputType="number|text"
             android:textColorHint="@color/normGrey"
-            android:hint="Дата рождения" />
+            android:hint="@string/date_of_birth" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/normGrey"
-            android:hint="Телефон"
+            android:hint="@string/phone_number"
             android:inputType="number|text"
             android:maxLength="15"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -118,7 +118,7 @@
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/normGrey"
             android:editable="false"
-            android:hint="E-mail" />
+            android:hint="@string/email"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -126,7 +126,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@android:string/ok"
+        android:text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_email_sett" />

@@ -16,8 +16,6 @@ import com.coursework.barbershopapp.R;
 
 public class InfoAdminFragment extends Fragment {
 
-    private InfoAdminViewModel mViewModel;
-
     public static InfoAdminFragment newInstance() {
         return new InfoAdminFragment();
     }
@@ -27,12 +25,4 @@ public class InfoAdminFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.info_admin_fragment, container, false);
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(InfoAdminViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
 }

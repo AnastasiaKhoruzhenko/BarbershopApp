@@ -101,7 +101,7 @@ public class HomeMasterFragment extends Fragment {
         .addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getActivity(), "На вас еще не оставили ни одного комментария", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.no_comments_on_you), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -125,7 +125,7 @@ public class HomeMasterFragment extends Fragment {
         Dialog dialog = new Dialog(getContext());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.alert_change_default_pass);
-        dialog.setTitle("Установите новый пароль");
+        dialog.setTitle(getResources().getString(R.string.set_new_password));
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
         TextInputLayout pass1 = dialog.findViewById(R.id.til_password_change);
@@ -154,10 +154,10 @@ public class HomeMasterFragment extends Fragment {
                 String pas2 = pass2_c.getText().toString();
                 if(!pas1.equals(pas2))
                 {
-                    Toast.makeText(getContext(), "Пароли не совпадают", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.passwords_not_equal), Toast.LENGTH_LONG).show();
                 }
                 else if(pas1.length()<8)
-                    Toast.makeText(getContext(), "Пароль должен содержать не менее 8 символов", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.password_less_8), Toast.LENGTH_LONG).show();
                 else
                 {
                     mAuth.getCurrentUser().updatePassword(pas1);
@@ -171,11 +171,4 @@ public class HomeMasterFragment extends Fragment {
 
         dialog.show();
     }
-
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//
-//    }
-
 }

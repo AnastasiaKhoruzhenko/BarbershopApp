@@ -44,12 +44,12 @@ import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
 
 public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListener {
 
-    static BookingStep4Fragment instance;
+    private static BookingStep4Fragment instance;
     private DocumentReference docRef;
 
-    ITimeSlotLoadListener iTimeSlotLoadListener;
-    Unbinder unbinder;
-    LocalBroadcastManager localBroadcastManager;
+    private ITimeSlotLoadListener iTimeSlotLoadListener;
+    private Unbinder unbinder;
+    private LocalBroadcastManager localBroadcastManager;
 
     AlertDialog dialog;
 
@@ -58,11 +58,11 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
 
     @BindView(R.id.calendarView)
     HorizontalCalendarView calendarView;
-    SimpleDateFormat simpleDateFormat;
+    private SimpleDateFormat simpleDateFormat;
 
     private FirebaseFirestore db;
 
-    BroadcastReceiver displayTimeSlot = new BroadcastReceiver() {
+    private BroadcastReceiver displayTimeSlot = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Calendar date = Calendar.getInstance();

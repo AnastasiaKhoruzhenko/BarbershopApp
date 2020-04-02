@@ -27,9 +27,9 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
 
     private List<AboutService> listServices = new ArrayList<>();
     private Context mContext;
-    List<CardView> cardViews;
-    List<ConstraintLayout> lays;
-    LocalBroadcastManager localBroadcastManager;
+    private List<CardView> cardViews;
+    private List<ConstraintLayout> lays;
+    private LocalBroadcastManager localBroadcastManager;
 
     public RecycleViewAdapterStep2(Context mContext, List<AboutService> listServices) {
         this.listServices = listServices;
@@ -43,8 +43,7 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_service, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -52,7 +51,7 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
         holder.s_name.setText(listServices.get(position).getTitle());
         holder.s_price.setText(listServices.get(position).getPrice() + " " + " RUB");
         holder.s_descr.setText(listServices.get(position).getDescr());
-        holder.s_time.setText(listServices.get(position).getTime() + " мин");
+        holder.s_time.setText(listServices.get(position).getTime() + mContext.getResources().getString(R.string.min));
 
         if(!cardViews.contains(holder.step2)) {
             lays.add(holder.lay);

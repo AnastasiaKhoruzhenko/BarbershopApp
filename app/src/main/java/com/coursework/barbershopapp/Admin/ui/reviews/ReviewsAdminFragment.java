@@ -16,7 +16,6 @@ import com.coursework.barbershopapp.R;
 
 public class ReviewsAdminFragment extends Fragment {
 
-    private ReviewsAdminViewModel mViewModel;
 
     public static ReviewsAdminFragment newInstance() {
         return new ReviewsAdminFragment();
@@ -27,12 +26,4 @@ public class ReviewsAdminFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.reviews_admin_fragment, container, false);
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(ReviewsAdminViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
 }

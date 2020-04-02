@@ -34,7 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            android:text="RUB 1200"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +46,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="32dp"
             android:autoSizeTextType="uniform"
-            android:text="Service name"
             android:textColor="@color/darkGrey"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -61,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Дата:"
+            android:text="@string/date_with_points"
             android:textColor="@color/normGrey"
             app:layout_constraintStart_toEndOf="@+id/img_service"
             app:layout_constraintTop_toBottomOf="@+id/tv_service_name_vis" />
@@ -72,7 +70,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text=" 19:00 23/02/2020"
             android:textColor="@color/darkGrey"
             app:layout_constraintStart_toEndOf="@+id/tv_date_vis"
             app:layout_constraintTop_toBottomOf="@+id/tv_service_name_vis" />
@@ -83,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Barber:"
+            android:text="@string/barber_with_points"
             android:textColor="@color/normGrey"
             app:layout_constraintStart_toEndOf="@+id/img_service"
             app:layout_constraintTop_toBottomOf="@+id/tv_date_vis" />
@@ -95,7 +92,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textColor="@color/darkGrey"
-            android:text="dhdjdj"
             app:layout_constraintStart_toEndOf="@+id/tv_barber_vis"
             app:layout_constraintTop_toBottomOf="@+id/tv_date_vis_my" />
 
@@ -118,7 +114,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Rate me"
+            android:text="@string/rate_me"
             android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

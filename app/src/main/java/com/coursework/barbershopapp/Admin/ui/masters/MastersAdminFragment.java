@@ -42,7 +42,6 @@ import java.util.Map;
 
 public class MastersAdminFragment extends Fragment {
 
-    private MastersAdminViewModel mViewModel;
     private Button btn_add;
     private FloatingActionButton floating_add;
     private ArrayList<String> mNames = new ArrayList<>();
@@ -56,7 +55,7 @@ public class MastersAdminFragment extends Fragment {
 
     private List<Master> personList = new ArrayList<>();
 
-    FirebaseFirestore db;
+    private FirebaseFirestore db;
 
     private FirebaseAuth mAuth;
 
@@ -74,7 +73,6 @@ public class MastersAdminFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = ViewModelProviders.of(this).get(MastersAdminViewModel.class);
 
         View root = inflater.inflate(R.layout.masters_admin_fragment, container, false);
 
@@ -159,7 +157,7 @@ public class MastersAdminFragment extends Fragment {
     private void checkInfo(String name, String surname, String phone, String email) {
         if(name.isEmpty() || surname.isEmpty() || email.isEmpty() || phone.isEmpty())
         {
-            Toast.makeText(getContext(), "Заполните всю необходимую информацию", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getResources().getString(R.string.set_all_fields), Toast.LENGTH_SHORT).show();
         }else{
             registerNewMasterWithDefaultPassword(email, name, surname, phone);
         }
@@ -181,26 +179,12 @@ public class MastersAdminFragment extends Fragment {
                         masterList.add(doc.toObject(Master.class).getEmail());
 
                     if(masterList.contains(email))
-                        showMessage("Мастер с такой почтой уже существует");
+                        showMessage(getResources().getString(R.string.master_with_email_exists));
                     else
                         updateInfo(name, surname, email, phone);
                 }
             }
         });
-
-//        mAuth.createUserWithEmailAndPassword(email, defaultPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//            @Override
-//            public void onComplete(@NonNull Task<AuthResult> task) {
-//                if(task.isSuccessful()){
-//                    showMessage("Аккаунт успешно создан");
-//                    updateInfo(name, surname, email, phone);
-//                }
-//                else
-//                {
-//                    showMessage("Пользователь с такой почтой уже существует");
-//                }
-//            }
-//        });
     }
 
     private void updateInfo(String name, String surname, String email, String phone) {
@@ -267,13 +251,9 @@ public class MastersAdminFragment extends Fragment {
             mScore.add(person.getScore());
         }
 
-
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(getContext(), mNames, mImageUrls, mScore);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        //showMessage(String.valueOf(mNames.size()));
-
 
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -291,13 +271,4 @@ public class MastersAdminFragment extends Fragment {
             }
         });
     }
-
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//
-//        mViewModel = ViewModelProviders.of(this).get(MastersAdminViewModel.class);
-//        // TODO: Use the ViewModel
-//    }
-
 }

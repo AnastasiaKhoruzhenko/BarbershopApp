@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorDone"
             android:textColorHint="@color/normGrey"
-            android:hint="Название" />
+            android:hint="@string/title"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -83,7 +83,7 @@
             android:gravity="start"
             android:textColor="@color/colorDone"
             android:textColorHint="@color/normGrey"
-            android:hint="Описание"
+            android:hint="@string/description"
             android:lines="4" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorDone"
             android:textColorHint="@color/normGrey"
-            android:hint="Цена" />
+            android:hint="@string/price" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -128,6 +128,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorDone"
             android:textColorHint="@color/normGrey"
-            android:hint="Время в минутах" />
+            android:hint="@string/duration_min" />
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

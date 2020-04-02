@@ -28,16 +28,10 @@ public class RecycleViewServicesAdapter extends RecyclerView.Adapter<RecycleView
 
     private List<Banner> listService;
     private Context mContext;
-    private LocalBroadcastManager localBroadcastManager;
-    private List<CardView> listCard;
-    private List<ConstraintLayout> lays;
 
     public RecycleViewServicesAdapter(Context mContext, List<Banner> listService) {
         this.listService = listService;
         this.mContext = mContext;
-        localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
-        listCard = new ArrayList<>();
-        lays = new ArrayList<>();
     }
 
     @NonNull
@@ -49,10 +43,7 @@ public class RecycleViewServicesAdapter extends RecyclerView.Adapter<RecycleView
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        Glide.with(mContext)
-//                .asBitmap()
-//                .load(listService.get(position).getImg())
-//                .into(holder.img);
+
         holder.text.setText(listService.get(position).getText());
 
         holder.step1.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +88,6 @@ public class RecycleViewServicesAdapter extends RecyclerView.Adapter<RecycleView
 
         CardView step1;
         TextView text;
-        ImageView img;
         ConstraintLayout lay;
 
         public ViewHolder(@NonNull View itemView) {
@@ -106,13 +96,6 @@ public class RecycleViewServicesAdapter extends RecyclerView.Adapter<RecycleView
             step1 = itemView.findViewById(R.id.cardview_service_admin);
             text = itemView.findViewById(R.id.tv_name_admin);
             lay = itemView.findViewById(R.id.const_lay_admin);
-
-//            step1.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    OnCardViewClicked();
-//                }
-//            });
         }
     }
 }
