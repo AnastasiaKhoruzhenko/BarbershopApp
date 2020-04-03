@@ -57,12 +57,14 @@ public class LoginActivity extends AppCompatActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                login_btn.setClickable(false);
                 final String login_str=log.getText().toString();
                 final String pass_str = pass.getText().toString();
 
                 if(login_str.isEmpty() || pass_str.isEmpty())
                 {
                     showMessage("Не введен логин или пароль");
+                    login_btn.setClickable(true);
                 }
                 else
                 {
@@ -83,9 +85,6 @@ public class LoginActivity extends AppCompatActivity {
                     showMessage("Логин или пароль введены верно");
                     updateUI(login_str);
                 }
-//                else{
-//                    showMessage("Логин или пароль введены неверно");
-//                }
             }
         })
         .addOnFailureListener(new OnFailureListener() {
@@ -94,12 +93,6 @@ public class LoginActivity extends AppCompatActivity {
                 checkIfIfNewMaster(login_str, pass_str);
             }
         });
-//        .addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                showMessage("Логин или пароль введены неверно err");
-//            }
-//        });
     }
 
     private void checkIfIfNewMaster(String login_str, String pass_str) {
@@ -133,6 +126,8 @@ public class LoginActivity extends AppCompatActivity {
                             showMessage("Пароль неверен");
                     else
                         showMessage("Логин или пароль неверен");
+
+                    login_btn.setClickable(true);
                 }
             }
         });
@@ -160,6 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.getResult().exists())
                         {
+                            login_btn.setClickable(true);
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -174,6 +170,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.getResult().exists())
                         {
+                            login_btn.setClickable(true);
                             Intent intent = new Intent(getApplicationContext(), MainMasterActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -188,6 +185,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.getResult().exists())
                         {
+                            login_btn.setClickable(true);
                             Intent intent = new Intent(getApplicationContext(), MainAdminActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);

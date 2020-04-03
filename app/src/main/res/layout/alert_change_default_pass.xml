@@ -50,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
+            android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:textColor="@color/selectedBlue"
             android:textColorHint="@color/normGrey" />
@@ -74,6 +75,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password"
             android:inputType="textPassword"
+            android:imeOptions="actionDone"
             android:textColor="@color/selectedBlue"
             android:textColorHint="@color/normGrey" />
     </com.google.android.material.textfield.TextInputLayout>

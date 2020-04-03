@@ -100,6 +100,7 @@ public class RegistrationActivity extends AppCompatActivity {
         btn_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btn_reg.setClickable(false);
                 String name = inp_name.getText().toString();
                 String surname = inp_surname.getText().toString();
                 String email = inp_log.getText().toString();
@@ -110,12 +111,17 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 if(email.isEmpty() || password.isEmpty() || phone.isEmpty() || confPass.isEmpty()
                         || surname.isEmpty() || birth.isEmpty()){
-                    showMessage("Заполните все поля!");
+                    showMessage(getResources().getString(R.string.set_all_fields));
+                    btn_reg.setClickable(true);
                 }
-                else if(!password.equals(confPass))
-                    showMessage("Пароли не совпадают!");
-                else if(password.length() < 8)
-                    showMessage("Пароль должен содержать не менее 8 символов");
+                else if(!password.equals(confPass)) {
+                    showMessage(getResources().getString(R.string.passwords_not_equal));
+                    btn_reg.setClickable(true);
+                }
+                else if(password.length() < 8) {
+                    showMessage(getResources().getString(R.string.password_less_8));
+                    btn_reg.setClickable(true);
+                }
                 else
                 {
                     createUserAccount(email, name, surname, phone, birth, password);
@@ -137,6 +143,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 else
                 {
                     showMessage("Пользователь с такой почтой уже существует");
+                    btn_reg.setClickable(true);
                 }
             }
         });
@@ -152,6 +159,8 @@ public class RegistrationActivity extends AppCompatActivity {
         user.put("birth", birth);
 
         db.collection("Users").document(email).set(user);
+
+        btn_reg.setClickable(true);
 
         this.finish();
     }
