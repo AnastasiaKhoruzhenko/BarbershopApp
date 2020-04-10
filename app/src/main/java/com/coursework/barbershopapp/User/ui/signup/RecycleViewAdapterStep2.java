@@ -1,11 +1,15 @@
 package com.coursework.barbershopapp.User.ui.signup;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.mtp.MtpStorageInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +33,7 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
     private Context mContext;
     private List<CardView> cardViews;
     private List<ConstraintLayout> lays;
+    private List<RadioButton> rButtons;
     private LocalBroadcastManager localBroadcastManager;
 
     public RecycleViewAdapterStep2(Context mContext, List<AboutService> listServices) {
@@ -36,6 +41,7 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
         this.mContext = mContext;
         cardViews = new ArrayList<>();
         lays = new ArrayList<>();
+        rButtons = new ArrayList<>();
         localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
     }
 
@@ -48,30 +54,51 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.s_name.setText(listServices.get(position).getTitle());
+
+        SharedPreferences prefs = mContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language = prefs.getString("My_lang", "ru");
+
+        if(language.equals("ru"))
+        {
+            holder.s_name.setText(listServices.get(position).getTitle());
+            holder.s_descr.setText(listServices.get(position).getDescr());
+        }
+        else
+        {
+            holder.s_name.setText(listServices.get(position).getTitleEN());
+            holder.s_descr.setText(listServices.get(position).getDescrEN());
+        }
+
         holder.s_price.setText(listServices.get(position).getPrice() + " " + " RUB");
-        holder.s_descr.setText(listServices.get(position).getDescr());
         holder.s_time.setText(listServices.get(position).getTime() + mContext.getResources().getString(R.string.min));
 
         if(!cardViews.contains(holder.step2)) {
             lays.add(holder.lay);
             cardViews.add(holder.step2);
+            rButtons.add(holder.radioButton);
         }
+
+        holder.radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(RadioButton rButt : rButtons)
+                    rButt.setChecked(false);
+                holder.radioButton.setChecked(true);
+
+                Intent intent = new Intent(Common.KEY_NEXT_BTN);
+                intent.putExtra(Common.KEY_SERVICE_SELECTED, listServices.get(position));
+                intent.putExtra(Common.KEY_STEP, 2);
+                localBroadcastManager.sendBroadcast(intent);
+            }
+        });
 
         holder.setiRecyclerItemSelectedListener(new IRecyclerItemSelectedListener() {
             @Override
             public void OnItemSelectedListener(View view, int position) {
-                for(CardView card:cardViews) {
-                    card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
-                }
-                for(ConstraintLayout lay:lays) {
+                for(RadioButton rButt : rButtons)
+                    rButt.setChecked(false);
 
-                    lay.setBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
-                }
-
-                holder.step2.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorLightBrown));
-                holder.lay.setBackgroundColor(mContext.getResources().getColor(R.color.colorLightBrown));
-
+                holder.radioButton.setChecked(true);
 
                 Intent intent = new Intent(Common.KEY_NEXT_BTN);
                 intent.putExtra(Common.KEY_SERVICE_SELECTED, listServices.get(position));
@@ -90,9 +117,9 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
 
         CardView step2;
         TextView s_name, s_descr, s_price, s_time;
-        CheckBox check;
         View divider_service;
         ConstraintLayout lay;
+        RadioButton radioButton;
 
         IRecyclerItemSelectedListener iRecyclerItemSelectedListener;
 
@@ -107,10 +134,9 @@ public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAda
             s_name = itemView.findViewById(R.id.tx_serviceName);
             s_descr = itemView.findViewById(R.id.tw_serviceDescription);
             s_price = itemView.findViewById(R.id.tv_price);
-            check  =itemView.findViewById(R.id.checkBox_choose);
             s_time = itemView.findViewById(R.id.tv_cardserv_time);
-            divider_service = itemView.findViewById(R.id.divider_service);
             lay = itemView.findViewById(R.id.constr_card_serv);
+            radioButton = itemView.findViewById(R.id.radioButton);
 
             itemView.setOnClickListener(this);
         }

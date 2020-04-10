@@ -51,10 +51,10 @@ public class HomeFragment extends Fragment implements IBannerLoadListener {
     @BindView(R.id.recview_masters_user)
     RecyclerView recyclerView;
 
-    IBannerLoadListener iBannerLoadListener;
+    private IBannerLoadListener iBannerLoadListener;
 
     private FirebaseFirestore db;
-    FirebaseAuth auth;
+    private FirebaseAuth auth;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

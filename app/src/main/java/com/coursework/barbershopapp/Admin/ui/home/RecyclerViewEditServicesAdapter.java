@@ -1,10 +1,12 @@
 package com.coursework.barbershopapp.Admin.ui.home;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
@@ -76,10 +78,22 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.check.setVisibility(View.INVISIBLE);
-        holder.s_name.setText(listServices.get(position).getTitle());
+
+        SharedPreferences prefs = mContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language = prefs.getString("My_lang", "ru");
+
+        if(language.equals("ru"))
+        {
+            holder.s_name.setText(listServices.get(position).getTitle());
+            holder.s_descr.setText(listServices.get(position).getDescr());
+        }
+        else
+        {
+            holder.s_name.setText(listServices.get(position).getTitleEN());
+            holder.s_descr.setText(listServices.get(position).getDescrEN());
+        }
+
         holder.s_price.setText(listServices.get(position).getPrice() + " RUB");
-        holder.s_descr.setText(listServices.get(position).getDescr());
         holder.s_time.setText(listServices.get(position).getTime() + mContext.getResources().getString(R.string.min));
 
         holder.step2.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +113,6 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
 
         CardView step2;
         TextView s_name, s_descr, s_price, s_time;
-        CheckBox check;
         View divider_service;
         ConstraintLayout lay;
 
@@ -110,9 +123,7 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
             s_name = itemView.findViewById(R.id.tx_serviceName);
             s_descr = itemView.findViewById(R.id.tw_serviceDescription);
             s_price = itemView.findViewById(R.id.tv_price);
-            check  =itemView.findViewById(R.id.checkBox_choose);
             s_time = itemView.findViewById(R.id.tv_cardserv_time);
-            divider_service = itemView.findViewById(R.id.divider_service);
             lay = itemView.findViewById(R.id.constr_card_serv);
         }
     }
@@ -127,7 +138,10 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
         EditText ePrice = dialog.findViewById(R.id.ti_admin_edit_price);
         EditText eTime = dialog.findViewById(R.id.ti_admin_edit_time);
         EditText eDescr = dialog.findViewById(R.id.ti_admin_edit_descr);
+        EditText eDescrEN = dialog.findViewById(R.id.ti_admin_edit_descr_en);
+        EditText eTitleEN = dialog.findViewById(R.id.ti_admin_edit_title_en);
         TextView close = dialog.findViewById(R.id.close_edit_img);
+        Button save = dialog.findViewById(R.id.button);
 
 
         db.collection("ServicesMan").document(serv)
@@ -143,6 +157,8 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
                     ePrice.setText(service.getPrice());
                     eTime.setText(service.getTime());
                     eDescr.setText(service.getDescr());
+                    eDescrEN.setText(service.getDescrEN());
+                    eTitleEN.setText(service.getTitleEN());
 
                     constraintLayout = view.findViewById(R.id.constr_admin_edit_serv);
                     dialog.show();
@@ -153,11 +169,20 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("price", ePrice.getText().toString());
                 map.put("time", eTime.getText().toString());
                 map.put("title", eName.getText().toString());
                 map.put("descr", eDescr.getText().toString());
+                map.put("descrEN", eDescrEN.getText().toString());
+                map.put("titleEN", eTitleEN.getText().toString());
 
                 db.collection("ServicesMan").document(serv)
                         .collection("Services").document(listServices.get(position).getId())

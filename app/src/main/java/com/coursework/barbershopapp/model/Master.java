@@ -8,9 +8,9 @@ import java.util.List;
 
 public class Master implements Parcelable {
 
-    String email, name, surname, phone, score, birth;
-    Boolean defaultPass;
-    List<String> services, dates;
+    private String email, name, surname, phone, score, birth;
+    private Boolean defaultPass;
+    private List<String> services, dates;
 
     public Master(){}
 

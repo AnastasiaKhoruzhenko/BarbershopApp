@@ -35,30 +35,6 @@ import java.util.List;
 
 public class HomeAdminFragment extends Fragment {
 
-    @BindView(R.id.cardview_home_salon_info)
-    CardView salon_info;
-    @BindView(R.id.card_edit_services)
-    CardView edit_service;
-
-    @OnClick(R.id.cardview_home_salon_info)
-    void SalonInfo(){
-
-        Intent intent = new Intent(getContext(), SalonInfoActivity.class);
-        startActivity(intent);
-
-    }
-
-    @OnClick(R.id.card_edit_services)
-    void editServices(){
-
-    }
-
-    @OnClick(R.id.card_edit_services)
-    void EditServices(){
-//        Intent intent = new Intent(getContext(), EditServicesActivity.class);
-//        startActivity(intent);
-    }
-
     private RecyclerView recyclerView, recyclerViewServices;
     private FirebaseFirestore db;
     private Unbinder unbinder;

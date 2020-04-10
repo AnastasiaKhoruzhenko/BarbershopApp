@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".User.ui.settings.SettingsSelectActivity"></activity>
+        <activity android:name=".Admin.ui.home.SalonInfoActivity"/>
         <activity android:name=".RegistrationActivity"></activity>
         <activity android:name=".LoginActivity" />
         <activity
@@ -28,6 +29,10 @@
         <activity
             android:name=".Admin.ui.home.EditServicesActivity"
             android:theme="@style/Theme.AppCompat.Light"></activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

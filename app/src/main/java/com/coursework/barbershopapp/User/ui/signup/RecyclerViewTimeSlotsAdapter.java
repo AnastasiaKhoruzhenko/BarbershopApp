@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.coursework.barbershopapp.Interface.IRecyclerItemSelectedListener;
@@ -22,15 +23,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerViewTimeSlotsAdapter.MyViewHolder> {
 
-    Context mContext;
-    List<TimeSlot> timeSlotList;
-    List<CardView> cardViews;
-    LocalBroadcastManager localBroadcastManager;
+    private Context mContext;
+    private List<TimeSlot> timeSlotList;
+    private List<CardView> cardViews;
+    private List<RadioButton> radioButtons;
+    private LocalBroadcastManager localBroadcastManager;
 
     public RecyclerViewTimeSlotsAdapter(Context mContext, List<TimeSlot> timeSlotList) {
         this.mContext = mContext;
         this.timeSlotList = timeSlotList;
         cardViews = new ArrayList<>();
+        radioButtons = new ArrayList<>();
         localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
     }
 
@@ -38,6 +41,7 @@ public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerV
         this.mContext = mContext;
         this.timeSlotList = new ArrayList<>();
         cardViews = new ArrayList<>();
+        radioButtons = new ArrayList<>();
         localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
     }
 
@@ -51,43 +55,21 @@ public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerV
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.time.setText(Common.convertTimeSlotToString(position));
+        holder.time.setText(Common.convertTimeSlotToString(timeSlotList.get(position).getSlot().intValue()));
         holder.cardViewTime.setEnabled(true);
+        holder.radioButton.setChecked(false);
 
-        if(timeSlotList.size() == 0) // all are availiable
-        {
-            holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
-            holder.time.setTextColor(mContext.getResources().getColor(R.color.darkGrey));
-        }
-        else {
-            for (TimeSlot timeSlot : timeSlotList)
-            {
-                int slot = Integer.parseInt(timeSlot.getSlot().toString());
-                if(slot == position)
-                {
-                    holder.cardViewTime.setTag(Common.DISABLE_TAG);
-                    holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
-                    holder.time.setTextColor(mContext.getResources().getColor(R.color.colorGrey));
-                    holder.cardViewTime.setEnabled(false);
-                }
-            }
-        }
-
-        // add all cards
-        if(!cardViews.contains(holder.cardViewTime))
+        if(!cardViews.contains(holder.cardViewTime)) {
             cardViews.add(holder.cardViewTime);
+            radioButtons.add(holder.radioButton);
+        }
 
-        holder.setiRecyclerItemSelectedListener(new IRecyclerItemSelectedListener() {
+        holder.radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void OnItemSelectedListener(View view, int position) {
-                for(CardView card : cardViews)
-                {
-                    if(card.getTag() == null)
-                        card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
-                }
-
-                // selected card
-                holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorLightBrown));
+            public void onClick(View v) {
+                for(RadioButton rButt : radioButtons)
+                    rButt.setChecked(false);
+                holder.radioButton.setChecked(true);
 
                 Intent intent = new Intent(Common.KEY_NEXT_BTN);
                 intent.putExtra(Common.KEY_TIME_SLOT, position);
@@ -96,11 +78,67 @@ public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerV
             }
         });
 
+        holder.cardViewTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(RadioButton rButt : radioButtons)
+                    rButt.setChecked(false);
+                holder.radioButton.setChecked(true);
+
+                Intent intent = new Intent(Common.KEY_NEXT_BTN);
+                intent.putExtra(Common.KEY_TIME_SLOT, position);
+                intent.putExtra(Common.KEY_STEP, 4);
+                localBroadcastManager.sendBroadcast(intent);
+            }
+        });
+
+//        if(timeSlotList.size() == 0) // all are available
+//        {
+//            holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
+//            holder.time.setTextColor(mContext.getResources().getColor(R.color.darkGrey));
+//            holder.radioButton.setChecked(false);
+//        }
+//        else {
+//            for (TimeSlot timeSlot : timeSlotList)
+//            {
+//                int slot = Integer.parseInt(timeSlot.getSlot().toString());
+//                if(slot == position)
+//                {
+//                    holder.cardViewTime.setTag(Common.DISABLE_TAG);
+//                    holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
+//                    holder.time.setTextColor(mContext.getResources().getColor(R.color.colorGrey));
+//                    holder.cardViewTime.setEnabled(false);
+//                }
+//            }
+//        }
+//
+//        // add all cards
+//        if(!cardViews.contains(holder.cardViewTime))
+//            cardViews.add(holder.cardViewTime);
+
+//        holder.setiRecyclerItemSelectedListener(new IRecyclerItemSelectedListener() {
+//            @Override
+//            public void OnItemSelectedListener(View view, int position) {
+//                for(CardView card : cardViews)
+//                {
+//                    if(card.getTag() == null)
+//                        card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
+//                }
+//
+//                // selected card
+//                holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorLightBrown));
+//
+//                Intent intent = new Intent(Common.KEY_NEXT_BTN);
+//                intent.putExtra(Common.KEY_TIME_SLOT, position);
+//                intent.putExtra(Common.KEY_STEP, 4);
+//                localBroadcastManager.sendBroadcast(intent);
+//            }
+//        });
     }
 
     @Override
     public int getItemCount() {
-        return Common.SLOT_COUNT;
+        return timeSlotList.size();
     }
 
 
@@ -108,18 +146,20 @@ public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerV
 
         CardView cardViewTime;
         TextView time;
+        RadioButton radioButton;
 
         IRecyclerItemSelectedListener iRecyclerItemSelectedListener;
 
-        public void setiRecyclerItemSelectedListener(IRecyclerItemSelectedListener iRecyclerItemSelectedListener) {
+        void setiRecyclerItemSelectedListener(IRecyclerItemSelectedListener iRecyclerItemSelectedListener) {
             this.iRecyclerItemSelectedListener = iRecyclerItemSelectedListener;
         }
 
-        public MyViewHolder(@NonNull View itemView) {
+        MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             cardViewTime = itemView.findViewById(R.id.cardview_choose_time);
             time = itemView.findViewById(R.id.tv_choose_time);
+            radioButton = itemView.findViewById(R.id.radioButton3);
 
             itemView.setOnClickListener(this);
         }

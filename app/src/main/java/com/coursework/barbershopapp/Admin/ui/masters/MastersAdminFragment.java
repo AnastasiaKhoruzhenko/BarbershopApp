@@ -1,7 +1,5 @@
 package com.coursework.barbershopapp.Admin.ui.masters;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,21 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coursework.barbershopapp.model.MaskWatcherPhone;
 import com.coursework.barbershopapp.model.Master;
 import com.coursework.barbershopapp.R;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,6 +41,7 @@ public class MastersAdminFragment extends Fragment {
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mScore = new ArrayList<>();
+    private ArrayList<String> mEmail = new ArrayList<>();
 
     private TextInputLayout tilSurname, tilName, tilPhone, tilEmail;
     private EditText tit_surname, tit_name, tit_phone, tit_email;
@@ -245,13 +240,7 @@ public class MastersAdminFragment extends Fragment {
 
     private void initImageBitmaps(List<Master> personList){
 
-        for(Master person:personList){
-            //mImageUrls.add("https://20.cspnz.ru/images/boy.jpg");
-            mNames.add(person.getName());
-            mScore.add(person.getScore());
-        }
-
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getContext(), mNames, mImageUrls, mScore);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getContext(), personList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

@@ -15,19 +15,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.coursework.barbershopapp.R;
+import com.coursework.barbershopapp.model.Common;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.Calendar;
+
 public class MyVisitingsFragment extends Fragment{
 
-    TabLayout tabLayout;
-    ViewPager viewPager;
-    TextView text;
-    FirebaseAuth mAuth;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private TextView text;
+    private FirebaseAuth mAuth;
 
-    StorageReference mStorageRef;
+    private StorageReference mStorageRef;
 
     public static MyVisitingsFragment newInstance() {
         return new MyVisitingsFragment();
@@ -38,6 +41,7 @@ public class MyVisitingsFragment extends Fragment{
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.my_visitings_fragment, container, false);
+        resetStaticData();
 
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference("personal_photos");
@@ -84,5 +88,14 @@ public class MyVisitingsFragment extends Fragment{
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("myData", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "def");
         return email;
+    }
+
+    private void resetStaticData() {
+        Common.STEP = 0;
+        Common.currentDate.add(Calendar.DATE, 0);
+        Common.currentTimeSlot = -1;
+        Common.currentBarber = null;
+        Common.currentService = null;
+        Common.currentServiceType = null;
     }
 }

@@ -87,4 +87,11 @@
     <string name="app_settings">Application settings</string>
     <string name="no_comments_master">This master has no comments</string>
     <string name="master_with_email_exists">Master with this email already exists</string>
+    <string name="edit_services_info">Edit services information</string>
+    <string name="address">Address: </string>
+    <string name="salon_info">Salon information:</string>
+    <string name="comments_on_me">Comments</string>
+    <string name="title_en">Title (en)</string>
+    <string name="description_en">Description (en)</string>
+    <string name="error_book_today">Booking on this day is unavailable</string>
 </resources>

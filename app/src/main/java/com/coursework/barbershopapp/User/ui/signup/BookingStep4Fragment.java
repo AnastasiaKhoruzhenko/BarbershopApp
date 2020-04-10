@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coursework.barbershopapp.Interface.ITimeSlotLoadListener;
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -34,6 +36,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +56,8 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
 
     AlertDialog dialog;
 
+    @BindView(R.id.textView9)
+    TextView emptyRec;
     @BindView(R.id.recview_time)
     RecyclerView recyclerViewTime;
 
@@ -88,27 +93,89 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if(task.isSuccessful())
                                             {
+                                                Calendar rightNow = Calendar.getInstance();
+                                                Date currentTime = Calendar.getInstance().getTime();
+                                                // return the hour in 24 hrs format (ranging from 0-23)
+                                                int currentHourIn24Format = rightNow.get(Calendar.HOUR_OF_DAY);
+
                                                 QuerySnapshot querySnapshot = task.getResult();
-                                                if(querySnapshot.isEmpty()) {
-                                                    iTimeSlotLoadListener.onTimeSlotLoadEmpty();
+                                                List<TimeSlot> times = new ArrayList<>();
+                                                if((currentHourIn24Format>19)
+                                                        && simpleDateFormat.format(currentTime).equals(format)) {
+                                                    emptyRec.setText(R.string.error_book_today);
+                                                    iTimeSlotLoadListener.onTimeSlotLoadListener(times);
+                                                }
+                                                else if(querySnapshot.isEmpty()) {
+                                                    if(currentHourIn24Format>=10 && currentHourIn24Format <= 19
+                                                            && simpleDateFormat.format(currentTime).equals(format))
+                                                    {
+                                                        int k = Common.convertHourToIndex(currentHourIn24Format);
+                                                        for(int i=k;i<=32;i++)
+                                                        {
+                                                            times.add(new TimeSlot(Long.valueOf(i)));
+                                                        }
+                                                        iTimeSlotLoadListener.onTimeSlotLoadListener(times);
+                                                        emptyRec.setText("");
+                                                    }
+                                                    else {
+                                                        for (int i = 0; i <= 32; i++)
+                                                            times.add(new TimeSlot(Long.valueOf(i)));
+                                                        iTimeSlotLoadListener.onTimeSlotLoadListener(times);
+                                                        emptyRec.setText("");
+                                                    }
                                                 }
                                                 else
                                                 {
-                                                    List<TimeSlot> times = new ArrayList<>();
+                                                    List<Integer> intList = new ArrayList<>();
+                                                    int count = Integer.valueOf(Common.currentServiceType.getTime());
                                                     for(QueryDocumentSnapshot doc : task.getResult())
                                                     {
                                                         String str = doc.getId();
-                                                        if(!str.contains("."))
-                                                            times.add(doc.toObject(TimeSlot.class));
+                                                        if(!str.contains(".")) {
+                                                            //times.add(doc.toObject(TimeSlot.class));
+                                                            intList.add(Integer.valueOf(str));
+                                                        }
                                                         else
                                                         {
                                                             String strCopy = str;
                                                             String[] arr = str.split("\\.");
-                                                            times.add(new TimeSlot(Long.valueOf(arr[0])+Long.valueOf(arr[1])));
+                                                            //times.add(new TimeSlot(Long.valueOf(arr[0])+Long.valueOf(arr[1])));
+                                                            intList.add(Integer.valueOf(arr[0])+Integer.valueOf(arr[1]));
                                                         }
                                                     }
-                                                    Toast.makeText(getActivity(), String.valueOf(times.size()), Toast.LENGTH_SHORT).show();
+                                                    List<Integer> integerList = new ArrayList<>();
+                                                    for(int i=0;i<=32;i++)
+                                                    {
+                                                        if(!intList.contains(i)) {
+                                                            times.add(new TimeSlot(Long.valueOf(i)));
+                                                            integerList.add(i);
+                                                        }
+                                                    }
+                                                    //int count = (int)Math.round(Math.ceil(Integer.valueOf(Common.currentServiceType.getTime())/20));
+                                                    //Toast.makeText(getActivity(), count, Toast.LENGTH_SHORT).show();
+
+//                                                    for(int i = 0;i<integerList.size()-count;i++)
+//                                                    {
+//                                                        int ch = integerList.get(i);
+//                                                        for(int j=i+1;j<=i+count-1;j++)
+//                                                        {
+//                                                            if(ch == integerList.get(j) - 1)
+//                                                            {
+////                                                                if(j == i + count - 1)
+////                                                                    iList.add(new TimeSlot(Long.valueOf(i)));
+//                                                                ch = integerList.get(j);
+//                                                            }
+//                                                            else {
+//                                                                times.remove(integerList.get(i));
+//                                                                break;
+//                                                            }
+//                                                        }
+//                                                    }
+
+                                                    Toast.makeText(getActivity(), String.valueOf(integerList.size()), Toast.LENGTH_SHORT).show();
+
                                                     iTimeSlotLoadListener.onTimeSlotLoadListener(times);
+                                                    emptyRec.setText("");
                                                 }
                                             }
                                         }
@@ -167,7 +234,7 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
     private void init(View view) {
 
         recyclerViewTime.setHasFixedSize(true);
-        recyclerViewTime.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        recyclerViewTime.setLayoutManager(new LinearLayoutManager(getContext()));
 
         Calendar startDate = Calendar.getInstance();
         startDate.add(Calendar.MONTH, 0);
@@ -176,7 +243,7 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
 
         HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(view, R.id.calendarView)
                 .range(startDate, endDate)
-                .datesNumberOnScreen(5)
+                .datesNumberOnScreen(1)
                 .mode(HorizontalCalendar.Mode.DAYS)
                 .defaultSelectedDate(startDate)
                 .build();

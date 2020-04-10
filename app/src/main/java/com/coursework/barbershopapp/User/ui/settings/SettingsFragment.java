@@ -40,16 +40,15 @@ import static android.app.Activity.RESULT_OK;
 
 public class SettingsFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    CircleImageView img;
-    TextView nameSurname;
+    private CircleImageView img;
+    private TextView nameSurname;
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private FirebaseAuth mAuth;
-    StorageReference mStorageRef;
-    FirebaseFirestore db;
-    Uri mImageUri;
+    private StorageReference mStorageRef;
+    private FirebaseFirestore db;
+    private Uri mImageUri;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -61,19 +60,19 @@ public class SettingsFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        recyclerView = view.findViewById(R.id.recview_sett_profile);
+        RecyclerView recyclerView = view.findViewById(R.id.recview_sett_profile);
         img = view.findViewById(R.id.circleImageView);
         img.setClickable(true);
 
         if(mAuth.getCurrentUser() != null || checkPref())
         {
             String email = "";
-            if(mAuth.getCurrentUser() != null)
+            if(mAuth.getCurrentUser() != null) {
                 email = mAuth.getCurrentUser().getEmail();
+                setNameAndSurname(email);
+            }
             else if(checkPref())
                 email = getEmailPref();
-
-            setNameAndSurname(email);
 
             Toast.makeText(getContext(), email, Toast.LENGTH_LONG).show();
 
@@ -168,9 +167,6 @@ public class SettingsFragment extends Fragment {
                         }
                     });
         }
-        else{
-
-        }
     }
 
     private void resetStaticData() {
@@ -182,20 +178,20 @@ public class SettingsFragment extends Fragment {
         Common.currentServiceType = null;
     }
 
-    public boolean checkPref(){
+    private boolean checkPref(){
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("myData", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "def");
         return !email.equals("def");
     }
 
-    public String getEmailPref()
+    private String getEmailPref()
     {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("myData", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "def");
         return email;
     }
 
-    public void setNameAndSurname(String email){
+    private void setNameAndSurname(String email){
         db.collection("Users").document(email)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

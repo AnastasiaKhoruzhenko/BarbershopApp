@@ -3,7 +3,7 @@
     <string name="title_home">Главная</string>
     <string name="title_singup">Запись</string>
     <string name="title_settings">Настройки</string>
-    <string name="title_myvisitings">Мои посещения</string>
+    <string name="title_myvisitings">Посещения</string>
     <string name="title_reviews_admin">Отзывы</string>
     <string name="title_info_admin">Инфо</string>
     <string name="title_masters">Мастера</string>
@@ -55,7 +55,7 @@
     <string name="past">Прошедшие</string>
     <string name="rate_is_avail_after_visiting">Оценивание доступно после посещения барбершопа</string>
     <string name="already_rated">Оценено</string>
-    <string name="avail_for_raiting">Available for rating</string>
+    <string name="avail_for_raiting">Доступно для оценивания</string>
     <string name="ok">ОК</string>
     <string name="close">Закрыть</string>
     <string name="to_comment_should_register">Чтобы оставлять комментарии, вам необходимо зарегистрироваться</string>
@@ -86,5 +86,12 @@
     <string name="app_settings">Настройки приложения</string>
     <string name="no_comments_master">На этого мастера еще не оставили ни одного комментария</string>
     <string name="master_with_email_exists">Мастер с такой почтой уже существует</string>
+    <string name="edit_services_info">Редактирование информации об услугах</string>
+    <string name="address">Адрес: </string>
+    <string name="salon_info">Описание салона:</string>
+    <string name="comments_on_me">Отзывы</string>
+    <string name="title_en">Название услуги (англ)</string>
+    <string name="description_en">Описание (англ)</string>
+    <string name="error_book_today">На сегодня записаться уже нельзя</string>
 
 </resources>

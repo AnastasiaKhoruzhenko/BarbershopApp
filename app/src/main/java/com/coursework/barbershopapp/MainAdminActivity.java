@@ -36,6 +36,12 @@ public class MainAdminActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void setLocale(String lang) {
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);

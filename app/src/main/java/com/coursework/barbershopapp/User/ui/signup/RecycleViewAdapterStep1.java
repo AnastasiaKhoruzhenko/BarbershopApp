@@ -1,7 +1,9 @@
 package com.coursework.barbershopapp.User.ui.signup;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import com.coursework.barbershopapp.Interface.IRecyclerItemSelectedListener;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.Banner;
 import com.coursework.barbershopapp.model.Common;
+import com.coursework.barbershopapp.model.TranslitClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +50,14 @@ public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAda
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        Glide.with(mContext)
-//                .asBitmap()
-//                .load(listService.get(position).getImg())
-//                .into(holder.img);
-        holder.text.setText(listService.get(position).getText());
+
+        SharedPreferences prefs = mContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language = prefs.getString("My_lang", "ru");
+
+        if(language.equals("ru"))
+            holder.text.setText(listService.get(position).getText());
+        else
+            holder.text.setText(listService.get(position).getTextEN());
 
         if(!listCard.contains(holder.step1)) {
             listCard.add(holder.step1);
@@ -66,8 +72,8 @@ public class RecycleViewAdapterStep1 extends RecyclerView.Adapter<RecycleViewAda
                 for(ConstraintLayout lay:lays)
                     lay.setBackgroundColor(mContext.getResources().getColor(R.color.colorLightBrown));
 
-                holder.step1.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
-                holder.lay.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
+                holder.step1.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorBrown));
+                holder.lay.setBackgroundColor(mContext.getResources().getColor(R.color.colorBrown));
 
                 Intent intent = new Intent(Common.KEY_NEXT_BTN);
                 intent.putExtra(Common.KEY_SERVICE_STORE, listService.get(position));

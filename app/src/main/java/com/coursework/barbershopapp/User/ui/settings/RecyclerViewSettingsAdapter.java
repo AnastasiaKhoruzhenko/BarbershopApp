@@ -190,33 +190,6 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
 
         Intent intent = new Intent(mContext, SettingsSelectActivity.class);
         mContext.startActivity(intent);
-
-//        final Dialog dialog = new Dialog(mContext);
-//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//        dialog.setContentView(R.layout.alert_settings_app);
-//        dialog.setTitle("Настройки аккаунта");
-//
-//        Switch push = dialog.findViewById(R.id.switch_push);
-//        Switch theme = dialog.findViewById(R.id.switch_theme);
-//        Switch lan = dialog.findViewById(R.id.switch_language);
-//        Button save = dialog.findViewById(R.id.btn_save_settapp);
-//
-//        save.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(lan.isChecked()) {
-//                    setLocale("en");
-//
-//                }
-//                else {
-//                    setLocale("ru");
-//                    recreate();
-//                }
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        dialog.show();
     }
 
     private void showInviteDialog() {
@@ -228,7 +201,6 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
     private void showRegisterDialog() {
 
         AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
-        //alertDialog.setTitle("Alert");
         alertDialog.setMessage(mContext.getResources().getString(R.string.can_edit_after_register));
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getResources().getString(R.string.not_now),
                 new DialogInterface.OnClickListener() {

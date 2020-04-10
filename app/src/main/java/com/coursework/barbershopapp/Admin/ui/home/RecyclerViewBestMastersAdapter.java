@@ -1,7 +1,9 @@
 package com.coursework.barbershopapp.Admin.ui.home;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,17 +14,15 @@ import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.coursework.barbershopapp.R;
-import com.coursework.barbershopapp.model.BookingInformation;
 import com.coursework.barbershopapp.model.Comment;
-import com.coursework.barbershopapp.model.Common;
 import com.coursework.barbershopapp.model.Master;
+import com.coursework.barbershopapp.model.TranslitClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -66,8 +66,18 @@ public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<Recycle
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+        SharedPreferences prefs = mContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language = prefs.getString("My_lang", "ru");
+
+        TranslitClass translitClass = new TranslitClass();
+
+        if(language.equals("ru"))
+            holder.name_surname.setText(list.get(position).getName()+" "+list.get(position).getSurname());
+        else
+            holder.name_surname.setText(translitClass.toTranslit(list.get(position).getName())+" "+translitClass.toTranslit(list.get(position).getSurname()));
+
+
         holder.score.setText(list.get(position).getScore());
-        holder.name_surname.setText(list.get(position).getName()+" "+list.get(position).getSurname());
 
         StorageReference phRef = FirebaseStorage.getInstance().getReference()
                 .child("personal_photos/"+list.get(position).getEmail());

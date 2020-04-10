@@ -12,12 +12,13 @@ import android.widget.Button;
 import android.widget.Switch;
 
 import com.coursework.barbershopapp.R;
+import com.github.angads25.toggle.widget.LabeledSwitch;
 
 import java.util.Locale;
 
 public class SettingsSelectActivity extends AppCompatActivity {
 
-    Switch push, theme, lan;
+    LabeledSwitch push, theme, lan;
     Button save;
 
     String lang = "ru";
@@ -32,13 +33,16 @@ public class SettingsSelectActivity extends AppCompatActivity {
         lan = findViewById(R.id.switch_language);
         save = findViewById(R.id.btn_save_settapp);
 
+        lan.setLabelOff("RU");
+        lan.setLabelOn("EN");
+
         if(lang.equals("en"))
-            lan.setChecked(true);
+            lan.setOn(true);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(lan.isChecked())
+                if(lan.isOn())
                 {
                     setLocale("en");
                 }

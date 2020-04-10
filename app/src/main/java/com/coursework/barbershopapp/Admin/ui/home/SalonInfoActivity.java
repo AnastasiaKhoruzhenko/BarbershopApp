@@ -12,10 +12,17 @@ import android.widget.RatingBar;
 
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.RegistrationActivity;
+import com.coursework.barbershopapp.model.SalonInfo;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import butterknife.BindView;
@@ -23,67 +30,36 @@ import butterknife.OnClick;
 
 public class SalonInfoActivity extends AppCompatActivity {
 
-    @BindView(R.id.card_address)
-    CardView address;
-    @BindView(R.id.card_about_us)
-    CardView about_us;
-    @BindView(R.id.card_sales)
-    CardView sales;
-
-    @OnClick(R.id.card_address)
-    void Address(){
-
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext(), R.style.CustomAlertDialog);
-//        ViewGroup viewGroup = findViewById(android.R.id.content);
-//        View dialogView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.alert_set_stars, viewGroup, false);
-//
-//        EditText comment = dialogView.findViewById(R.id.et_comment);
-//        RatingBar ratingBar = dialogView.findViewById(R.id.ratingBar_master);
-//
-//        builder.setView(dialogView);
-//        builder.setPositiveButton("ОК", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                String com = comment.getText().toString();
-//                Float rat = ratingBar.getRating();
-//
-//                Map<String, Object> map = new HashMap<>();
-//                map.put("rating", String.valueOf(Math.round(rat)));
-//                map.put("comment", com);
-//
-//                db.collection("Masters").document(bookingList.get(position).getBarberEmail())
-//                        .collection(bookingList.get(position).getDateId())
-//                        .document(String.valueOf(bookingList.get(position).getSlot()))
-//                        .update(map);
-//
-//                //   /Users/rfff@mail.ru/Visitings/1
-//                db.collection("Users").document("rfff@mail.ru")
-//                        .collection("Visitings")
-//                        .document(String.valueOf(position)).update(map);
-//
-//                holder.rating.setVisibility(View.VISIBLE);
-//                holder.rate_me.setText("Оценено");
-//                holder.rating.setRating(Math.round(rat));
-//                holder.rating.setIsIndicator(true);
-//            }
-//        });
-//        builder.setNegativeButton("ЗАКРЫТЬ", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });
-//        AlertDialog alertDialog = builder.create();
-//        alertDialog.setCanceledOnTouchOutside(false);
-//        alertDialog.show();
-
-    }
+    EditText address, info;
+    MapView map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.salon_info_activity);
+
+        address = findViewById(R.id.et_address_admin);
+        info = findViewById(R.id.editText3);
+        map = findViewById(R.id.mapView);
+
+        setData();
 
 
+    }
+
+    public void setData(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("SalonInfo").document("information")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    SalonInfo salonInfo = task.getResult().toObject(SalonInfo.class);
+                    address.setText(salonInfo.getAddress());
+                    info.setText(salonInfo.getDefinition());
+                }
+            }
+        });
     }
 }

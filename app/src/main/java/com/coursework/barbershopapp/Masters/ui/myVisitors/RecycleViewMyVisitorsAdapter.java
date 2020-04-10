@@ -1,7 +1,9 @@
 package com.coursework.barbershopapp.Masters.ui.myVisitors;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.BookingInformation;
+import com.coursework.barbershopapp.model.TranslitClass;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -58,7 +61,16 @@ public class RecycleViewMyVisitorsAdapter extends RecyclerView.Adapter<RecycleVi
 
         if(getItemCount() != 0)
         {
-            holder.name.setText(bookList.get(position).getCustomerName() + " " + bookList.get(position).getCustomerSurname());
+            SharedPreferences prefs = mContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+            String language = prefs.getString("My_lang", "ru");
+
+            TranslitClass translitClass = new TranslitClass();
+
+            if(language.equals("ru"))
+                holder.name.setText(bookList.get(position).getCustomerName() + " " + bookList.get(position).getCustomerSurname());
+            else
+                holder.name.setText(translitClass.toTranslit(bookList.get(position).getCustomerName())
+                        + " " + translitClass.toTranslit(bookList.get(position).getCustomerSurname()));
             holder.time.setText(bookList.get(position).getTime());
 
             StorageReference phRef = FirebaseStorage.getInstance().getReference()
@@ -66,7 +78,6 @@ public class RecycleViewMyVisitorsAdapter extends RecyclerView.Adapter<RecycleVi
             phRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    //img.setImageURI(uri);
 
                     Glide.with(mContext)
                             .load(uri)
@@ -164,10 +175,24 @@ public class RecycleViewMyVisitorsAdapter extends RecyclerView.Adapter<RecycleVi
             e.printStackTrace();
         }
 
-        name.setText(bookList.get(position).getCustomerName() + " "+ bookList.get(position).getCustomerSurname());
+        SharedPreferences prefs = mContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language = prefs.getString("My_lang", "ru");
+
+        TranslitClass translitClass = new TranslitClass();
+
+        if(language.equals("ru"))
+        {
+            name.setText(bookList.get(position).getCustomerName() + " "+ bookList.get(position).getCustomerSurname());
+            service.setText(bookList.get(position).getService());
+        }
+        else
+        {
+            name.setText(translitClass.toTranslit(bookList.get(position).getCustomerName()) + " "+ translitClass.toTranslit(bookList.get(position).getCustomerSurname()));
+            service.setText(bookList.get(position).getServiceEN());
+        }
+
         time.setText(bookList.get(position).getTime());
         date.setText(bookList.get(position).getDate());
-        service.setText(bookList.get(position).getService());
         switch (bookList.get(position).getServiceId())
         {
             case "BarberSPA":

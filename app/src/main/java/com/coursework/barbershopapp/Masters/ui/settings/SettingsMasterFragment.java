@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.coursework.barbershopapp.Admin.ui.masters.RecyclerViewAdapter;
 import com.coursework.barbershopapp.R;
+import com.coursework.barbershopapp.model.Common;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,16 +42,16 @@ public class SettingsMasterFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private CircleImageView img;
-    private List<String> arrSettings = new ArrayList<>(Arrays.asList(getResources().getString(R.string.personal_info), "Время работы", "Предоставляемые услуги", getResources().getString(R.string.app_settings)));
+    //private List<String> arrSettings = new ArrayList<>(Arrays.asList(getResources().getString(R.string.personal_info), "Время работы", "Предоставляемые услуги", getResources().getString(R.string.app_settings)));
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private StorageReference mStorageRef;
     private Uri mImageUri;
 
 
-    public static SettingsMasterFragment newInstance() {
-        return new SettingsMasterFragment();
-    }
+//    public static SettingsMasterFragment newInstance() {
+//        return new SettingsMasterFragment();
+//    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -89,7 +90,7 @@ public class SettingsMasterFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.recview_sett_mas);
         RecyclerViewAdapterMasterSett adapterMasterSett =
-                new RecyclerViewAdapterMasterSett(getContext(), arrSettings);
+                new RecyclerViewAdapterMasterSett(getContext(), Common.list_settings_master);
         recyclerView.setAdapter(adapterMasterSett);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

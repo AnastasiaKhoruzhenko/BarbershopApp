@@ -1,5 +1,6 @@
 package com.coursework.barbershopapp.User.ui.signup;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +16,10 @@ import android.widget.Toast;
 
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.BookingInformation;
+import com.coursework.barbershopapp.model.Comment;
 import com.coursework.barbershopapp.model.Common;
 import com.coursework.barbershopapp.model.Master;
+import com.coursework.barbershopapp.model.TranslitClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -78,11 +81,11 @@ public class BookingStep5Fragment extends Fragment{
     @BindView(R.id.cardview_name_phone)
     CardView card;
 
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public final static String DEFAULT = "N/A";
+    private final static String DEFAULT = "N/A";
 
     @OnClick(R.id.btn_confirm)
     void setConfirm() {
@@ -108,6 +111,7 @@ public class BookingStep5Fragment extends Fragment{
                             info.setRating(String.valueOf(-1));
                             info.setCustomerPhone(phone);
                             info.setCustomerSurname(surname);
+                            info.setServiceEN(Common.currentServiceType.getTitleEN());
                             info.setCustomerEmail(mAuth.getCurrentUser().getEmail());
                             info.setServiceId(Common.currentService.getName());
                             info.setSlot(Long.valueOf(Common.currentTimeSlot));
@@ -204,6 +208,7 @@ public class BookingStep5Fragment extends Fragment{
                     info.setCustomerName(textName.getText().toString());
                     info.setRating(String.valueOf(-1));
                     info.setCustomerPhone("");
+                    info.setServiceEN(Common.currentServiceType.getTitleEN());
                     info.setTimeService(Common.currentServiceType.getTime());
                     info.setCustomerEmail(textPhone.getText().toString());
                     info.setCustomerSurname("");
@@ -347,8 +352,22 @@ public class BookingStep5Fragment extends Fragment{
     };
 
     private void setData() {
-        chosen_barber_my.setText(Common.currentBarber.getName());
-        chosen_service_my.setText(Common.currentServiceType.getTitle());
+        SharedPreferences prefs = getContext().getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language = prefs.getString("My_lang", "ru");
+
+        TranslitClass translitClass = new TranslitClass();
+
+        if(language.equals("ru"))
+        {
+            chosen_barber_my.setText(Common.currentBarber.getName() + " " + Common.currentBarber.getSurname());
+            chosen_service_my.setText(Common.currentServiceType.getTitle());
+        }
+        else
+        {
+            chosen_barber_my.setText(translitClass.toTranslit(Common.currentBarber.getName()) + " " + translitClass.toTranslit(Common.currentBarber.getSurname()));
+            chosen_service_my.setText(Common.currentServiceType.getTitleEN());
+        }
+
         chosen_time_my.setText(new StringBuilder(Common.convertTimeSlotToString(Common.currentTimeSlot))
         .append(" ")
         .append(simpleDateFormatForDB.format(Common.currentDate.getTime())));
@@ -392,9 +411,6 @@ public class BookingStep5Fragment extends Fragment{
             card.setVisibility(View.VISIBLE);
 
         loadEmail();
-
-//        if(PreferenceUtils.getEmail(getContext()) != null)
-//            textPhone.setText(PreferenceUtils.getEmail(getContext()));
 
         return view;
     }

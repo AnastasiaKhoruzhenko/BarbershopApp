@@ -1,13 +1,16 @@
 package com.coursework.barbershopapp.User.ui.signup;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -20,6 +23,7 @@ import com.coursework.barbershopapp.model.BookingInformation;
 import com.coursework.barbershopapp.model.Comment;
 import com.coursework.barbershopapp.model.Common;
 import com.coursework.barbershopapp.model.Master;
+import com.coursework.barbershopapp.model.TranslitClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -49,6 +53,7 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
     private List<Master> personList = new ArrayList<>();
     private List<CardView> cardViews;
     private List<ConstraintLayout> lays;
+    private List<RadioButton> rButtons;
     private LocalBroadcastManager localBroadcastManager;
     private boolean flag;
 
@@ -66,6 +71,7 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
         lays = new ArrayList<>();
         localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
         this.flag = flag;
+        rButtons = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
     }
 
@@ -81,32 +87,67 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
+        SharedPreferences prefs = mContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language = prefs.getString("My_lang", "ru");
+
+        TranslitClass translitClass = new TranslitClass();
+
+        if(language.equals("ru"))
+            holder.name_surname.setText(personList.get(position).getName() + " " + personList.get(position).getSurname());
+        else
+            holder.name_surname.setText(translitClass.toTranslit(personList.get(position).getName()) + " " + translitClass.toTranslit(personList.get(position).getSurname()));
+
         holder.score.setText(personList.get(position).getScore());
-        holder.name_surname.setText(personList.get(position).getName() + " " + personList.get(position).getSurname());
         holder.offer.setText(personList.get(position).getPhone());
         holder.info.setClickable(true);
+        holder.radioButton.setChecked(false);
 
         List<String> services = personList.get(position).getServices();
         if(services!=null)
         {
             String offerStr = "";
-            for (String serv : services){
-                switch (serv)
-                {
-                    case "HairCut":
-                        offerStr += "стрижка, ";break;
-                    case "BarberSPA":
-                        offerStr += "SPA-процедуры, ";break;
-                    case "BeardAndMustacheCut":
-                        offerStr += "оформление бороды и усов, ";break;
-                    case "Coloring":
-                        offerStr += "покраска волос, ";break;
-                    case "CombineService":
-                        offerStr += "комбинированные услуги, ";break;
-                    case "Tatoo":
-                        offerStr += "нанесение татуировок, ";break;
+
+            if(language.equals("ru"))
+            {
+                for (String serv : services){
+                    switch (serv)
+                    {
+                        case "HairCut":
+                            offerStr += "стрижка, ";break;
+                        case "BarberSPA":
+                            offerStr += "SPA-процедуры, ";break;
+                        case "BeardAndMustacheCut":
+                            offerStr += "оформление бороды и усов, ";break;
+                        case "Coloring":
+                            offerStr += "покраска волос, ";break;
+                        case "CombineService":
+                            offerStr += "комбинированные услуги, ";break;
+                        case "Tatoo":
+                            offerStr += "нанесение татуировок, ";break;
+                    }
                 }
             }
+            else
+            {
+                for (String serv : services){
+                    switch (serv)
+                    {
+                        case "HairCut":
+                            offerStr += "haircut, ";break;
+                        case "BarberSPA":
+                            offerStr += "SPA, ";break;
+                        case "BeardAndMustacheCut":
+                            offerStr += "beard and mustache cut, ";break;
+                        case "Coloring":
+                            offerStr += "coloring, ";break;
+                        case "CombineService":
+                            offerStr += "combine services, ";break;
+                        case "Tatoo":
+                            offerStr += "tattoo, ";break;
+                    }
+                }
+            }
+
             offerStr = offerStr.substring(0, offerStr.length()-2);
             holder.offer.setText(offerStr);
         }
@@ -159,20 +200,31 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
             if(!cardViews.contains(holder.card)) {
                 lays.add(holder.lay);
                 cardViews.add(holder.card);
+                rButtons.add(holder.radioButton);
             }
+
+            holder.radioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for(RadioButton rButt : rButtons)
+                        rButt.setChecked(false);
+
+                    holder.radioButton.setChecked(true);
+
+                    Intent intent = new Intent(Common.KEY_NEXT_BTN);
+                    intent.putExtra(Common.KEY_BARBER_SELECTED, personList.get(position));
+                    intent.putExtra(Common.KEY_STEP, 3);
+                    localBroadcastManager.sendBroadcast(intent);
+                }
+            });
 
             holder.setiRecyclerItemSelectedListener(new IRecyclerItemSelectedListener() {
                 @Override
                 public void OnItemSelectedListener(View view, int position) {
-                    for(CardView card:cardViews)
-                        card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
+                    for(RadioButton rButt : rButtons)
+                        rButt.setChecked(false);
 
-                    for(ConstraintLayout card:lays)
-                        card.setBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
-
-                    holder.card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorLightBrown));
-                    holder.lay.setBackgroundColor(mContext.getResources().getColor(R.color.colorLightBrown));
-
+                    holder.radioButton.setChecked(true);
 
                     Intent intent = new Intent(Common.KEY_NEXT_BTN);
                     intent.putExtra(Common.KEY_BARBER_SELECTED, personList.get(position));
@@ -189,7 +241,7 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
             });
         }
         else{
-            holder.card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
+            holder.radioButton.setChecked(false);
 
             holder.setiRecyclerItemSelectedListener(new IRecyclerItemSelectedListener() {
                 @Override
@@ -212,6 +264,7 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
         TextView info;
         CircleImageView img;
         ConstraintLayout lay;
+        RadioButton radioButton;
 
         IRecyclerItemSelectedListener iRecyclerItemSelectedListener;
 
@@ -229,6 +282,7 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
             img = itemView.findViewById(R.id.image_photo);
             lay = itemView.findViewById(R.id.rel);
             info = itemView.findViewById(R.id.image_choose);
+            radioButton = itemView.findViewById(R.id.radioButton2);
 
 
             itemView.setOnClickListener(this);

@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class BookingStep2Fragment extends Fragment {
 
     static BookingStep2Fragment instance;
-    LocalBroadcastManager localBroadcastManager;
+    private LocalBroadcastManager localBroadcastManager;
 
     private RecyclerView recyclerView;
 

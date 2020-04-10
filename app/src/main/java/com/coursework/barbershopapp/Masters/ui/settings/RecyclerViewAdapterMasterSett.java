@@ -2,6 +2,7 @@ package com.coursework.barbershopapp.Masters.ui.settings;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.coursework.barbershopapp.R;
+import com.coursework.barbershopapp.User.ui.settings.SettingsSelectActivity;
 import com.coursework.barbershopapp.model.AboutService;
 import com.coursework.barbershopapp.model.Banner;
 import com.coursework.barbershopapp.model.BookingInformation;
@@ -50,10 +52,10 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
 
     private List<String> arrSettings;
     private Context mContext;
-    Dialog dialog;
-    FirebaseFirestore db;
-    FirebaseAuth mAuth;
-    ConstraintLayout constraintLayout;
+    private Dialog dialog;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private ConstraintLayout constraintLayout;
 
     public RecyclerViewAdapterMasterSett(Context mContext, List<String> arrSettings) {
         this.arrSettings = arrSettings;
@@ -89,7 +91,7 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
                         showServices(v, position);
                         break;
                     case 3:
-                        //showAppSettings();
+                        showAppSettings();
                         break;
 
                 }
@@ -311,5 +313,10 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
         });
 
         dialog.show();
+    }
+
+    private void showAppSettings(){
+        Intent intent = new Intent(mContext, SettingsSelectActivity.class);
+        mContext.startActivity(intent);
     }
 }

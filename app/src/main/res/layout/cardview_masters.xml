@@ -5,13 +5,8 @@
     android:id="@+id/cardview_master_foruser"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:layout_marginStart="5dp"
-    android:layout_marginEnd="5dp"
     android:background="@color/colorWhite"
-    android:orientation="vertical"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="10dp">
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rel"
@@ -25,8 +20,8 @@
             android:layout_height="70dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
             android:src="@drawable/barber"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,36 +30,39 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:textColor="@color/darkGrey"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_photo"
-            app:layout_constraintTop_toTopOf="@+id/image_photo" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/image_star"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginEnd="2dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
             android:src="@drawable/star"
-            app:layout_constraintBottom_toBottomOf="@+id/text_score"
-            app:layout_constraintEnd_toStartOf="@+id/text_score"
-            app:layout_constraintTop_toTopOf="@+id/text_score" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image_photo"
+            app:layout_constraintTop_toBottomOf="@+id/text_offers" />
 
         <TextView
             android:id="@+id/text_score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_width="0dp"
+            android:layout_height="23dp"
+            android:layout_marginStart="1dp"
             android:gravity="center"
             android:textAlignment="center"
             android:textColor="@color/normGrey"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/image_star"
+            app:layout_constraintStart_toEndOf="@+id/image_star"
+            app:layout_constraintTop_toTopOf="@+id/image_star" />
 
         <TextView
             android:id="@+id/text_offers"
@@ -73,27 +71,54 @@
             android:layout_below="@id/textV_name_sur"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:layout_toEndOf="@id/image_photo"
             android:layout_toRightOf="@id/image_photo"
             android:autoSizeTextType="uniform"
-            android:textColor="@color/normGrey"
             android:padding="3dp"
+            android:textColor="@color/normGrey"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/radioButton2"
             app:layout_constraintStart_toEndOf="@+id/image_photo"
             app:layout_constraintTop_toBottomOf="@+id/textV_name_sur" />
 
         <TextView
             android:id="@+id/image_choose"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@id/image_photo"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_score"
+            app:layout_constraintStart_toEndOf="@+id/text_score"
+            app:layout_constraintTop_toTopOf="@+id/text_score" />
+
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_offers" />
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:buttonTint="@color/colorBrown"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/divider7"
+            android:layout_width="391dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

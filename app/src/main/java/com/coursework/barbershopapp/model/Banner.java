@@ -5,21 +5,23 @@ import android.os.Parcelable;
 
 public class Banner implements Parcelable {
 
-    private String img, name, text;
+    private String img, name, text, textEN;
 
     public Banner(){
     }
 
-    public Banner(String img, String name, String text) {
+    public Banner(String img, String name, String text, String textEN) {
         this.img = img;
         this.name = name;
         this.text = text;
+        this.textEN = textEN;
     }
 
     protected Banner(Parcel in) {
         img = in.readString();
         name = in.readString();
         text = in.readString();
+        textEN = in.readString();
     }
 
     public static final Creator<Banner> CREATOR = new Creator<Banner>() {
@@ -58,6 +60,14 @@ public class Banner implements Parcelable {
         this.text = text;
     }
 
+    public String getTextEN() {
+        return textEN;
+    }
+
+    public void setTextEN(String textEN) {
+        this.textEN = textEN;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -68,5 +78,6 @@ public class Banner implements Parcelable {
         dest.writeString(img);
         dest.writeString(name);
         dest.writeString(text);
+        dest.writeString(textEN);
     }
 }

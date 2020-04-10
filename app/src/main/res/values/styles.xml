@@ -1,10 +1,10 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/darkGrey</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/partWhite</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="colorControlNormal">@color/normGrey</item>
@@ -42,6 +42,28 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="actionMenuTextColor">@color/colorAccent</item>
+    </style>
+
+    <style name="ToolbarWhite">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:background">@color/colorWhite</item>
+    </style>
+
+    <style name="OutlinedColor" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/colorBrown</item>
+        <item name="hintTextAppearance">@style/HintText</item>
+        <!-- cursor color -->
+        <item name="android:colorControlActivated">@color/colorBrown</item>
+    </style>
+
+    <style name="HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">@color/colorBrown</item>
+    </style>
+
+    <style name="SwitchTheme" parent="Theme.AppCompat.Light">
+        <item name="android:colorControlActivated">@color/colorBrown</item>
     </style>
 
 </resources>

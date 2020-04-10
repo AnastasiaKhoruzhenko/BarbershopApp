@@ -35,6 +35,11 @@ public class Common {
     // for settings
     public static List<String> list_settings = new ArrayList<String>(){{add("Настройки аккаунта"); add("Настройки приложения"); add("Пригласить друга"); add("Программа лояльности");}};
     public static List<String> list_settings_descr = new ArrayList<String>(){{add("Имя, фамилия, дата рождения ..."); add("Push-уведомления, тема, язык"); add("Пригласи друга и получи бонусы"); add("Баллы, сроки начисления");}};
+
+    public static List<String> list_settings_master = new ArrayList<String>(){{add("Настройки аккаунта"); add("Время работы"); add("Предоставляемые услуги"); add("Настройки приложения");}};
+
+    public static List<String> list_settings_admin = new ArrayList<String>(){{ add("Информация о салоне"); add("Настройки приложения");}};
+
     public static AboutService currentServiceType;
     //public static String name = "";
     public static Master currentBarber;
@@ -118,6 +123,21 @@ public class Common {
                 default:
                     return "Барбершоп закрыт!";
         }
+    }
 
+    public static int convertHourToIndex(int hour){
+        switch (hour){
+            case 10: return 3;
+            case 11: return 6;
+            case 12: return 9;
+            case 13: return 12;
+            case 14: return 15;
+            case 15: return 18;
+            case 16: return 21;
+            case 17: return 24;
+            case 18: return 27;
+            case 19: return 30;
+            default: return -1;
+        }
     }
 }

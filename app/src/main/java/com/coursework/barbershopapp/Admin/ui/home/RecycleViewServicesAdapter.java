@@ -1,7 +1,9 @@
 package com.coursework.barbershopapp.Admin.ui.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.RegistrationActivity;
 import com.coursework.barbershopapp.model.Banner;
 import com.coursework.barbershopapp.model.Common;
+import com.coursework.barbershopapp.model.TranslitClass;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -44,7 +47,13 @@ public class RecycleViewServicesAdapter extends RecyclerView.Adapter<RecycleView
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.text.setText(listService.get(position).getText());
+        SharedPreferences prefs = mContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language = prefs.getString("My_lang", "ru");
+
+        if(language.equals("ru"))
+            holder.text.setText(listService.get(position).getText());
+        else
+            holder.text.setText(listService.get(position).getTextEN());
 
         holder.step1.setOnClickListener(new View.OnClickListener() {
             @Override

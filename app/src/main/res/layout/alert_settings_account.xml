@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:layout_width="300dp"
     android:layout_height="fill_parent"
-    android:padding="5dp"
     android:background="@drawable/dialog_bd">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -16,16 +15,17 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
+        style="@style/OutlinedColor"
+        android:theme="@style/OutlinedColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ti_surname_sett"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorBrown"
             android:textColorHint="@color/normGrey"
             android:hint="@string/surname" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -40,13 +40,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_surname_sett"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        style="@style/OutlinedColor"
+        android:theme="@style/OutlinedColor">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ti_name_sett"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorBrown"
             android:textColorHint="@color/normGrey"
             android:hint="@string/name"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -62,13 +63,14 @@
         app:helperText="@string/birth_error"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_name_sett"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        style="@style/OutlinedColor"
+        android:theme="@style/OutlinedColor">
 
         <EditText
             android:id="@+id/ti_birth_sett"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorBrown"
             android:maxLength="10"
             android:inputType="number|text"
             android:textColorHint="@color/normGrey"
@@ -85,13 +87,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_birth_sett"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        style="@style/OutlinedColor"
+        android:theme="@style/OutlinedColor">
 
         <EditText
             android:id="@+id/ti_phone_sett"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorBrown"
             android:textColorHint="@color/normGrey"
             android:hint="@string/phone_number"
             android:inputType="number|text"
@@ -109,13 +112,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_phone_sett"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        style="@style/OutlinedColor"
+        android:theme="@style/OutlinedColor">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ti_email_sett"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorBrown"
             android:textColorHint="@color/normGrey"
             android:editable="false"
             android:hint="@string/email"/>
@@ -123,10 +127,12 @@
 
     <Button
         android:id="@+id/btn_alert_ok"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_down_corner"
         android:text="@string/save"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_email_sett" />
