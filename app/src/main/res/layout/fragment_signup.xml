@@ -43,7 +43,7 @@
         app:sv_stepPadding="12dp"
         app:sv_stepViewStyle="@style/StepView" />
 
-        <androidx.viewpager.widget.ViewPager
+        <com.coursework.barbershopapp.model.NonSwipeViewPager
             android:id="@+id/viewPager"
             android:background="@color/colorWhite"
             android:layout_width="match_parent"
@@ -57,7 +57,7 @@
             app:layout_constraintTop_toBottomOf="@+id/step_view"
             app:layout_constraintBottom_toTopOf="@+id/btn_next_step">
 
-        </androidx.viewpager.widget.ViewPager>
+        </com.coursework.barbershopapp.model.NonSwipeViewPager>
 
     <ImageButton
         android:id="@+id/btn_next_step"

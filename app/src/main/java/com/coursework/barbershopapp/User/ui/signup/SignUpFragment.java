@@ -26,6 +26,7 @@ import butterknife.Unbinder;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.AboutService;
 import com.coursework.barbershopapp.model.Common;
+import com.coursework.barbershopapp.model.NonSwipeViewPager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -170,7 +171,7 @@ public class SignUpFragment extends Fragment{
     @BindView(R.id.step_view)
     StepView stepView;
     @BindView(R.id.viewPager)
-    ViewPager viewPager;
+    NonSwipeViewPager viewPager;
 
     private TextView serviceName, serviceDescription, servicePrice;
 
