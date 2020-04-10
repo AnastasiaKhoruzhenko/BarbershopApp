@@ -72,7 +72,7 @@ public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerV
                 holder.radioButton.setChecked(true);
 
                 Intent intent = new Intent(Common.KEY_NEXT_BTN);
-                intent.putExtra(Common.KEY_TIME_SLOT, position);
+                intent.putExtra(Common.KEY_TIME_SLOT, Integer.valueOf(String.valueOf(timeSlotList.get(position).getSlot())));
                 intent.putExtra(Common.KEY_STEP, 4);
                 localBroadcastManager.sendBroadcast(intent);
             }
@@ -86,7 +86,7 @@ public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerV
                 holder.radioButton.setChecked(true);
 
                 Intent intent = new Intent(Common.KEY_NEXT_BTN);
-                intent.putExtra(Common.KEY_TIME_SLOT, position);
+                intent.putExtra(Common.KEY_TIME_SLOT, Integer.valueOf(String.valueOf(timeSlotList.get(position).getSlot())));
                 intent.putExtra(Common.KEY_STEP, 4);
                 localBroadcastManager.sendBroadcast(intent);
             }

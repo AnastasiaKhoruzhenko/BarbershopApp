@@ -127,28 +127,41 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
                                                 else
                                                 {
                                                     List<Integer> intList = new ArrayList<>();
-                                                    int count = Integer.valueOf(Common.currentServiceType.getTime());
+                                                    int time = Integer.valueOf(Common.currentServiceType.getTime());
+                                                    int countSl = Integer.valueOf(String.valueOf(Math.round(Math.ceil(time/20.0))));
+                                                    Toast.makeText(getActivity(), String.valueOf(countSl), Toast.LENGTH_SHORT).show();
                                                     for(QueryDocumentSnapshot doc : task.getResult())
                                                     {
                                                         String str = doc.getId();
                                                         if(!str.contains(".")) {
-                                                            //times.add(doc.toObject(TimeSlot.class));
                                                             intList.add(Integer.valueOf(str));
+                                                            for(int i=Integer.valueOf(str)-countSl + 1;i<=Integer.valueOf(str);i++)
+                                                            {
+                                                                if(!intList.contains(i))
+                                                                    intList.add(i);
+                                                            }
                                                         }
                                                         else
                                                         {
-                                                            String strCopy = str;
                                                             String[] arr = str.split("\\.");
-                                                            //times.add(new TimeSlot(Long.valueOf(arr[0])+Long.valueOf(arr[1])));
-                                                            intList.add(Integer.valueOf(arr[0])+Integer.valueOf(arr[1]));
+                                                            int l = Integer.valueOf(arr[0])+Integer.valueOf(arr[1]);
+                                                            intList.add(l);
+                                                            for(int i = l-countSl + 1;i<=l;i++)
+                                                            {
+                                                                if(!intList.contains(i))
+                                                                    intList.add(i);
+                                                            }
                                                         }
                                                     }
-                                                    List<Integer> integerList = new ArrayList<>();
+                                                    for(int i = 33 - countSl; i <= 32; i++) {
+                                                        if (!intList.contains(i))
+                                                            intList.add(i);
+                                                    }
+
                                                     for(int i=0;i<=32;i++)
                                                     {
                                                         if(!intList.contains(i)) {
                                                             times.add(new TimeSlot(Long.valueOf(i)));
-                                                            integerList.add(i);
                                                         }
                                                     }
                                                     //int count = (int)Math.round(Math.ceil(Integer.valueOf(Common.currentServiceType.getTime())/20));
@@ -172,7 +185,7 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
 //                                                        }
 //                                                    }
 
-                                                    Toast.makeText(getActivity(), String.valueOf(integerList.size()), Toast.LENGTH_SHORT).show();
+                                                    //Toast.makeText(getActivity(), String.valueOf(integerList.size()), Toast.LENGTH_SHORT).show();
 
                                                     iTimeSlotLoadListener.onTimeSlotLoadListener(times);
                                                     emptyRec.setText("");
