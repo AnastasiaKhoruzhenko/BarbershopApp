@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
@@ -27,7 +29,6 @@ public class MyVisitingsFragment extends Fragment{
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private TextView text;
     private FirebaseAuth mAuth;
 
     private StorageReference mStorageRef;
@@ -47,7 +48,7 @@ public class MyVisitingsFragment extends Fragment{
         mStorageRef = FirebaseStorage.getInstance().getReference("personal_photos");
 
         viewPager  = root.findViewById(R.id.viewpager_visitings);
-        text = root.findViewById(R.id.tv_not_authorized);
+        TextView text = root.findViewById(R.id.tv_not_authorized);
 
         tabLayout = root.findViewById(R.id.tabs);
 

@@ -40,6 +40,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -90,6 +91,7 @@ public class BookingStep5Fragment extends Fragment{
     @OnClick(R.id.btn_confirm)
     void setConfirm() {
 
+        UUID uniqueId = UUID.randomUUID();
         if (user != null)
         {
             BookingInformation info = new BookingInformation();
@@ -110,6 +112,7 @@ public class BookingStep5Fragment extends Fragment{
                             info.setTimeService(Common.currentServiceType.getTime());
                             info.setRating(String.valueOf(-1));
                             info.setCustomerPhone(phone);
+                            info.setId(String.valueOf(uniqueId));
                             info.setCustomerSurname(surname);
                             info.setServiceEN(Common.currentServiceType.getTitleEN());
                             info.setCustomerEmail(mAuth.getCurrentUser().getEmail());
@@ -179,11 +182,14 @@ public class BookingStep5Fragment extends Fragment{
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
-                                                int count = 0;
+                                                int max = 0;
                                                 for (QueryDocumentSnapshot d : task.getResult())
-                                                    count++;
+                                                {
+                                                    if(Integer.valueOf(d.getId())>max)
+                                                        max = Integer.valueOf(d.getId());
+                                                }
 
-                                                setUserVisiting(count, info, mAuth.getCurrentUser().getEmail());
+                                                setUserVisiting(max+1, info, mAuth.getCurrentUser().getEmail());
 
                                             }
                                         }
@@ -208,6 +214,7 @@ public class BookingStep5Fragment extends Fragment{
                     info.setCustomerName(textName.getText().toString());
                     info.setRating(String.valueOf(-1));
                     info.setCustomerPhone("");
+                    info.setId(String.valueOf(uniqueId));
                     info.setServiceEN(Common.currentServiceType.getTitleEN());
                     info.setTimeService(Common.currentServiceType.getTime());
                     info.setCustomerEmail(textPhone.getText().toString());
@@ -275,17 +282,26 @@ public class BookingStep5Fragment extends Fragment{
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
-                                        int count = 0;
+                                        int max = 0;
                                         for (QueryDocumentSnapshot d : task.getResult())
-                                            count++;
+                                        {
+                                            if(Integer.valueOf(d.getId())>max)
+                                                max = Integer.valueOf(d.getId());
+                                        }
 
-                                        setUserVisiting(count, info, textPhone.getText().toString());
+                                        setUserVisiting(max+1, info, textPhone.getText().toString());
 
                                     }
                                 }
                             });
             }
         }
+        //resetStaticData();
+    }
+
+    private void setUserVisiting(int count, BookingInformation info, String email) {
+        FirebaseFirestore.getInstance().collection("Users").document(email)
+                .collection("Visitings").document(String.valueOf(count)).set(info);
 
         db.collection("Masters").document(Common.currentBarber.getEmail())
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -316,13 +332,6 @@ public class BookingStep5Fragment extends Fragment{
                 }
             }
         });
-
-        //resetStaticData();
-    }
-
-    private void setUserVisiting(int count, BookingInformation info, String email) {
-        FirebaseFirestore.getInstance().collection("Users").document(email)
-                .collection("Visitings").document(String.valueOf(count)).set(info);
 
         saveText();
     }

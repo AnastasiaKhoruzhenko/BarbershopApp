@@ -72,6 +72,7 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
         public void onReceive(Context context, Intent intent) {
             Calendar date = Calendar.getInstance();
             date.add(Calendar.DATE, 0);
+            //Common.currentDate.add(Calendar.DATE, 0);
             loadAvailiableTimeSlot(Common.currentBarber.getEmail(), simpleDateFormat.format(date.getTime()));
         }
     };
@@ -106,11 +107,13 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
                                                     iTimeSlotLoadListener.onTimeSlotLoadListener(times);
                                                 }
                                                 else if(querySnapshot.isEmpty()) {
+                                                    int time = Integer.valueOf(Common.currentServiceType.getTime());
+                                                    int countSl = Integer.valueOf(String.valueOf(Math.round(Math.ceil(time/20.0))));
                                                     if(currentHourIn24Format>=10 && currentHourIn24Format <= 19
                                                             && simpleDateFormat.format(currentTime).equals(format))
                                                     {
                                                         int k = Common.convertHourToIndex(currentHourIn24Format);
-                                                        for(int i=k;i<=32;i++)
+                                                        for(int i=k;i<=32 - countSl;i++)
                                                         {
                                                             times.add(new TimeSlot(Long.valueOf(i)));
                                                         }
@@ -118,7 +121,7 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
                                                         emptyRec.setText("");
                                                     }
                                                     else {
-                                                        for (int i = 0; i <= 32; i++)
+                                                        for (int i = 0; i <= 32-countSl; i++)
                                                             times.add(new TimeSlot(Long.valueOf(i)));
                                                         iTimeSlotLoadListener.onTimeSlotLoadListener(times);
                                                         emptyRec.setText("");
@@ -130,6 +133,7 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
                                                     int time = Integer.valueOf(Common.currentServiceType.getTime());
                                                     int countSl = Integer.valueOf(String.valueOf(Math.round(Math.ceil(time/20.0))));
                                                     Toast.makeText(getActivity(), String.valueOf(countSl), Toast.LENGTH_SHORT).show();
+
                                                     for(QueryDocumentSnapshot doc : task.getResult())
                                                     {
                                                         String str = doc.getId();
@@ -158,33 +162,22 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
                                                             intList.add(i);
                                                     }
 
+                                                    if(currentHourIn24Format>=10 && currentHourIn24Format <= 19
+                                                            && simpleDateFormat.format(currentTime).equals(format))
+                                                    {
+                                                        int k = Common.convertHourToIndex(currentHourIn24Format);
+                                                        for(int i=0;i<=k;i++)
+                                                        {
+                                                            intList.add(i);
+                                                        }
+                                                    }
+
                                                     for(int i=0;i<=32;i++)
                                                     {
                                                         if(!intList.contains(i)) {
                                                             times.add(new TimeSlot(Long.valueOf(i)));
                                                         }
                                                     }
-                                                    //int count = (int)Math.round(Math.ceil(Integer.valueOf(Common.currentServiceType.getTime())/20));
-                                                    //Toast.makeText(getActivity(), count, Toast.LENGTH_SHORT).show();
-
-//                                                    for(int i = 0;i<integerList.size()-count;i++)
-//                                                    {
-//                                                        int ch = integerList.get(i);
-//                                                        for(int j=i+1;j<=i+count-1;j++)
-//                                                        {
-//                                                            if(ch == integerList.get(j) - 1)
-//                                                            {
-////                                                                if(j == i + count - 1)
-////                                                                    iList.add(new TimeSlot(Long.valueOf(i)));
-//                                                                ch = integerList.get(j);
-//                                                            }
-//                                                            else {
-//                                                                times.remove(integerList.get(i));
-//                                                                break;
-//                                                            }
-//                                                        }
-//                                                    }
-
                                                     //Toast.makeText(getActivity(), String.valueOf(integerList.size()), Toast.LENGTH_SHORT).show();
 
                                                     iTimeSlotLoadListener.onTimeSlotLoadListener(times);
@@ -219,8 +212,6 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
         localBroadcastManager.registerReceiver(displayTimeSlot, new IntentFilter(Common.KEY_DISPLAY_TIMESLOT));
         simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");
-
-        //dialog = new SpotsDialog.Builder().setContext(getContext()).setCancelable(false).build();
     }
 
     @Override

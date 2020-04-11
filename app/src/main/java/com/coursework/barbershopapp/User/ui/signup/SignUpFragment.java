@@ -109,6 +109,9 @@ public class SignUpFragment extends Fragment{
     void prevStep(){
         if(Common.STEP == 4 || Common.STEP > 0)
         {
+//            if(Common.STEP == 4)
+//                Common.currentDate = Calendar.getInstance();
+
             Common.STEP--;
             viewPager.setCurrentItem(Common.STEP);
             if(Common.STEP < 4)

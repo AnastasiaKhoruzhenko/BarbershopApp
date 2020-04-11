@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,19 @@ import com.bumptech.glide.Glide;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.RegistrationActivity;
 import com.coursework.barbershopapp.model.BookingInformation;
+import com.coursework.barbershopapp.model.Common;
+import com.coursework.barbershopapp.model.Master;
 import com.coursework.barbershopapp.model.TranslitClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.base.MoreObjects;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -41,11 +47,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<RecyclerViewMyVisitingAdapter.ViewHolder> {
 
-    List<BookingInformation> bookingList;
+    private List<BookingInformation> bookingList;
     private Context mContext;
-    FirebaseFirestore db;
-    FirebaseAuth user;
-    int title;
+    private FirebaseFirestore db;
+    private FirebaseAuth user;
+    private int title;
 
     public RecyclerViewMyVisitingAdapter(Context mContext, List<BookingInformation> bookingList, int title) {
         this.bookingList = bookingList;
@@ -60,6 +66,105 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_visiting, parent, false);
         return new ViewHolder(view);
+    }
+
+    public void deleteItem(int position)
+    {
+        Toast.makeText(mContext, "Deleted", Toast.LENGTH_SHORT).show();
+        BookingInformation bookCopy = bookingList.get(position);
+        bookingList.remove(bookingList.get(position));
+
+        db.collection("Masters").document(bookCopy.getBarberEmail())
+                .collection(bookCopy.getDateId())
+                .whereEqualTo("id", String.valueOf(bookCopy.getId()))
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful())
+                        {
+                            for(QueryDocumentSnapshot doc : task.getResult())
+                                doc.getReference().delete();
+                        }
+                    }
+                });
+
+        db.collection("Users").document(bookCopy.getCustomerEmail())
+                .collection("Visitings")
+                .whereEqualTo("id", bookCopy.getId())
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    for(QueryDocumentSnapshot doc : task.getResult())
+                        doc.getReference().delete();
+                }
+            }
+        });
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                checkThisDateExists(position, bookCopy);
+            }
+        }, 1000);
+    }
+
+    public void checkThisDateExists(int position, BookingInformation copy) {
+        db.collection("Masters").document(copy.getBarberEmail())
+                .collection(copy.getDateId()).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful())
+                        {
+                            int time = Integer.valueOf(copy.getTimeService());
+                            int countSl = Integer.valueOf(String.valueOf(Math.round(Math.ceil(time/20.0))));
+                            int count = 0;
+                            for(QueryDocumentSnapshot doc : task.getResult())
+                                count++;
+                            //Toast.makeText(mContext, String.valueOf(count) + " " + String.valueOf(countSl), Toast.LENGTH_SHORT).show();
+                            if(count == 0)
+                            {
+                                db.collection("Masters").document(copy.getBarberEmail())
+                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful())
+                                        {
+                                            Master master = task.getResult().toObject(Master.class);
+                                            master.getDates().remove(String.valueOf(copy.getDateId()));
+                                            //Toast.makeText(mContext, String.valueOf(master.getDates().size()), Toast.LENGTH_SHORT).show();
+                                            db.collection("Masters")
+                                                    .document(copy.getBarberEmail())
+                                                    .set(master);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(mContext, "Visiting not exists", Toast.LENGTH_SHORT).show();
+                        db.collection("Masters").document(bookingList.get(position).getBarberEmail())
+                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful())
+                                {
+                                    Master master = task.getResult().toObject(Master.class);
+                                    master.getDates().remove(String.valueOf(bookingList.get(position).getDateId()));
+                                    db.collection("Masters")
+                                            .document(bookingList.get(position).getBarberEmail())
+                                            .set(master);
+                                }
+                            }
+                        });
+                    }
+                });
     }
 
     @Override

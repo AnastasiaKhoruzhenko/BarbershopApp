@@ -93,5 +93,6 @@
     <string name="title_en">Название услуги (англ)</string>
     <string name="description_en">Описание (англ)</string>
     <string name="error_book_today">На сегодня записаться уже нельзя</string>
+    <string name="you_have_no_visitings_yet">Вы еще ни разу не посетили барбершоп</string>
 
 </resources>

@@ -35,20 +35,19 @@ import butterknife.Unbinder;
 
 public class BookingStep3Fragment extends Fragment {
 
-    static BookingStep3Fragment instance;
-    Unbinder unbinder;
+    private static BookingStep3Fragment instance;
+    private Unbinder unbinder;
 
     @BindView(R.id.recview_masters_to_choose)
     RecyclerView recyclerView;
 
     private FirebaseFirestore db;
-    LocalBroadcastManager localBroadcastManager;
+    private LocalBroadcastManager localBroadcastManager;
 
     private BroadcastReceiver barberDoneReciever = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             loadBarbers(Common.currentService.getName());
-            //Toast.makeText(getContext(), Common.currentService.getName(), Toast.LENGTH_LONG).show();
         }
     };
 
@@ -83,19 +82,12 @@ public class BookingStep3Fragment extends Fragment {
                                     }
                                 });
                             }
-
-//                            // send brouadcast to Fragment3
-//                            Intent intent = new Intent(Common.KEY_SERVICES_LOAD_DONE);
-//                            intent.putParcelableArrayListExtra(Common.KEY_SERVICES_LOAD_DONE, pList);
-//                            localBroadcastManager.sendBroadcast(intent);
                         }
                     }
                 });
 
 
     }
-
-    //IMastersLoadListener iMastersLoadListener;
 
     public static BookingStep3Fragment getInstance(){
         if(instance == null)
@@ -107,7 +99,6 @@ public class BookingStep3Fragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        iMastersLoadListener = this;
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
         localBroadcastManager.registerReceiver(barberDoneReciever, new IntentFilter(Common.KEY_DISPLAY_BARBER));
     }
@@ -128,23 +119,6 @@ public class BookingStep3Fragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         db = FirebaseFirestore.getInstance();
 
-        //DocumentReference doc = db.collection()
-
-        initRecView(view);
-
-        // iMastersLoadListener.onMastersLoadSuccess();
-
         return view;
     }
-
-    private void initRecView(View view) {
-
-    }
-
-//    private void loadList(List<Master> pList) {
-//
-//        RecyclerViewMastersChooseAdapter recView = new RecyclerViewMastersChooseAdapter(getContext(), pList);
-//        recyclerView.setAdapter(recView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//    }
 }
