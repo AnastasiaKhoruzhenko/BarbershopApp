@@ -95,4 +95,5 @@
     <string name="description_en">Description (en)</string>
     <string name="error_book_today">Booking on this day is unavailable</string>
     <string name="you_have_no_visitings_yet">You have\'t been in out barbershop yet</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -42,6 +42,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -277,6 +278,7 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
         TextView barber_name, time, price, service_name, rate_me;
         RatingBar rating;
         CircleImageView img;
+        ConstraintLayout foreground, background;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -289,6 +291,8 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
             rate_me = itemView.findViewById(R.id.tv_rate_me);
             rating = itemView.findViewById(R.id.ratingBar);
             img = itemView.findViewById(R.id.img_service);
+            foreground = itemView.findViewById(R.id.view_foreground_delete);
+            background = itemView.findViewById(R.id.view_background_delete);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.coursework.barbershopapp.User.ui.myVisitings;
 
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -147,7 +148,7 @@ public class TabVisitingFragment extends Fragment {
 
         if(title == 1)
         {
-            new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT) {
                 @Override
                 public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                     return false;
@@ -164,6 +165,38 @@ public class TabVisitingFragment extends Fragment {
 //                        //recView.notifyDataSetChanged();
 //                    }
 //                }, 10);
+                }
+
+                @Override
+                public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                    View foregroundView = ((RecyclerViewMyVisitingAdapter.ViewHolder)viewHolder).foreground;
+                    getDefaultUIUtil().clearView(foregroundView);
+                }
+
+                @Override
+                public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                    View foregroundView = ((RecyclerViewMyVisitingAdapter.ViewHolder)viewHolder).foreground;
+                    getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
+                }
+
+                @Override
+                public void onChildDrawOver(@NonNull Canvas c, @NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                    View foregroundView = ((RecyclerViewMyVisitingAdapter.ViewHolder)viewHolder).foreground;
+                    getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
+                }
+
+                @Override
+                public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
+                    if(viewHolder != null)
+                    {
+                        View foregroundView = ((RecyclerViewMyVisitingAdapter.ViewHolder)viewHolder).foreground;
+                        getDefaultUIUtil().onSelected(foregroundView);
+                    }
+                }
+
+                @Override
+                public int convertToAbsoluteDirection(int flags, int layoutDirection) {
+                    return super.convertToAbsoluteDirection(flags, layoutDirection);
                 }
             }).attachToRecyclerView(recyclerView);
         }
