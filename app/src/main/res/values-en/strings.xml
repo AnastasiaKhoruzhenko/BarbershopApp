@@ -96,4 +96,6 @@
     <string name="error_book_today">Booking on this day is unavailable</string>
     <string name="you_have_no_visitings_yet">You have\'t been in out barbershop yet</string>
     <string name="delete">Delete</string>
+    <string name="undo">Undo</string>
+    <string name="visiting_deleted">Your visiting has been canceled</string>
 </resources>

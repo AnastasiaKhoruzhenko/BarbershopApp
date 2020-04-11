@@ -14,6 +14,7 @@ import com.coursework.barbershopapp.model.BookingInformation;
 import com.coursework.barbershopapp.model.Common;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -156,15 +157,8 @@ public class TabVisitingFragment extends Fragment {
 
                 @Override
                 public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                    recView.deleteItem(viewHolder.getAdapterPosition());
+                    recView.deleteItem(viewHolder.getAdapterPosition(), recyclerView);
                     recView.notifyItemRemoved(viewHolder.getAdapterPosition());
-//                Handler handler = new Handler();
-//                handler.postDelayed(new Runnable() {
-//                    public void run() {
-//                        recView.notifyItemRemoved(viewHolder.getAdapterPosition());
-//                        //recView.notifyDataSetChanged();
-//                    }
-//                }, 10);
                 }
 
                 @Override

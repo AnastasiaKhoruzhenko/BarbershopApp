@@ -95,5 +95,7 @@
     <string name="error_book_today">На сегодня записаться уже нельзя</string>
     <string name="you_have_no_visitings_yet">Вы еще ни разу не посетили барбершоп</string>
     <string name="delete">Удалить</string>
+    <string name="undo">Вернуть</string>
+    <string name="visiting_deleted">Посещение было отменено</string>
 
 </resources>

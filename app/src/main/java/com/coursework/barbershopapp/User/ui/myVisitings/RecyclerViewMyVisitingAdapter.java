@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.common.base.MoreObjects;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -43,6 +45,7 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -53,6 +56,8 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
     private FirebaseFirestore db;
     private FirebaseAuth user;
     private int title;
+
+    private boolean[] delete = {true};
 
     public RecyclerViewMyVisitingAdapter(Context mContext, List<BookingInformation> bookingList, int title) {
         this.bookingList = bookingList;
@@ -69,25 +74,65 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
         return new ViewHolder(view);
     }
 
-    public void deleteItem(int position)
+    public void deleteItem(int position, View view)
     {
-        Toast.makeText(mContext, "Deleted", Toast.LENGTH_SHORT).show();
         BookingInformation bookCopy = bookingList.get(position);
         bookingList.remove(bookingList.get(position));
+        showSBMargin(getSnackBar(view, position, bookCopy), 16, 16);
+    }
 
+    public Snackbar getSnackBar(View view, int position, BookingInformation bookCopy){
+        return Snackbar.make(view, mContext.getResources().getString(R.string.visiting_deleted), Snackbar.LENGTH_LONG)
+                .setCallback(new Snackbar.Callback(){
+                    @Override
+                    public void onDismissed(Snackbar snackbar, int event) {
+                        super.onDismissed(snackbar, event);
+                        if(delete[0])
+                        {
+                            deleteThis(position, bookCopy);
+                        }
+                    }
+                })
+                .setAction(mContext.getResources().getString(R.string.undo), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bookingList.add(position, bookCopy);
+                        delete[0] = false;
+                        notifyItemInserted(position);
+                    }
+                })
+                .setActionTextColor(mContext.getResources().getColor(R.color.colorBrown));
+    }
+
+    public void showSBMargin(Snackbar snackbar, int side, int bottom){
+        final View snackbarView = snackbar.getView();
+        snackbarView.setBackground(mContext.getResources().getDrawable(R.drawable.snackbar));
+        final FrameLayout.LayoutParams params =
+                (FrameLayout.LayoutParams)snackbarView.getLayoutParams();
+        params.setMargins(params.leftMargin + side,
+                params.topMargin,
+                params.rightMargin + side,
+                params.bottomMargin + bottom);
+
+        snackbarView.setLayoutParams(params);
+        snackbar.show();
+
+    }
+
+    private void deleteThis(int position, BookingInformation bookCopy) {
         db.collection("Masters").document(bookCopy.getBarberEmail())
                 .collection(bookCopy.getDateId())
                 .whereEqualTo("id", String.valueOf(bookCopy.getId()))
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful())
-                        {
-                            for(QueryDocumentSnapshot doc : task.getResult())
-                                doc.getReference().delete();
-                        }
-                    }
-                });
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    for(QueryDocumentSnapshot doc : task.getResult())
+                        doc.getReference().delete();
+                }
+            }
+        });
 
         db.collection("Users").document(bookCopy.getCustomerEmail())
                 .collection("Visitings")
@@ -108,7 +153,7 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
             public void run() {
                 checkThisDateExists(position, bookCopy);
             }
-        }, 1000);
+        }, 100);
     }
 
     public void checkThisDateExists(int position, BookingInformation copy) {
