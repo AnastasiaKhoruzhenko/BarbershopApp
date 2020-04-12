@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
+    android:id="@+id/constr_user_login"
     android:background="@color/colorWhite">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -16,6 +17,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/login"
+        app:errorEnabled="true"
         style="@style/OutlinedColor"
         android:theme="@style/OutlinedColor"
         android:textColorHint="@color/normGrey"
@@ -25,6 +27,7 @@
 
         <EditText
             android:id="@+id/log_text"
+            android:fontFamily="@font/andika"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorDone"
@@ -33,15 +36,16 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputField_pass"
+        style="@style/OutlinedColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/password"
-        style="@style/OutlinedColor"
-        android:theme="@style/OutlinedColor"
         android:textColorHint="@color/normGrey"
+        android:theme="@style/OutlinedColor"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout_log">
@@ -51,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
+            android:fontFamily="@font/andika"
             android:textColor="@color/colorDone"
             android:textColorHint="@color/normGrey" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -59,16 +64,17 @@
         android:id="@+id/button_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/colorBrown"
         android:fontFamily="@font/andika"
         android:padding="15dp"
         android:text="@string/sign_in"
         android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputField_pass" />
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

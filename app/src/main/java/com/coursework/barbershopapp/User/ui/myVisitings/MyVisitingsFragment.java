@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -43,6 +46,7 @@ public class MyVisitingsFragment extends Fragment{
 
         View root = inflater.inflate(R.layout.my_visitings_fragment, container, false);
         resetStaticData();
+        setHasOptionsMenu(true);
 
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference("personal_photos");
@@ -76,6 +80,23 @@ public class MyVisitingsFragment extends Fragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.question));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.menu_my_account:
+                // to do click
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public boolean checkPref(){

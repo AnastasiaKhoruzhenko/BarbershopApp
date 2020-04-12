@@ -43,16 +43,17 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_admin_edit_name"
+        style="@style/OutlinedColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:textColorHint="@color/normGrey"
+        android:theme="@style/OutlinedColor"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColorHint="@color/normGrey"
-        style="@style/OutlinedColor"
-        android:theme="@style/OutlinedColor"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_edit_close">
 
         <EditText
@@ -60,21 +61,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoSizeTextType="uniform"
+            android:hint="@string/title"
             android:textColor="@color/colorDone"
-            android:textColorHint="@color/normGrey"
-            android:hint="@string/title"/>
+            android:textColorHint="@color/normGrey" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_admin_edit_descr"
         style="@style/OutlinedColor"
-        android:theme="@style/OutlinedColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:textColorHint="@color/normGrey"
+        android:theme="@style/OutlinedColor"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,9 +86,9 @@
             android:id="@+id/ti_admin_edit_descr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
             android:gravity="start"
             android:hint="@string/description"
-            android:autoSizeTextType="uniform"
             android:lines="3"
             android:textColor="@color/colorDone"
             android:textColorHint="@color/normGrey" />
@@ -95,13 +97,14 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_admin_edit_price"
         style="@style/OutlinedColor"
-        android:theme="@style/OutlinedColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:textColorHint="@color/normGrey"
+        android:theme="@style/OutlinedColor"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -119,13 +122,14 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_admin_edit_time"
         style="@style/OutlinedColor"
-        android:theme="@style/OutlinedColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:textColorHint="@color/normGrey"
+        android:theme="@style/OutlinedColor"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_admin_edit_price">
@@ -141,13 +145,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_admin_edit_title_en"
+        style="@style/OutlinedColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        style="@style/OutlinedColor"
         android:theme="@style/OutlinedColor"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_admin_edit_name">
@@ -165,12 +170,13 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_admin_edit_descr_en"
         style="@style/OutlinedColor"
-        android:theme="@style/OutlinedColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:theme="@style/OutlinedColor"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_admin_edit_descr">
@@ -191,13 +197,13 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/save"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/colorBrown"
+        android:text="@string/save"
         android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_admin_edit_descr_en" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -101,33 +101,119 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 btn_reg.setClickable(false);
-                String name = inp_name.getText().toString();
-                String surname = inp_surname.getText().toString();
-                String email = inp_log.getText().toString();
-                String password = inp_pass.getText().toString();
-                String confPass = inp_conf_pass.getText().toString();
-                String phone = inp_phone.getText().toString();
-                String birth = inp_birthdate.getText().toString();
 
-                if(email.isEmpty() || password.isEmpty() || phone.isEmpty() || confPass.isEmpty()
-                        || surname.isEmpty() || birth.isEmpty()){
-                    showMessage(getResources().getString(R.string.set_all_fields));
-                    btn_reg.setClickable(true);
-                }
-                else if(!password.equals(confPass)) {
-                    showMessage(getResources().getString(R.string.passwords_not_equal));
-                    btn_reg.setClickable(true);
-                }
-                else if(password.length() < 8) {
-                    showMessage(getResources().getString(R.string.password_less_8));
-                    btn_reg.setClickable(true);
-                }
+                validateName();
+                validateSurname();
+                validateDate();
+                validatePhone();
+                validateEmail();
+                validatePass();
+                validateConfPass();
+
+                if(validateEqualPasswords() && validateName() && validateSurname() && validateDate() && validatePhone()
+                && validateEmail() && validatePass() && validateConfPass())
+                    createUserAccount(inp_log.getText().toString(),
+                            inp_name.getText().toString(),
+                            inp_surname.getText().toString(),
+                            inp_phone.getText().toString(),
+                            inp_birthdate.getText().toString(),
+                            inp_pass.getText().toString());
                 else
-                {
-                    createUserAccount(email, name, surname, phone, birth, password);
-                }
+                    btn_reg.setClickable(true);
             }
         });
+    }
+
+    private boolean validateName(){
+        if(inp_name.getText().toString().isEmpty()) {
+            lay_name.setError("Cant'be empty");
+            return false;
+        }
+        lay_name.setError(null);
+        return true;
+    }
+    private boolean validateSurname(){
+        if(inp_surname.getText().toString().isEmpty()) {
+            lay_surname.setError("Cant'be empty");
+            return false;
+        }
+        lay_surname.setError(null);
+        return true;
+    }
+    private boolean validateEmail(){
+        if(inp_log.getText().toString().isEmpty()) {
+            lay_log.setError("Cant'be empty");
+            return false;
+        }
+        lay_log.setError(null);
+        return true;
+    }
+    private boolean validateDate(){
+        if(inp_birthdate.getText().toString().isEmpty()) {
+            lay_birthdate.setError("Cant'be empty");
+            return false;
+        }
+        else if(inp_birthdate.getText().toString().length() != 10)
+        {
+            lay_birthdate.setError("Дата рождения введена не до конца");
+            return false;
+        }
+        else if (Integer.valueOf(inp_birthdate.getText().toString().substring(0,2)) > 31
+                || Integer.valueOf(inp_birthdate.getText().toString().substring(0,2)) < 1
+                || Integer.valueOf(inp_birthdate.getText().toString().substring(3,5)) < 1
+                || Integer.valueOf(inp_birthdate.getText().toString().substring(3,5)) > 12
+                || Integer.valueOf(inp_birthdate.getText().toString().substring(6,10)) > 2020
+                || Integer.valueOf(inp_birthdate.getText().toString().substring(6,10)) < 1920)
+        {
+            lay_birthdate.setError("День, месяц или год рождения неверны");
+            return false;
+        }
+        lay_birthdate.setError(null);
+        return true;
+    }
+    private boolean validatePhone(){
+        if(inp_phone.getText().toString().isEmpty()) {
+            lay_phone.setError("Cant'be empty");
+            return false;
+        }
+        else if(inp_phone.getText().toString().length()!=15){
+            lay_phone.setError("Номер телефона неверен");
+            return false;
+        }
+        lay_phone.setError(null);
+        return true;
+    }
+    private boolean validatePass(){
+        if(inp_pass.getText().toString().isEmpty()) {
+            lay_pass.setError("Cant'be empty");
+            return false;
+        }
+        else if(inp_pass.getText().toString().length()<8){
+            lay_pass.setError("Пароль должен содержать не менее 8 символов");
+            return false;
+        }
+        lay_pass.setError(null);
+        return true;
+    }
+    private boolean validateConfPass(){
+        if(inp_conf_pass.getText().toString().isEmpty()) {
+            lay_conf_pass.setError("Cant'be empty");
+            return false;
+        }
+        else if(inp_conf_pass.getText().toString().length()<8){
+            lay_conf_pass.setError("Пароль должен содержать не менее 8 символов");
+            return false;
+        }
+        lay_conf_pass.setError(null);
+        return true;
+    }
+
+    private boolean validateEqualPasswords(){
+        if(!inp_pass.getText().toString().equals(inp_conf_pass.getText().toString())) {
+            lay_conf_pass.setError("Passwords are not equal");
+            return false;
+        }
+        return true;
     }
 
     private void createUserAccount(final String email, final String name, final String surname, final String phone, final String birth, final String password) {

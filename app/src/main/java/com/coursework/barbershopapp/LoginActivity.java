@@ -58,21 +58,33 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 login_btn.setClickable(false);
-                final String login_str=log.getText().toString();
-                final String pass_str = pass.getText().toString();
 
-                if(login_str.isEmpty() || pass_str.isEmpty())
-                {
-                    showMessage("Не введен логин или пароль");
-                    login_btn.setClickable(true);
-                }
+                validateEmail();
+                validatePass();
+
+                if(validatePass() && validateEmail())
+                    signIn(log.getText().toString(), pass.getText().toString());
                 else
-                {
-                    //checkIfIfNewMaster(login_str, pass_str);
-                    signIn(login_str, pass_str);
-                }
+                    login_btn.setClickable(true);
             }
         });
+    }
+
+    private boolean validateEmail(){
+        if(log.getText().toString().isEmpty()) {
+            textInputLayout1.setError("Заполните email");
+            return false;
+        }
+        textInputLayout1.setError(null);
+        return true;
+    }
+    private boolean validatePass(){
+        if(pass.getText().toString().isEmpty()) {
+            textInputLayout2.setError("Заполните пароль");
+            return false;
+        }
+        textInputLayout2.setError(null);
+        return true;
     }
 
     private void signIn(final String login_str, final String pass_str) {
@@ -82,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful())
                 {
-                    showMessage("Логин или пароль введены верно");
                     updateUI(login_str);
                 }
             }
@@ -134,16 +145,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void createMaster(String login_str, String pass_str) {
+        login_btn.setClickable(false);
         mAuth.createUserWithEmailAndPassword(login_str, pass_str).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     updateUI(login_str);
                 }
-//                else
-//                {
-//                    showMessage("Пользователь с такой почтой уже существует");
-//                }
             }
         });
     }
@@ -193,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+        login_btn.setClickable(true);
     }
 
     private void showMessage(String text) {

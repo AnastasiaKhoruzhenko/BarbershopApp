@@ -10,15 +10,16 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layReg_log"
+        style="@style/OutlinedColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/email"
-        style="@style/OutlinedColor"
-        android:theme="@style/OutlinedColor"
         android:textColorHint="@color/normGrey"
+        android:theme="@style/OutlinedColor"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layReg_surname">
@@ -27,22 +28,25 @@
             android:id="@+id/inputReg_log"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorDone"
             android:drawableRight="@drawable/mail"
+            android:textColor="@color/colorDone"
+            android:fontFamily="@font/andika"
             android:textColorHint="@color/normGrey" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layreg_pass"
+        style="@style/OutlinedColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/password"
-        style="@style/OutlinedColor"
-        android:theme="@style/OutlinedColor"
+        app:passwordToggleEnabled="true"
         android:textColorHint="@color/normGrey"
+        android:theme="@style/OutlinedColor"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_birthdate_reg">
@@ -51,8 +55,9 @@
             android:id="@+id/inputReg_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:fontFamily="@font/andika"
             android:textColor="@color/colorDone"
             android:textColorHint="@color/normGrey" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -61,17 +66,18 @@
         android:id="@+id/reg_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/colorBrown"
         android:padding="15dp"
+        android:fontFamily="@font/andika"
         android:text="@string/registration"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/normGrey"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_conf_password" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layReg_name"
@@ -82,6 +88,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="3dp"
+        app:errorEnabled="true"
         android:textColorHint="@color/normGrey"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,6 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name"
+            android:fontFamily="@font/andika"
             android:textColor="@color/colorDone"
             android:textColorHint="@color/normGrey" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -104,6 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
         android:layout_marginEnd="16dp"
+        app:errorEnabled="true"
         android:textColorHint="@color/normGrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
@@ -114,21 +123,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/surname"
+            android:fontFamily="@font/andika"
             android:textColor="@color/colorDone"
             android:textColorHint="@color/normGrey" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_conf_password"
+        style="@style/OutlinedColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:textColorHint="@color/normGrey"
-        app:layout_constraintEnd_toEndOf="parent"
-        style="@style/OutlinedColor"
         android:theme="@style/OutlinedColor"
+        app:errorEnabled="true"
+        app:passwordToggleEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layreg_pass">
 
@@ -138,6 +150,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password"
             android:inputType="textPassword"
+            android:fontFamily="@font/andika"
             android:textColor="@color/colorDone"
             android:textColorHint="@color/normGrey" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -145,13 +158,14 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_phone_reg"
         style="@style/OutlinedColor"
-        android:theme="@style/OutlinedColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="3dp"
         android:textColorHint="@color/normGrey"
+        android:theme="@style/OutlinedColor"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layReg_log">
@@ -163,6 +177,7 @@
             android:hint="@string/phone_number"
             android:inputType="number|text"
             android:maxLength="15"
+            android:fontFamily="@font/andika"
             android:textColor="@color/colorDone"
             android:textColorHint="@color/normGrey" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -170,12 +185,13 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_birthdate_reg"
         style="@style/OutlinedColor"
-        android:theme="@style/OutlinedColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
         android:layout_marginEnd="16dp"
         android:textColorHint="@color/normGrey"
+        android:theme="@style/OutlinedColor"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="@+id/til_phone_reg">
@@ -187,14 +203,15 @@
             android:hint="@string/date_of_birth"
             android:inputType="date"
             android:maxLength="10"
+            android:fontFamily="@font/andika"
             android:textColor="@color/colorDone"
             android:textColorHint="@color/normGrey" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

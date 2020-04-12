@@ -133,7 +133,12 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
         dialog = new Dialog(mContext, R.style.AppTheme_FullScreenDialog);
         dialog.setContentView(v);
         Toolbar toolbar = (Toolbar)dialog.findViewById(R.id.toolbar_edit_close);
-
+        TextInputLayout lTitle = dialog.findViewById(R.id.til_admin_edit_name);
+        TextInputLayout lTitleEN = dialog.findViewById(R.id.til_admin_edit_title_en);
+        TextInputLayout lDescr = dialog.findViewById(R.id.til_admin_edit_descr);
+        TextInputLayout lDescrEN = dialog.findViewById(R.id.til_admin_edit_descr_en);
+        TextInputLayout lPrice = dialog.findViewById(R.id.til_admin_edit_price);
+        TextInputLayout lTime = dialog.findViewById(R.id.til_admin_edit_time);
         EditText eName = dialog.findViewById(R.id.ti_admin_edit_name);
         EditText ePrice = dialog.findViewById(R.id.ti_admin_edit_price);
         EditText eTime = dialog.findViewById(R.id.ti_admin_edit_time);
@@ -176,22 +181,88 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("price", ePrice.getText().toString());
-                map.put("time", eTime.getText().toString());
-                map.put("title", eName.getText().toString());
-                map.put("descr", eDescr.getText().toString());
-                map.put("descrEN", eDescrEN.getText().toString());
-                map.put("titleEN", eTitleEN.getText().toString());
+                validateTitle(lTitle, eName);
+                validateTitleEN(lTitleEN, eTitleEN);
+                validateDescr(lDescr, eDescr);
+                validateDescrEN(lDescrEN, eDescrEN);
+                validatePrice(lPrice, ePrice);
+                validateTime(lTime, eTime);
 
-                db.collection("ServicesMan").document(serv)
-                        .collection("Services").document(listServices.get(position).getId())
-                        .update(map);
+                if(validateTitle(lTitle, eName) && validateTitleEN(lTitleEN, eTitleEN)
+                && validateDescr(lDescr, eDescr) && validateDescrEN(lDescrEN, eDescrEN)
+                && validatePrice(lPrice, ePrice) && validateTime(lTime, eTime))
+                {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("price", ePrice.getText().toString());
+                    map.put("time", eTime.getText().toString());
+                    map.put("title", eName.getText().toString());
+                    map.put("descr", eDescr.getText().toString());
+                    map.put("descrEN", eDescrEN.getText().toString());
+                    map.put("titleEN", eTitleEN.getText().toString());
+
+                    db.collection("ServicesMan").document(serv)
+                            .collection("Services").document(listServices.get(position).getId())
+                            .update(map);
+                }
 
                 dialog.dismiss();
             }
         });
 
         dialog.show();
+    }
+
+    private boolean validateTitle(TextInputLayout lTitle, EditText eTitle){
+        if(eTitle.getText().toString().isEmpty()) {
+            lTitle.setError("Заполните название");
+            return false;
+        }
+        lTitle.setError(null);
+        return true;
+    }
+
+    private boolean validateTitleEN(TextInputLayout lTitleEN, EditText eTitleEN){
+        if(eTitleEN.getText().toString().isEmpty()) {
+            lTitleEN.setError("Заполните название на английском");
+            return false;
+        }
+        lTitleEN.setError(null);
+        return true;
+    }
+
+    private boolean validateDescr(TextInputLayout lDescr, EditText eDescr){
+        if(eDescr.getText().toString().isEmpty()) {
+            lDescr.setError("Заполните описание");
+            return false;
+        }
+        lDescr.setError(null);
+        return true;
+    }
+
+    private boolean validateDescrEN(TextInputLayout lDescrEN, EditText eDescrEN){
+        if(eDescrEN.getText().toString().isEmpty()) {
+            lDescrEN.setError("Заполните описание на английском");
+            return false;
+        }
+        lDescrEN.setError(null);
+        return true;
+    }
+
+    private boolean validatePrice(TextInputLayout lPrice, EditText ePrice){
+        if(ePrice.getText().toString().isEmpty()) {
+            lPrice.setError("Заполните стоимость");
+            return false;
+        }
+        lPrice.setError(null);
+        return true;
+    }
+
+    private boolean validateTime(TextInputLayout lTime, EditText eTime){
+        if(eTime.getText().toString().isEmpty()) {
+            lTime.setError("Заполните продолжительность услуги");
+            return false;
+        }
+        lTime.setError(null);
+        return true;
     }
 }
