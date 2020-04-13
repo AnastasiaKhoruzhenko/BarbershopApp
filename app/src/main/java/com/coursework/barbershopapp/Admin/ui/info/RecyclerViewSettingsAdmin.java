@@ -139,6 +139,7 @@ public class RecyclerViewSettingsAdmin extends RecyclerView.Adapter<RecyclerView
         LabeledSwitch push = dialog.findViewById(R.id.switch_push);
         LabeledSwitch lang = dialog.findViewById(R.id.switch_language);
         Button save = dialog.findViewById(R.id.btn_save_settapp);
+        TextView close = dialog.findViewById(R.id.close_img);
 
         lang.setLabelOff("RU");
         lang.setLabelOn("EN");
@@ -146,7 +147,7 @@ public class RecyclerViewSettingsAdmin extends RecyclerView.Adapter<RecyclerView
         SharedPreferences prefs = mContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
         String language = prefs.getString("My_lang", "ru");
         if(!language.equals("ru"))
-            lang.setOn(false);
+            lang.setOn(true);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,6 +157,13 @@ public class RecyclerViewSettingsAdmin extends RecyclerView.Adapter<RecyclerView
                 else
                     setLocale("ru");
 
+                dialog.dismiss();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });

@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         LoadLocale();
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setElevation(0);
 
         mAuth=FirebaseAuth.getInstance();
         db=FirebaseFirestore.getInstance();

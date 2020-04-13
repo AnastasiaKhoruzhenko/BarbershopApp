@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toolbar;
@@ -79,6 +80,8 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+        holder.radioButton.setVisibility(View.GONE);
+
         SharedPreferences prefs = mContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
         String language = prefs.getString("My_lang", "ru");
 
@@ -115,6 +118,7 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
         TextView s_name, s_descr, s_price, s_time;
         View divider_service;
         ConstraintLayout lay;
+        RadioButton radioButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -125,6 +129,7 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
             s_price = itemView.findViewById(R.id.tv_price);
             s_time = itemView.findViewById(R.id.tv_cardserv_time);
             lay = itemView.findViewById(R.id.constr_card_serv);
+            radioButton = itemView.findViewById(R.id.radioButton);
         }
     }
 
@@ -204,6 +209,14 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
                             .collection("Services").document(listServices.get(position).getId())
                             .update(map);
                 }
+
+                listServices.get(position).setTitle(eName.getText().toString());
+                listServices.get(position).setTitleEN(eTitleEN.getText().toString());
+                listServices.get(position).setDescr(eDescr.getText().toString());
+                listServices.get(position).setDescrEN(eDescrEN.getText().toString());
+                listServices.get(position).setTime(eTime.getText().toString());
+                listServices.get(position).setPrice(ePrice.getText().toString());
+                notifyItemChanged(position);
 
                 dialog.dismiss();
             }

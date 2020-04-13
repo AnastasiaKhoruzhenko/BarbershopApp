@@ -5,12 +5,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -24,16 +28,16 @@ public class MainAdminActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_admin);
 
         BottomNavigationView navView = findViewById(R.id.nav_view_admin);
-        //navView.inflateMenu(R.menu.bottom_nav_menu_admin);
+        navView.setElevation(0);
+        navView.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+
         AppBarConfiguration appBarConfigurationAdmin = new AppBarConfiguration.Builder(
                 R.id.navigation_home_admin, R.id.navigation_reviews_admin, R.id.navigation_masters_admin, R.id.navigation_reviews_admin)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_admin);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfigurationAdmin);
         NavigationUI.setupWithNavController(navView, navController);
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        getSupportActionBar().setElevation(0);
     }
 
     @Override

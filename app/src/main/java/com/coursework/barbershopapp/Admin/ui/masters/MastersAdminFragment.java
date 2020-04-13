@@ -4,15 +4,20 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.coursework.barbershopapp.model.MaskWatcherPhone;
@@ -55,6 +60,7 @@ public class MastersAdminFragment extends Fragment {
     private FirebaseAuth mAuth;
 
     private int count_masters_document=0;
+    private RecyclerViewAdapter adapter;
 
 
     private RecyclerView recyclerView;
@@ -70,6 +76,7 @@ public class MastersAdminFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.masters_admin_fragment, container, false);
+        setHasOptionsMenu(true);
 
         tilName = root.findViewById(R.id.til_name);
         tilSurname = root.findViewById(R.id.til_surname);
@@ -117,36 +124,27 @@ public class MastersAdminFragment extends Fragment {
                     }
                 });
 
-
-
-//        // for bottom view
-//        LinearLayout llBottomSheet = root.findViewById(R.id.bottom_sheet);
-//
-//        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
-//
-//        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-//        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-//
-//        //bottomSheetBehavior.setPeekHeight();
-//
-//        bottomSheetBehavior.setHideable(false);
-//
-//        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-//            @Override
-//            public void onStateChanged(@NonNull View view, int i) {
-//
-//            }
-//
-//            @Override
-//            public void onSlide(@NonNull View view, float v) {
-//
-//            }
-//        });
-
-
-
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuInflater inflater1 = getActivity().getMenuInflater();
+        inflater1.inflate(R.menu.create_master_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.menu_search_master);
+        SearchView searchView = (SearchView)searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
     }
 
     private void checkInfo(String name, String surname, String phone, String email) {
@@ -161,7 +159,7 @@ public class MastersAdminFragment extends Fragment {
     private void registerNewMasterWithDefaultPassword(final String email, final String name, final String surname, final String phone) {
         mAuth = FirebaseAuth.getInstance();
 
-        // дефолтный пароль -> сделать для изменения в профиле админа
+        // дефолтный пароль
         String defaultPassword = "barbershop";
 
         db.collection("Masters").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -240,7 +238,7 @@ public class MastersAdminFragment extends Fragment {
 
     private void initImageBitmaps(List<Master> personList){
 
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getContext(), personList);
+        adapter = new RecyclerViewAdapter(getContext(), personList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

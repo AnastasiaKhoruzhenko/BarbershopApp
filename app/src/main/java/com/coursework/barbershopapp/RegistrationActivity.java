@@ -62,6 +62,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         LoadLocale();
         setContentView(R.layout.activity_registration);
+        getSupportActionBar().setElevation(0);
 
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference("personal_photos");

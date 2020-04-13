@@ -8,18 +8,52 @@
     android:layout_height="match_parent"
     android:background="@drawable/dialog_bd">
 
+    <Toolbar
+        android:id="@+id/toolbar_close"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorWhite"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/Theme.AppCompat.Light">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/close_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/close" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </Toolbar>
+
     <com.github.angads25.toggle.widget.LabeledSwitch
         android:id="@+id/switch_push"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_margin="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:textSize="14sp"
         app:colorBorder="@color/colorBrown"
         app:colorOn="@color/colorBrown"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_close"
         app:on="false" />
 
     <com.github.angads25.toggle.widget.LabeledSwitch
@@ -27,6 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_margin="16dp"
+        android:layout_marginTop="8dp"
         android:showText="true"
         android:textSize="14sp"
         app:colorBorder="@color/colorBrown"
@@ -42,8 +77,10 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:background="@color/colorBrown"
+        android:fontFamily="@font/andika"
         android:text="@string/save"
         android:textColor="@color/colorWhite"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -55,6 +92,7 @@
         android:layout_marginStart="24dp"
         android:text="@string/send_push_notifications"
         android:textSize="20sp"
+        android:fontFamily="@font/andika"
         android:textColor="@color/darkGrey"
         app:layout_constraintBottom_toBottomOf="@+id/switch_push"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +105,7 @@
         android:layout_marginStart="24dp"
         android:text="@string/languageSettings"
         android:textSize="20sp"
+        android:fontFamily="@font/andika"
         android:textColor="@color/darkGrey"
         app:layout_constraintBottom_toBottomOf="@+id/switch_language"
         app:layout_constraintStart_toStartOf="parent"

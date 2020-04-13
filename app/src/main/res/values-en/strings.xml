@@ -98,4 +98,5 @@
     <string name="delete">Delete</string>
     <string name="undo">Undo</string>
     <string name="visiting_deleted">Your visiting has been canceled</string>
+    <string name="search">Search</string>
 </resources>
