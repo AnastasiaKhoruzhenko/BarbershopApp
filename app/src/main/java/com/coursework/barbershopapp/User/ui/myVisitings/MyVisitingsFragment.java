@@ -1,7 +1,12 @@
 package com.coursework.barbershopapp.User.ui.myVisitings;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,12 +16,16 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.PointerIcon;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.coursework.barbershopapp.R;
@@ -30,16 +39,6 @@ import java.util.Calendar;
 
 public class MyVisitingsFragment extends Fragment{
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private FirebaseAuth mAuth;
-
-    private StorageReference mStorageRef;
-
-    public static MyVisitingsFragment newInstance() {
-        return new MyVisitingsFragment();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -48,13 +47,13 @@ public class MyVisitingsFragment extends Fragment{
         resetStaticData();
         setHasOptionsMenu(true);
 
-        mAuth = FirebaseAuth.getInstance();
-        mStorageRef = FirebaseStorage.getInstance().getReference("personal_photos");
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("personal_photos");
 
-        viewPager  = root.findViewById(R.id.viewpager_visitings);
+        ViewPager viewPager = root.findViewById(R.id.viewpager_visitings);
         TextView text = root.findViewById(R.id.tv_not_authorized);
 
-        tabLayout = root.findViewById(R.id.tabs);
+        TabLayout tabLayout = root.findViewById(R.id.tabs);
 
         if(!checkPref() && mAuth.getCurrentUser() == null)
             text.setText(getResources().getString(R.string.you_have_no_bookings));
@@ -92,20 +91,56 @@ public class MyVisitingsFragment extends Fragment{
         switch (item.getItemId())
         {
             case R.id.menu_my_account:
-                // to do click
+                showHelpDialog();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean checkPref(){
+    private void showHelpDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialog);
+        View customLayout = getLayoutInflater().inflate(R.layout.dialog_help, null);
+
+        ImageView img = customLayout.findViewById(R.id.imageView6);
+        TextView text = customLayout.findViewById(R.id.tv_swipe_right);
+        Button button = customLayout.findViewById(R.id.button3);
+
+        Point point = new Point();
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        display.getSize(point);
+        final int width = point.x;
+        final float halfW = width/2.0f;
+        ObjectAnimator lftToRgt,rgtToLft;
+        lftToRgt = ObjectAnimator.ofFloat( img,"translationX",0f,halfW )
+                .setDuration(1000);
+        lftToRgt.setRepeatCount(ValueAnimator.INFINITE);
+        lftToRgt.setRepeatMode(ValueAnimator.RESTART);
+
+        AnimatorSet s = new AnimatorSet();
+        s.play( lftToRgt );
+        s.start();
+
+        builder.setView(customLayout);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+    }
+
+    private boolean checkPref(){
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("myData", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "def");
         return !email.equals("def");
     }
 
-    public String getEmailPref()
+    private String getEmailPref()
     {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("myData", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "def");

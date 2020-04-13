@@ -40,8 +40,8 @@ import java.util.List;
 
 public class SignUpFragment extends Fragment{
 
-    LocalBroadcastManager localBroadcastManager;
-    FirebaseFirestore db;
+    private LocalBroadcastManager localBroadcastManager;
+    private FirebaseFirestore db;
 
     @BindView(R.id.btn_prev_step)
     ImageButton btn_prevStep;

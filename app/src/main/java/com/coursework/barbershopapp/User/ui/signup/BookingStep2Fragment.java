@@ -25,12 +25,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class BookingStep2Fragment extends Fragment {
 
-    static BookingStep2Fragment instance;
+    private static BookingStep2Fragment instance;
     private LocalBroadcastManager localBroadcastManager;
-
     private RecyclerView recyclerView;
-
-    private FirebaseFirestore db;
 
     private BroadcastReceiver serviceDoneReciever = new BroadcastReceiver() {
         @Override
@@ -69,7 +66,7 @@ public class BookingStep2Fragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_booking_step2, container, false);
         recyclerView = view.findViewById(R.id.recview_frag2);
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         initRecView();
 

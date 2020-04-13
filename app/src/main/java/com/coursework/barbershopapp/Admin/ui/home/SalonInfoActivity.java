@@ -30,8 +30,8 @@ import butterknife.OnClick;
 
 public class SalonInfoActivity extends AppCompatActivity {
 
-    EditText address, info;
-    MapView map;
+    private EditText address, info;
+    private MapView map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +43,6 @@ public class SalonInfoActivity extends AppCompatActivity {
         map = findViewById(R.id.mapView);
 
         setData();
-
-
     }
 
     public void setData(){

@@ -46,13 +46,11 @@ public class RegistrationActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private FirebaseAuth mAuth;
-    StorageReference mStorageRef;
-    FirebaseFirestore db;
-    Uri mImageUri;
-
+    private StorageReference mStorageRef;
+    private Uri mImageUri;
     private TextInputEditText inp_log, inp_pass, inp_name, inp_surname, inp_conf_pass;
-    EditText inp_phone, inp_birthdate;
-    CircleImageView img;
+    private EditText inp_phone, inp_birthdate;
+    private CircleImageView img;
     private TextInputLayout lay_log, lay_pass, lay_name, lay_surname, lay_conf_pass, lay_phone, lay_birthdate;
     private Button btn_reg;
 
@@ -66,7 +64,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference("personal_photos");
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         inp_log=findViewById(R.id.inputReg_log);
         inp_pass=findViewById(R.id.inputReg_pass);

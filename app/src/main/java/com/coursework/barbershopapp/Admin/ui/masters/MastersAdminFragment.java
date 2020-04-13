@@ -48,28 +48,14 @@ public class MastersAdminFragment extends Fragment {
     private ArrayList<String> mScore = new ArrayList<>();
     private ArrayList<String> mEmail = new ArrayList<>();
 
-    private TextInputLayout tilSurname, tilName, tilPhone, tilEmail;
     private EditText tit_surname, tit_name, tit_phone, tit_email;
-    private Button create_master;
-
 
     private List<Master> personList = new ArrayList<>();
-
     private FirebaseFirestore db;
-
-    private FirebaseAuth mAuth;
-
     private int count_masters_document=0;
     private RecyclerViewAdapter adapter;
-
-
     private RecyclerView recyclerView;
-
     private View llBottomSheet;
-
-    public static MastersAdminFragment newInstance() {
-        return new MastersAdminFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container,
@@ -78,10 +64,10 @@ public class MastersAdminFragment extends Fragment {
         View root = inflater.inflate(R.layout.masters_admin_fragment, container, false);
         setHasOptionsMenu(true);
 
-        tilName = root.findViewById(R.id.til_name);
-        tilSurname = root.findViewById(R.id.til_surname);
-        tilPhone = root.findViewById(R.id.til_phone);
-        tilEmail = root.findViewById(R.id.til_email);
+        TextInputLayout tilName = root.findViewById(R.id.til_name);
+        TextInputLayout tilSurname = root.findViewById(R.id.til_surname);
+        TextInputLayout tilPhone = root.findViewById(R.id.til_phone);
+        TextInputLayout tilEmail = root.findViewById(R.id.til_email);
         tit_name = root.findViewById(R.id.tit_name);
         tit_surname = root.findViewById(R.id.tit_surname);
         tit_phone = root.findViewById(R.id.tit_phone);
@@ -91,7 +77,7 @@ public class MastersAdminFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        create_master = root.findViewById(R.id.btn_create_master);
+        Button create_master = root.findViewById(R.id.btn_create_master);
 
 
         create_master.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +143,7 @@ public class MastersAdminFragment extends Fragment {
     }
 
     private void registerNewMasterWithDefaultPassword(final String email, final String name, final String surname, final String phone) {
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         // дефолтный пароль
         String defaultPassword = "barbershop";

@@ -42,14 +42,12 @@ public class SettingsFragment extends Fragment {
 
     private CircleImageView img;
     private TextView nameSurname;
-
-    private static final int PICK_IMAGE_REQUEST = 1;
-
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
     private FirebaseFirestore db;
     private Uri mImageUri;
 
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -91,7 +89,6 @@ public class SettingsFragment extends Fragment {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            //Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
         }

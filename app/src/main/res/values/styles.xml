@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/partWhite</item>
         <item name="colorAccent">@color/colorAccent</item>
-
+        <item name="android:fontFamily">@font/andika</item>
         <item name="colorControlNormal">@color/normGrey</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
@@ -64,6 +64,10 @@
 
     <style name="SwitchTheme" parent="Theme.AppCompat.Light">
         <item name="android:colorControlActivated">@color/colorBrown</item>
+    </style>
+
+    <style name="Widget.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
+        <item name="android:fontFamily">@font/andika</item>
     </style>
 
 </resources>

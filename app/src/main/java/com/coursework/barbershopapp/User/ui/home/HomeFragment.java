@@ -44,15 +44,12 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements IBannerLoadListener {
 
-    private Unbinder unbinder;
-
     @BindView(R.id.slidingPaneLayout)
     Slider sliderNews;
     @BindView(R.id.recview_masters_user)
     RecyclerView recyclerView;
 
     private IBannerLoadListener iBannerLoadListener;
-
     private FirebaseFirestore db;
     private FirebaseAuth auth;
 
@@ -60,7 +57,7 @@ public class HomeFragment extends Fragment implements IBannerLoadListener {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        unbinder = ButterKnife.bind(this, root);
+        Unbinder unbinder = ButterKnife.bind(this, root);
 
         setHasOptionsMenu(true);
         auth = FirebaseAuth.getInstance();

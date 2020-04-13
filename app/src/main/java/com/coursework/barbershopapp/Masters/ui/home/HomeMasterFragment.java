@@ -41,14 +41,9 @@ import java.util.List;
 
 public class HomeMasterFragment extends Fragment {
 
-    FirebaseAuth mAuth;
-    FirebaseFirestore db;
-
-    RecyclerView recComments;
-
-    public static HomeMasterFragment newInstance() {
-        return new HomeMasterFragment();
-    }
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private RecyclerView recComments;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

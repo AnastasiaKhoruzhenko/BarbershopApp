@@ -24,8 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class BookingStep1Fragment extends Fragment {
 
-    static BookingStep1Fragment instance;
-
+    private static BookingStep1Fragment instance;
     private RecyclerView recyclerView;
 
     public static BookingStep1Fragment getInstance(){

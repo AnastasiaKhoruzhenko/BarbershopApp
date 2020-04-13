@@ -7,7 +7,7 @@ import ss.com.bannerslider.viewholder.ImageSlideViewHolder;
 
 public class HomeSliderAdapter extends SliderAdapter {
 
-    List<String> bannerList;
+    private List<String> bannerList;
 
     public HomeSliderAdapter(){}
 

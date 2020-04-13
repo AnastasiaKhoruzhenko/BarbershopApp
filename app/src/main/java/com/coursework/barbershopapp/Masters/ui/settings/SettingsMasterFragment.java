@@ -42,16 +42,9 @@ public class SettingsMasterFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private CircleImageView img;
-    //private List<String> arrSettings = new ArrayList<>(Arrays.asList(getResources().getString(R.string.personal_info), "Время работы", "Предоставляемые услуги", getResources().getString(R.string.app_settings)));
-
     private static final int PICK_IMAGE_REQUEST = 1;
     private StorageReference mStorageRef;
     private Uri mImageUri;
-
-
-//    public static SettingsMasterFragment newInstance() {
-//        return new SettingsMasterFragment();
-//    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

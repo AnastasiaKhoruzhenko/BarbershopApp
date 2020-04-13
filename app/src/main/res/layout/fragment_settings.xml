@@ -46,6 +46,7 @@
         android:textColor="@color/darkGrey"
         android:textStyle="bold"
         android:textSize="20sp"
+        android:fontFamily="@font/andika"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/circleImageView" />

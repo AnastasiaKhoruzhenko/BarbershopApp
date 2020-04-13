@@ -83,9 +83,8 @@ public class BookingStep5Fragment extends Fragment{
     CardView card;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseUser user;
+    private FirebaseUser user;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     private final static String DEFAULT = "N/A";
 
     @OnClick(R.id.btn_confirm)

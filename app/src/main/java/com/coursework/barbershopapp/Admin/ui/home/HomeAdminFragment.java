@@ -37,18 +37,13 @@ public class HomeAdminFragment extends Fragment {
 
     private RecyclerView recyclerView, recyclerViewServices;
     private FirebaseFirestore db;
-    private Unbinder unbinder;
-
-    public static HomeAdminFragment newInstance() {
-        return new HomeAdminFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_admin_fragment, container, false);
 
-        unbinder = ButterKnife.bind(this, view);
+        Unbinder unbinder = ButterKnife.bind(this, view);
 
         recyclerView = view.findViewById(R.id.review_admin_homeMasters);
         recyclerViewServices = view.findViewById(R.id.rec_edit_services);

@@ -21,6 +21,7 @@
         android:text="@string/promotions_and_discounts"
         android:textColor="@color/darkGrey"
         android:textSize="24sp"
+        android:fontFamily="@font/andika"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,6 +44,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/title_masters"
+        android:fontFamily="@font/andika"
         android:textColor="@color/darkGrey"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"

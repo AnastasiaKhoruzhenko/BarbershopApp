@@ -56,11 +56,8 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
     private List<RadioButton> rButtons;
     private LocalBroadcastManager localBroadcastManager;
     private boolean flag;
-
     private Dialog dialog;
-    private ConstraintLayout constraintLayout;
     private FirebaseFirestore db;
-
     private Context mContext;
 
     public RecyclerViewMastersChooseAdapter(Context mContext, List<Master> personList, boolean flag)
@@ -325,7 +322,7 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
                 dialog.dismiss();
             }
         });
-        constraintLayout = view.findViewById(R.id.constr_master_comm);
+        ConstraintLayout constraintLayout = view.findViewById(R.id.constr_master_comm);
         dialog.show();
     }
 

@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecycleViewAdapterStep2 extends RecyclerView.Adapter<RecycleViewAdapterStep2.ViewHolder>{
 
-    private List<AboutService> listServices = new ArrayList<>();
+    private List<AboutService> listServices;
     private Context mContext;
     private List<CardView> cardViews;
     private List<ConstraintLayout> lays;

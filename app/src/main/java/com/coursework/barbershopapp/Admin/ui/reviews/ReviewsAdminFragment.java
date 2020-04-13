@@ -16,11 +16,6 @@ import com.coursework.barbershopapp.R;
 
 public class ReviewsAdminFragment extends Fragment {
 
-
-    public static ReviewsAdminFragment newInstance() {
-        return new ReviewsAdminFragment();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {

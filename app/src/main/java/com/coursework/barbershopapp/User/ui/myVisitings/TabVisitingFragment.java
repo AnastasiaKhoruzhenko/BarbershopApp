@@ -39,7 +39,6 @@ public class TabVisitingFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private FirebaseFirestore db;
-    private FirebaseAuth user;
     private TextView tw;
 
     private int title;
@@ -55,7 +54,7 @@ public class TabVisitingFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = FirebaseAuth.getInstance();
+        FirebaseAuth user = FirebaseAuth.getInstance();
     }
 
     @Nullable

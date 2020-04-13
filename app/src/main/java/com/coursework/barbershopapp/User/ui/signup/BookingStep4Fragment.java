@@ -49,12 +49,10 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
 
     private static BookingStep4Fragment instance;
     private DocumentReference docRef;
-
     private ITimeSlotLoadListener iTimeSlotLoadListener;
-    private Unbinder unbinder;
     private LocalBroadcastManager localBroadcastManager;
-
-    AlertDialog dialog;
+    private SimpleDateFormat simpleDateFormat;
+    private FirebaseFirestore db;
 
     @BindView(R.id.textView9)
     TextView emptyRec;
@@ -63,9 +61,6 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
 
     @BindView(R.id.calendarView)
     HorizontalCalendarView calendarView;
-    private SimpleDateFormat simpleDateFormat;
-
-    private FirebaseFirestore db;
 
     private BroadcastReceiver displayTimeSlot = new BroadcastReceiver() {
         @Override
@@ -226,7 +221,7 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
         super.onCreateView(inflater, container, savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_booking_step4, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        Unbinder unbinder = ButterKnife.bind(this, view);
 
         init(view);
 

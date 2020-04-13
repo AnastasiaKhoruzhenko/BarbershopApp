@@ -26,8 +26,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewCommentAdapter extends RecyclerView.Adapter<RecyclerViewCommentAdapter.ViewHolder>{
 
-    List<Comment> list;
-    Context mContext;
+    private List<Comment> list;
+    private Context mContext;
 
     public RecyclerViewCommentAdapter(Context mContext, List<Comment> list) {
         this.list = list;

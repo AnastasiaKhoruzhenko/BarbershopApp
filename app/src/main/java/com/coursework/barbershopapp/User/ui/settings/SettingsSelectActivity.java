@@ -20,7 +20,6 @@ public class SettingsSelectActivity extends AppCompatActivity {
 
     LabeledSwitch push, theme, lan;
     Button save;
-
     String lang = "ru";
 
     @Override

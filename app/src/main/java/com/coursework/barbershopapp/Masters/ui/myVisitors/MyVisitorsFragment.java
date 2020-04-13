@@ -40,8 +40,9 @@ import java.util.List;
 public class MyVisitorsFragment extends Fragment implements IVisitorsLoadListener {
 
     private IVisitorsLoadListener iVisitorsLoadListener;
-    private Unbinder unbinder;
     private FirebaseFirestore db;
+    private SimpleDateFormat simpleDateFormat;
+    private FirebaseAuth mAuth;
 
     @BindView(R.id.tv_empty_visitors)
     TextView empty;
@@ -49,19 +50,12 @@ public class MyVisitorsFragment extends Fragment implements IVisitorsLoadListene
     RecyclerView recyclerView;
     @BindView(R.id.calendar_master)
     HorizontalCalendarView calendarView;
-    private SimpleDateFormat simpleDateFormat;
-
-    private FirebaseAuth mAuth;
-
-    public static MyVisitorsFragment newInstance() {
-        return new MyVisitorsFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_visitors_fragment, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        Unbinder unbinder = ButterKnife.bind(this, view);
 
         iVisitorsLoadListener = this;
         db = FirebaseFirestore.getInstance();

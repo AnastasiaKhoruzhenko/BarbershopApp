@@ -36,13 +36,11 @@ import butterknife.Unbinder;
 public class BookingStep3Fragment extends Fragment {
 
     private static BookingStep3Fragment instance;
-    private Unbinder unbinder;
+    private FirebaseFirestore db;
+    private LocalBroadcastManager localBroadcastManager;
 
     @BindView(R.id.recview_masters_to_choose)
     RecyclerView recyclerView;
-
-    private FirebaseFirestore db;
-    private LocalBroadcastManager localBroadcastManager;
 
     private BroadcastReceiver barberDoneReciever = new BroadcastReceiver() {
         @Override
@@ -116,7 +114,7 @@ public class BookingStep3Fragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_booking_step3, container, false);
 
-        unbinder = ButterKnife.bind(this, view);
+        Unbinder unbinder = ButterKnife.bind(this, view);
         db = FirebaseFirestore.getInstance();
 
         return view;

@@ -43,7 +43,6 @@ public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<Recycle
     private Context mContext;
     private Dialog dialog;
     private FirebaseFirestore db;
-    private ConstraintLayout constraintLayout;
 
     public RecyclerViewBestMastersAdapter(List<Master> list, Context mContext) {
         this.list = list;
@@ -166,7 +165,7 @@ public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<Recycle
                 dialog.dismiss();
             }
         });
-        constraintLayout = view.findViewById(R.id.constr_master_comm);
+        ConstraintLayout constraintLayout = view.findViewById(R.id.constr_master_comm);
         dialog.show();
     }
 
