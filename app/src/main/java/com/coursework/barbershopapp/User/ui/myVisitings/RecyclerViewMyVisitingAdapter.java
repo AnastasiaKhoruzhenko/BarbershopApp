@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.coursework.barbershopapp.R;
@@ -116,7 +117,6 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
 
         snackbarView.setLayoutParams(params);
         snackbar.show();
-
     }
 
     private void deleteThis(int position, BookingInformation bookCopy) {
@@ -255,14 +255,11 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
         if(title == 1)
         {
             holder.rating.setVisibility(View.INVISIBLE);
-
             holder.rate_me.setText(R.string.rate_is_avail_after_visiting);
-
         }
-        else if (title == 2){
-
+        else if (title == 2)
+        {
             holder.rating.setVisibility(View.VISIBLE);
-
             switch (Integer.valueOf(bookingList.get(position).getRating()))
             {
                 case 0:
@@ -364,6 +361,9 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                 map.put("rating", String.valueOf(Math.round(rat)));
                 map.put("comment", com);
 
+                bookingList.get(position).setRating(String.valueOf(Math.round(rat)));
+                bookingList.get(position).setComment(com);
+
                 db.collection("Masters").document(bookingList.get(position).getBarberEmail())
                         .collection(bookingList.get(position).getDateId())
                         .document(String.valueOf(bookingList.get(position).getSlot()))
@@ -409,12 +409,14 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                 //   /Users/rfff@mail.ru/Visitings/1
                 db.collection("Users").document(user.getCurrentUser().getEmail())
                         .collection("Visitings")
-                        .document(String.valueOf(position)).update(map);
+                        .document(String.valueOf(bookingList.get(position).getSlot())).update(map);
 
                 holder.rating.setVisibility(View.VISIBLE);
                 holder.rate_me.setText(R.string.already_rated);
                 holder.rating.setRating(Math.round(rat));
                 holder.rating.setIsIndicator(true);
+
+                notifyDataSetChanged();
             }
         });
         builder.setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
@@ -423,6 +425,7 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                 dialog.dismiss();
             }
         });
+
         AlertDialog alertDialog = builder.create();
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();

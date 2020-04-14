@@ -154,12 +154,14 @@
         <RatingBar
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             style="?android:attr/ratingBarStyle"
+            android:progressTint="@color/colorBrown"
             android:numStars="5"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:stepSize="1"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider3" />

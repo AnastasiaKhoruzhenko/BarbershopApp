@@ -56,7 +56,7 @@
     <string name="past">Past</string>
     <string name="rate_is_avail_after_visiting">Rate is available after visiting the barbershop</string>
     <string name="already_rated">Rated</string>
-    <string name="avail_for_raiting">Доступно для оценивания</string>
+    <string name="avail_for_raiting">Available to rate</string>
     <string name="ok">ОК</string>
     <string name="close">Close</string>
     <string name="to_comment_should_register">You need to sign up to leave comments</string>
