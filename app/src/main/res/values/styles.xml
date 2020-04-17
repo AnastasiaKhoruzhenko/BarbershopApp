@@ -1,10 +1,10 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/partWhite</item>
+        <item name="colorPrimary">@color/colorBrown</item>
+        <item name="colorPrimaryDark">@color/colorBrown</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/andika</item>
         <item name="colorControlNormal">@color/normGrey</item>
@@ -13,8 +13,8 @@
 
     <style name="AppThemeNoAct" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/darkGrey</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorBrown</item>
+        <item name="colorPrimaryDark">@color/colorBrown</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -36,9 +36,9 @@
     </style>
 
     <style name="AppTheme.FullScreenDialog" parent="Theme.MaterialComponents.Light.Dialog">
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorBrown</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorBrown</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="actionMenuTextColor">@color/colorAccent</item>

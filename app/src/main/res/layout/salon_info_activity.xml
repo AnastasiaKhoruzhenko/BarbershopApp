@@ -6,14 +6,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Toolbar
+        android:id="@+id/toolbar_close"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorBrown"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/Theme.AppCompat.Light">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/close_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/close_white" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </Toolbar>
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_close" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -69,9 +102,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:autoSizeTextType="uniform"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/divider5"
-                app:layout_constraintTop_toBottomOf="@+id/et_address_admin" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_phone_info" />
 
             <View
                 android:id="@+id/divider5"
@@ -82,6 +115,38 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tw_salon_info_admin"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_phone_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:inputType="phone"
+                app:layout_constraintEnd_toStartOf="@+id/imageView10"
+                app:layout_constraintStart_toEndOf="@+id/divider5"
+                app:layout_constraintTop_toBottomOf="@+id/et_address_admin" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/phone_number"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/et_phone_info" />
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/et_phone_info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/et_phone_info"
+                app:srcCompat="@drawable/phone_sett" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

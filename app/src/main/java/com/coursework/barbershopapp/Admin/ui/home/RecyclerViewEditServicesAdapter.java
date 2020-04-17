@@ -46,28 +46,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<RecyclerViewEditServicesAdapter.ViewHolder>{
 
-    private List<AboutService> listServices = new ArrayList<>();
+    private List<AboutService> listServices;
     private Context mContext;
-    private List<CardView> cardViews;
-    private List<ConstraintLayout> lays;
-    private LocalBroadcastManager localBroadcastManager;
     private FirebaseFirestore db;
-    private FirebaseAuth mAuth;
     private String serv;
-
     private ConstraintLayout constraintLayout;
-
     private Dialog dialog;
 
     public RecyclerViewEditServicesAdapter(Context mContext, List<AboutService> listServices, String serv) {
         this.listServices = listServices;
         this.mContext = mContext;
         this.serv = serv;
-        cardViews = new ArrayList<>();
-        lays = new ArrayList<>();
+        List<CardView> cardViews = new ArrayList<>();
+        List<ConstraintLayout> lays = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
     }
 
     @NonNull

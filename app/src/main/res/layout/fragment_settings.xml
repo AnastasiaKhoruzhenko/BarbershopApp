@@ -62,5 +62,4 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_namesurname_insettings" />
 
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

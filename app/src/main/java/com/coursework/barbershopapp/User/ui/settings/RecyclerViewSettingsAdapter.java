@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.coursework.barbershopapp.Admin.ui.home.SalonInfoActivity;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.RegistrationActivity;
 import com.coursework.barbershopapp.model.MaskWatcherBirthDate;
@@ -94,10 +95,10 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
                         showAppDialog();
                         break;
                     case 2:
-                        showInviteDialog();
+                        showSalonInfoDialog();
                         break;
                     case 3:
-                        showLoyaltyDialog();
+                        showExitDialog();
                         break;
                 }
             }
@@ -127,7 +128,6 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
 
     private void showInfoDialog() {
 
-        //final Dialog dialog = new Dialog(mContext, R.style.DialogTheme);
         final Dialog dialog = new Dialog(mContext);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.alert_settings_account);
@@ -192,10 +192,32 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
         mContext.startActivity(intent);
     }
 
-    private void showInviteDialog() {
+    private void showSalonInfoDialog() {
+        Intent intent = new Intent(mContext, SalonInfoActivity.class);
+        intent.putExtra("from_user", "true");
+        mContext.startActivity(intent);
     }
 
-    private void showLoyaltyDialog() {
+    private void showExitDialog() {
+
+        if(mAuth.getCurrentUser()!=null) {
+            AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+            alertDialog.setMessage(mContext.getResources().getString(R.string.want_to_exit));
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getResources().getString(R.string.cancel),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getResources().getString(R.string.exit),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            FirebaseAuth.getInstance().signOut();
+                        }
+                    });
+            alertDialog.show();
+        }
     }
 
     private void showRegisterDialog() {

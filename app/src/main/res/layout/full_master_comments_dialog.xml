@@ -11,7 +11,7 @@
         android:id="@+id/toolbar_close"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/colorWhite"
+        android:background="@color/colorBrown"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,23 +35,8 @@
                     android:id="@+id/close_img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:drawableLeft="@drawable/close" />
+                    android:drawableLeft="@drawable/close_white" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/save_button_toolbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:textColor="@color/greyBarber"
-                android:text="@string/save"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </Toolbar>
 

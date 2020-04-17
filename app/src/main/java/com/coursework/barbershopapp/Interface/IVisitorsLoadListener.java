@@ -1,7 +1,6 @@
 package com.coursework.barbershopapp.Interface;
 
 import com.coursework.barbershopapp.model.BookingInformation;
-import com.coursework.barbershopapp.model.TimeSlot;
 
 import java.util.List;
 

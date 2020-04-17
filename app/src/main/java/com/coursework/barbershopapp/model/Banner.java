@@ -5,20 +5,18 @@ import android.os.Parcelable;
 
 public class Banner implements Parcelable {
 
-    private String img, name, text, textEN;
+    private String name, text, textEN;
 
     public Banner(){
     }
 
-    public Banner(String img, String name, String text, String textEN) {
-        this.img = img;
+    public Banner(String name, String text, String textEN) {
         this.name = name;
         this.text = text;
         this.textEN = textEN;
     }
 
     protected Banner(Parcel in) {
-        img = in.readString();
         name = in.readString();
         text = in.readString();
         textEN = in.readString();
@@ -35,14 +33,6 @@ public class Banner implements Parcelable {
             return new Banner[size];
         }
     };
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
 
     public String getName() {
         return name;
@@ -75,7 +65,6 @@ public class Banner implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(img);
         dest.writeString(name);
         dest.writeString(text);
         dest.writeString(textEN);

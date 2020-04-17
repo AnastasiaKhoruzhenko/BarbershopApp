@@ -42,7 +42,6 @@ import java.util.Map;
 public class MastersAdminFragment extends Fragment {
 
     private Button btn_add;
-    private FloatingActionButton floating_add;
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mScore = new ArrayList<>();
@@ -87,7 +86,7 @@ public class MastersAdminFragment extends Fragment {
                 String surname = tit_surname.getText().toString();
                 String phone = tit_phone.getText().toString();
                 String email = tit_email.getText().toString();
-                //Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+
                 checkInfo(name, surname, phone, email);
             }
         });
@@ -95,7 +94,6 @@ public class MastersAdminFragment extends Fragment {
 
         recyclerView = root.findViewById(R.id.recview_masters);
 
-        floating_add = root.findViewById(R.id.floating_fab_add);
         llBottomSheet = root.findViewById(R.id.bottom_sheet);
 
         db.collection("Masters").get()
@@ -237,10 +235,6 @@ public class MastersAdminFragment extends Fragment {
 
             @Override
             public void onSlide(@NonNull View view, float v) {
-                floating_add.animate()
-                        .scaleX(1-v).scaleY(1-v)
-                        .setDuration(0)
-                        .start();
             }
         });
     }

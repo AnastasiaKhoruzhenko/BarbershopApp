@@ -173,7 +173,6 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
                                                             times.add(new TimeSlot(Long.valueOf(i)));
                                                         }
                                                     }
-                                                    //Toast.makeText(getActivity(), String.valueOf(integerList.size()), Toast.LENGTH_SHORT).show();
 
                                                     iTimeSlotLoadListener.onTimeSlotLoadListener(times);
                                                     emptyRec.setText("");
@@ -238,13 +237,15 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
         Calendar startDate = Calendar.getInstance();
         startDate.add(Calendar.MONTH, 0);
         Calendar endDate = Calendar.getInstance();
-        endDate.add(Calendar.MONTH, 1);
+        endDate.add(Calendar.MONTH, 2);
+
+        Calendar defaultDate = Calendar.getInstance();
 
         HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(view, R.id.calendarView)
                 .range(startDate, endDate)
-                .datesNumberOnScreen(1)
+                .datesNumberOnScreen(5)
                 .mode(HorizontalCalendar.Mode.DAYS)
-                .defaultSelectedDate(startDate)
+                .defaultSelectedDate(defaultDate)
                 .build();
 
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
@@ -253,9 +254,9 @@ public class BookingStep4Fragment extends Fragment implements ITimeSlotLoadListe
                 if(Common.currentDate.getTime() != date.getTime())
                 {
                     Common.currentDate = date;
-                    loadAvailiableTimeSlot(Common.currentBarber.getEmail(), simpleDateFormat.format(date.getTime()));
-                    simpleDateFormat.format(date.getTime());
                 }
+                loadAvailiableTimeSlot(Common.currentBarber.getEmail(), simpleDateFormat.format(Common.currentDate.getTime()));
+                simpleDateFormat.format(Common.currentDate.getTime());
             }
         });
     }

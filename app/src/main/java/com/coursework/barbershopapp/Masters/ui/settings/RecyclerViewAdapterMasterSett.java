@@ -1,7 +1,9 @@
 package com.coursework.barbershopapp.Masters.ui.settings;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -50,15 +52,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<RecyclerViewAdapterMasterSett.ViewHolder> {
 
-    private List<String> arrSettings;
+    private List<String> arrSettings, arrDescrSettings;
     private Context mContext;
     private Dialog dialog;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private ConstraintLayout constraintLayout;
 
-    public RecyclerViewAdapterMasterSett(Context mContext, List<String> arrSettings) {
+    public RecyclerViewAdapterMasterSett(Context mContext, List<String> arrSettings, List<String> arrDescrSettings) {
         this.arrSettings = arrSettings;
+        this.arrDescrSettings = arrDescrSettings;
         this.mContext = mContext;
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -74,7 +77,7 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tv_namesett.setText(arrSettings.get(position));
-        holder.tv_descr.setText(arrSettings.get(position));
+        holder.tv_descr.setText(arrDescrSettings.get(position));
 
         holder.setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,13 +88,13 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
                         showPersonalInfo();
                         break;
                     case 1:
-                        //showWorkTime();
-                        break;
-                    case 2:
                         showServices(v, position);
                         break;
-                    case 3:
+                    case 2:
                         showAppSettings();
+                        break;
+                    case 3:
+                        showExitDialog();
                         break;
 
                 }
@@ -318,5 +321,25 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
     private void showAppSettings(){
         Intent intent = new Intent(mContext, SettingsSelectActivity.class);
         mContext.startActivity(intent);
+    }
+
+    private void showExitDialog()
+    {
+        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+        alertDialog.setMessage(mContext.getResources().getString(R.string.want_to_exit));
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getResources().getString(R.string.cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getResources().getString(R.string.exit),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FirebaseAuth.getInstance().signOut();
+                    }
+                });
+        alertDialog.show();
     }
 }

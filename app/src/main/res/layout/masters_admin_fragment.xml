@@ -21,16 +21,6 @@
         tools:context="com.androidsample.BottomSheetActivity">
 
         <include layout="@layout/add_master_swipe" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_fab_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_vertical_margin"
-            android:src="@color/common_google_signin_btn_text_dark_default"
-            app:layout_anchor="@id/bottom_sheet"
-            app:layout_anchorGravity="top|end"/>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </FrameLayout>

@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class TimeSlot implements Parcelable {
 
-    Long slot;
+    private Long slot;
 
     public TimeSlot(){}
 

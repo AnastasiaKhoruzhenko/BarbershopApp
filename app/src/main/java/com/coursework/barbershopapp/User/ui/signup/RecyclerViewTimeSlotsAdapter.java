@@ -91,49 +91,6 @@ public class RecyclerViewTimeSlotsAdapter extends RecyclerView.Adapter<RecyclerV
                 localBroadcastManager.sendBroadcast(intent);
             }
         });
-
-//        if(timeSlotList.size() == 0) // all are available
-//        {
-//            holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
-//            holder.time.setTextColor(mContext.getResources().getColor(R.color.darkGrey));
-//            holder.radioButton.setChecked(false);
-//        }
-//        else {
-//            for (TimeSlot timeSlot : timeSlotList)
-//            {
-//                int slot = Integer.parseInt(timeSlot.getSlot().toString());
-//                if(slot == position)
-//                {
-//                    holder.cardViewTime.setTag(Common.DISABLE_TAG);
-//                    holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
-//                    holder.time.setTextColor(mContext.getResources().getColor(R.color.colorGrey));
-//                    holder.cardViewTime.setEnabled(false);
-//                }
-//            }
-//        }
-//
-//        // add all cards
-//        if(!cardViews.contains(holder.cardViewTime))
-//            cardViews.add(holder.cardViewTime);
-
-//        holder.setiRecyclerItemSelectedListener(new IRecyclerItemSelectedListener() {
-//            @Override
-//            public void OnItemSelectedListener(View view, int position) {
-//                for(CardView card : cardViews)
-//                {
-//                    if(card.getTag() == null)
-//                        card.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
-//                }
-//
-//                // selected card
-//                holder.cardViewTime.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorLightBrown));
-//
-//                Intent intent = new Intent(Common.KEY_NEXT_BTN);
-//                intent.putExtra(Common.KEY_TIME_SLOT, position);
-//                intent.putExtra(Common.KEY_STEP, 4);
-//                localBroadcastManager.sendBroadcast(intent);
-//            }
-//        });
     }
 
     @Override

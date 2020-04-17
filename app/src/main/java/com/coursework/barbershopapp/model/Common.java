@@ -32,13 +32,15 @@ public class Common {
     //for 1 step info (banner = service card)
     public static Banner currentService;
 
-    // for settings
-    public static List<String> list_settings = new ArrayList<String>(){{add("Настройки аккаунта"); add("Настройки приложения"); add("Пригласить друга"); add("Программа лояльности");}};
-    public static List<String> list_settings_descr = new ArrayList<String>(){{add("Имя, фамилия, дата рождения ..."); add("Push-уведомления, тема, язык"); add("Пригласи друга и получи бонусы"); add("Баллы, сроки начисления");}};
+    // for settings user
+    public static List<String> list_settings = new ArrayList<String>(){{add("Настройки аккаунта"); add("Настройки приложения"); add("Информация о барбершопе"); add("Выйти");}};
+    public static List<String> list_settings_descr = new ArrayList<String>(){{add("Имя, фамилия, дата рождения ..."); add("Push-уведомления, тема, язык"); add("Адрес барбершопа, телефон ..."); add("Выйти из аккаунта");}};
 
-    public static List<String> list_settings_master = new ArrayList<String>(){{add("Настройки аккаунта"); add("Время работы"); add("Предоставляемые услуги"); add("Настройки приложения");}};
+    public static List<String> list_settings_master = new ArrayList<String>(){{add("Настройки аккаунта"); add("Предоставляемые услуги"); add("Настройки приложения"); add("Выйти");}};
+    public static List<String> list_descr_settings_master = new ArrayList<String>(){{add("Имя, фамилия, дата рождения ..."); add("Настройка сфер обслуживания"); add("Push-уведомления, язык"); add("Выйти из аккаунта");}};
 
-    public static List<String> list_settings_admin = new ArrayList<String>(){{ add("Информация о салоне"); add("Настройки приложения");}};
+    public static List<String> list_settings_admin = new ArrayList<String>(){{ add("Информация о салоне"); add("Настройки приложения"); add("Выйти");}};
+    public static List<String> list_descr_settings_admin = new ArrayList<String>(){{ add("Информация о салоне"); add("Настройки приложения"); add("Выйти из аккаунта");}};
 
     public static AboutService currentServiceType;
     //public static String name = "";

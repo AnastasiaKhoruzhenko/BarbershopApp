@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BarbershopApp</string>
+    <string name="app_name">Barbershop</string>
     <string name="title_home">Main</string>
     <string name="title_singup">Booking</string>
     <string name="title_settings">Settings</string>
@@ -99,4 +99,7 @@
     <string name="undo">Undo</string>
     <string name="visiting_deleted">Your visiting has been canceled</string>
     <string name="search">Search</string>
+    <string name="cancel">Cancel</string>
+    <string name="exit">Exit</string>
+    <string name="want_to_exit">Are you sure you want to exit?</string>
 </resources>

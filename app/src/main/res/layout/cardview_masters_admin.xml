@@ -70,7 +70,7 @@
         <View
             android:id="@+id/divider13"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
+            android:layout_height="1dp"
             android:backgroundTint="@color/colorBrown"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -86,6 +86,16 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_score_master_admin"
             app:layout_constraintStart_toEndOf="@+id/tv_score_master_admin"
             app:layout_constraintTop_toTopOf="@+id/tv_score_master_admin" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/right_arrow" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

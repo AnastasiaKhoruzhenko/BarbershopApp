@@ -83,7 +83,7 @@ public class SettingsMasterFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.recview_sett_mas);
         RecyclerViewAdapterMasterSett adapterMasterSett =
-                new RecyclerViewAdapterMasterSett(getContext(), Common.list_settings_master);
+                new RecyclerViewAdapterMasterSett(getContext(), Common.list_settings_master, Common.list_descr_settings_master);
         recyclerView.setAdapter(adapterMasterSett);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

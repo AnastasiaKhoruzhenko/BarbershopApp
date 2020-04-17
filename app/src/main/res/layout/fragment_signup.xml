@@ -43,21 +43,19 @@
         app:sv_stepPadding="12dp"
         app:sv_stepViewStyle="@style/StepView" />
 
-        <com.coursework.barbershopapp.model.NonSwipeViewPager
-            android:id="@+id/viewPager"
-            android:background="@color/colorWhite"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/step_view"
-            app:layout_constraintBottom_toTopOf="@+id/btn_next_step">
+    <com.coursework.barbershopapp.model.NonSwipeViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/btn_next_step"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/step_view">
 
-        </com.coursework.barbershopapp.model.NonSwipeViewPager>
+    </com.coursework.barbershopapp.model.NonSwipeViewPager>
 
     <ImageButton
         android:id="@+id/btn_next_step"

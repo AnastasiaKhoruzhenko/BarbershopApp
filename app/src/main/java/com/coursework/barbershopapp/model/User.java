@@ -2,7 +2,7 @@ package com.coursework.barbershopapp.model;
 
 public class User {
 
-    String email, name, surname, phone, birth, score;
+    private String email, name, surname, phone, birth, score;
 
     public User(){}
 

@@ -171,7 +171,6 @@ public class HomeFragment extends Fragment implements IBannerLoadListener {
     private void showRegisterDialog() {
 
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        //alertDialog.setTitle("Вы не авторизованы");
         alertDialog.setCanceledOnTouchOutside(true);
         alertDialog.setMessage(getResources().getString(R.string.this_can_do_only_registered));
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getResources().getString(R.string.not_now),

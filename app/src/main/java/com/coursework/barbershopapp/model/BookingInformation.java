@@ -2,9 +2,9 @@ package com.coursework.barbershopapp.model;
 
 public class BookingInformation {
 
-    String customerName, customerSurname, customerEmail, customerPhone, barberEmail, barberName, barberSurname, serviceEN,
+    private String customerName, customerSurname, customerEmail, customerPhone, barberEmail, barberName, barberSurname, serviceEN,
             barberPhone, time, date, dateId, service, rating, comment, timeService, serviceId, id;
-    Long slot, price;
+    private Long slot, price;
 
     public BookingInformation() {
     }

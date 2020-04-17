@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.coursework.barbershopapp.R;
 import com.github.angads25.toggle.widget.LabeledSwitch;
@@ -31,6 +32,7 @@ public class SettingsSelectActivity extends AppCompatActivity {
         push = findViewById(R.id.switch_push);
         lan = findViewById(R.id.switch_language);
         save = findViewById(R.id.btn_save_settapp);
+        TextView close = findViewById(R.id.close_img);
 
         lan.setLabelOff("RU");
         lan.setLabelOn("EN");
@@ -50,6 +52,13 @@ public class SettingsSelectActivity extends AppCompatActivity {
                     setLocale("ru");
                 }
 
+                finish();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });

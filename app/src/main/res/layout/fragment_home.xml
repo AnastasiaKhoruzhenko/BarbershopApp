@@ -13,28 +13,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:fontFamily="@font/andika"
         android:gravity="center_vertical"
         android:text="@string/promotions_and_discounts"
         android:textColor="@color/darkGrey"
         android:textSize="24sp"
-        android:fontFamily="@font/andika"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ss.com.bannerslider.Slider
-        android:id="@+id/slidingPaneLayout"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="230dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:cardCornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_news_home" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_news_home">
+
+        <ss.com.bannerslider.Slider
+            android:id="@+id/slidingPaneLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/textView5"
@@ -43,21 +52,19 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/title_masters"
         android:fontFamily="@font/andika"
+        android:text="@string/title_masters"
         android:textColor="@color/darkGrey"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slidingPaneLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recview_masters_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
