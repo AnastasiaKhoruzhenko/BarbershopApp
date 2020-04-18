@@ -15,7 +15,7 @@
         <activity android:name=".User.ui.settings.SettingsSelectActivity"
             android:theme="@style/AppThemeNoAct"></activity>
         <activity android:name=".Admin.ui.home.SalonInfoActivity"
-            android:theme="@style/AppThemeNoAct"/>
+            android:theme="@style/AppThemeNoAct" />
         <activity android:name=".RegistrationActivity"></activity>
         <activity android:name=".LoginActivity" />
         <activity

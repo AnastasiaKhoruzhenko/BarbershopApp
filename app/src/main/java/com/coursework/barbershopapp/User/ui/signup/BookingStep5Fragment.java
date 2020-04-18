@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coursework.barbershopapp.R;
+import com.coursework.barbershopapp.User.ui.home.HomeFragment;
 import com.coursework.barbershopapp.model.BookingInformation;
 import com.coursework.barbershopapp.model.Comment;
 import com.coursework.barbershopapp.model.Common;
@@ -46,6 +47,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -146,7 +149,6 @@ public class BookingStep5Fragment extends Fragment{
                                             }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -165,7 +167,6 @@ public class BookingStep5Fragment extends Fragment{
                                             }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -225,7 +226,6 @@ public class BookingStep5Fragment extends Fragment{
                     info.setDate(simpleDateFormatForDB.format(Common.currentDate.getTime()));
 
                     int count = Math.round(Integer.valueOf(Common.currentServiceType.getTime())/20);
-                    Toast.makeText(getActivity(), String.valueOf(count), Toast.LENGTH_LONG).show();
 
 
                     for(int i=0;i<=count;i++) {
@@ -247,7 +247,6 @@ public class BookingStep5Fragment extends Fragment{
                                     }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -264,7 +263,6 @@ public class BookingStep5Fragment extends Fragment{
                                     }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getContext(), "Confirm error", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -295,7 +293,15 @@ public class BookingStep5Fragment extends Fragment{
                             });
             }
         }
+
+        Toast.makeText(getContext(), getResources().getString(R.string.confirm_successful), Toast.LENGTH_SHORT).show();
         //resetStaticData();
+
+//        HomeFragment homeFragment = new HomeFragment();
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.fr5_user, homeFragment);
+//        fragmentTransaction.commit();
     }
 
     private void setUserVisiting(int count, BookingInformation info, String email) {
@@ -315,7 +321,6 @@ public class BookingStep5Fragment extends Fragment{
                         datesList.add(simpleDateFormat.format(Common.currentDate.getTime()));
                         //master.getDates().add(simpleDateFormat.format(Common.currentDate.getTime()));
                         map.put("dates", datesList);
-                        Toast.makeText(getActivity(), Common.currentBarber.getEmail(), Toast.LENGTH_LONG).show();
                         db.collection("Masters").document(Common.currentBarber.getEmail())
                                 .update(map);
                     }
@@ -324,7 +329,6 @@ public class BookingStep5Fragment extends Fragment{
                         Map<String, Object> map = new HashMap<>();
                         master.getDates().add(simpleDateFormat.format(Common.currentDate.getTime()));
                         map.put("dates", master.getDates());
-                        Toast.makeText(getActivity(), Common.currentBarber.getEmail(), Toast.LENGTH_LONG).show();
                         db.collection("Masters").document(Common.currentBarber.getEmail())
                                 .update(map);
                     }

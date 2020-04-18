@@ -16,6 +16,7 @@
         <item name="colorPrimary">@color/colorBrown</item>
         <item name="colorPrimaryDark">@color/colorBrown</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/andika</item>
     </style>
 
     <style name="customRatingBar"

@@ -34,8 +34,19 @@
                 <TextView
                     android:id="@+id/close_img"
                     android:layout_width="match_parent"
+                    android:paddingRight="5dp"
                     android:layout_height="match_parent"
-                    android:drawableLeft="@drawable/close_white" />
+                    android:drawableLeft="?attr/homeAsUpIndicator"
+                    android:drawableTint="@color/colorWhite" />
+                <TextView
+                    android:text="@string/service_type"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="22sp"
+                    android:paddingLeft="12dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/andika"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,7 +34,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -55,6 +57,18 @@ public class SettingsFragment extends Fragment {
         nameSurname = view.findViewById(R.id.tv_namesurname_insettings);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("personal_photos");
+
+        List<String> list_settings = new ArrayList<>();
+        list_settings.add(getActivity().getResources().getString(R.string.account_settings));
+        list_settings.add(getActivity().getResources().getString(R.string.app_settings));
+        list_settings.add(getActivity().getResources().getString(R.string.salon_info_text));
+        list_settings.add(getActivity().getResources().getString(R.string.exit));
+
+        List<String> list_settings_descr = new ArrayList<>();
+        list_settings_descr.add(getActivity().getResources().getString(R.string.account_settings_descr));
+        list_settings_descr.add(getActivity().getResources().getString(R.string.app_settings_descr));
+        list_settings_descr.add(getActivity().getResources().getString(R.string.salon_info_descr));
+        list_settings_descr.add(getActivity().getResources().getString(R.string.exit_descr));
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -101,7 +115,7 @@ public class SettingsFragment extends Fragment {
         });
 
 
-        RecyclerViewSettingsAdapter adapter = new RecyclerViewSettingsAdapter(getContext(), Common.list_settings, Common.list_settings_descr);
+        RecyclerViewSettingsAdapter adapter = new RecyclerViewSettingsAdapter(getContext(), list_settings, list_settings_descr);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

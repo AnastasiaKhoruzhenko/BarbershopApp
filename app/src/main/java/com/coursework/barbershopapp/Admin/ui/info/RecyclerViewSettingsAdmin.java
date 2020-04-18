@@ -1,8 +1,10 @@
 package com.coursework.barbershopapp.Admin.ui.info;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -17,6 +19,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.coursework.barbershopapp.Admin.ui.home.SalonInfoActivity;
+import com.coursework.barbershopapp.MainActivity;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.User.ui.settings.RecyclerViewSettingsAdapter;
 import com.github.angads25.toggle.widget.LabeledSwitch;
@@ -29,8 +32,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -43,7 +48,7 @@ public class RecyclerViewSettingsAdmin extends RecyclerView.Adapter<RecyclerView
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    Dialog dialog;
+    private Dialog dialog;
 
     public RecyclerViewSettingsAdmin(Context mContext, List<String> listName, List<String> listDescr) {
         this.listName = listName;
@@ -78,6 +83,9 @@ public class RecyclerViewSettingsAdmin extends RecyclerView.Adapter<RecyclerView
                     case 1:
                         appSetting();
                         break;
+                    case 2:
+                        showExitDialog();
+                        break;
                 }
             }
         });
@@ -111,9 +119,11 @@ public class RecyclerViewSettingsAdmin extends RecyclerView.Adapter<RecyclerView
         dialog.setContentView(v);
 
         MapView map = dialog.findViewById(R.id.mapView);
+        TextView close = dialog.findViewById(R.id.close_img);
         EditText address = dialog.findViewById(R.id.et_address_admin);
         EditText info = dialog.findViewById(R.id.editText3);
-        //Button ok = dialog.findViewById(R.id.btn_alert_ok);
+        EditText phone = dialog.findViewById(R.id.et_phone_info);
+        Button save = dialog.findViewById(R.id.button4);
 
         address.setClickable(false);
         info.setClickable(false);
@@ -124,6 +134,28 @@ public class RecyclerViewSettingsAdmin extends RecyclerView.Adapter<RecyclerView
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 address.setText(task.getResult().getString("address"));
                 info.setText(task.getResult().getString("definition"));
+                phone.setText(task.getResult().getString("phone"));
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Map<String, String> map = new HashMap<>();
+                map.put("address", address.getText().toString());
+                map.put("definition", info.getText().toString());
+                map.put("phone", phone.getText().toString());
+                db.collection("SalonInfo").document("information")
+                        .set(map);
+
+                dialog.dismiss();
             }
         });
 
@@ -187,5 +219,29 @@ public class RecyclerViewSettingsAdmin extends RecyclerView.Adapter<RecyclerView
         SharedPreferences prefs = mContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
         String language = prefs.getString("My_lang", "ru");
         setLocale(language);
+    }
+
+    private void showExitDialog()
+    {
+        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+        alertDialog.setMessage(mContext.getResources().getString(R.string.want_to_exit));
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getResources().getString(R.string.cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getResources().getString(R.string.exit),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FirebaseAuth.getInstance().signOut();
+
+                        Intent intent = new Intent(mContext, MainActivity.class);
+                        mContext.startActivity(intent);
+                        ((Activity)mContext).finish();
+                    }
+                });
+        alertDialog.show();
     }
 }

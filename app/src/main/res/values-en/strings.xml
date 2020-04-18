@@ -35,7 +35,7 @@
     <string name="date_with_points">Date:</string>
     <string name="barber_with_points">Master:</string>
     <string name="rate_me">Rate me</string>
-    <string name="via">In </string>
+    <string name="via">In \ </string>
     <string name="service">Service</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
@@ -52,7 +52,7 @@
     <string name="this_can_do_only_registered">This section is available only for authorized users</string>
     <string name="not_now">Not now</string>
     <string name="you_have_no_bookings">You have not signed up for any services yet</string>
-    <string name="nearest">Nearest</string>
+    <string name="nearest">Bookings</string>
     <string name="past">Past</string>
     <string name="rate_is_avail_after_visiting">Rate is available after visiting the barbershop</string>
     <string name="already_rated">Rated</string>
@@ -63,10 +63,10 @@
     <string name="account_settings">Account settings</string>
     <string name="set_all_fields">Fill in all fields</string>
     <string name="can_edit_after_register">Sign up to edit</string>
-    <string name="comment1"> comment</string>
-    <string name="comment234"> comments</string>
-    <string name="commentDef"> comments</string>
-    <string name="min"> min</string>
+    <string name="comment1">\ comment</string>
+    <string name="comment234">\ comments</string>
+    <string name="commentDef">\ comments</string>
+    <string name="min">\ min</string>
     <string name="choose_service_type">Choose service type</string>
     <string name="part">Section</string>
     <string name="master">Master</string>
@@ -77,9 +77,9 @@
     <string name="passwords_not_equal">Passwords are not equal</string>
     <string name="password_less_8">Password should contain not less than 8 symbols</string>
     <string name="no_bookings_on_date">No visitors on this date</string>
-    <string name="day1"> day</string>
-    <string name="day234"> days</string>
-    <string name="dayDef"> days</string>
+    <string name="day1">\ day</string>
+    <string name="day234">\ days</string>
+    <string name="dayDef">\ days</string>
     <string name="not_change_datebirth">Don\'t change date of birth</string>
     <string name="numbers_11">Phone number should contain 11 symbols</string>
     <string name="incorrect_date_of_birth">Date of birth is incorrect</string>
@@ -102,4 +102,20 @@
     <string name="cancel">Cancel</string>
     <string name="exit">Exit</string>
     <string name="want_to_exit">Are you sure you want to exit?</string>
+    <string name="service_type">Service types</string>
+    <string name="service_info">Service\'s information</string>
+    <string name="salon_info_text">Barbershop information</string>
+    <string name="not_chosen">Not chosen…</string>
+    <string name="account_settings_descr">Name, Surname, date of birth …</string>
+    <string name="app_settings_descr">Push-notifications, language</string>
+    <string name="salon_info_descr">Barbershop address, phone …</string>
+    <string name="exit_descr">Sign out from account</string>
+    <string name="my_services">My services</string>
+    <string name="my_services_descr">Edit service area</string>
+    <string name="to_cancel_swipe">To cancel visiting swipe right</string>
+    <string name="cant_empty">Cant\'be empty</string>
+    <string name="account_created">Account created successfully</string>
+    <string name="email_exists">User with this email already exists</string>
+    <string name="phone_error">Incorrect phone number</string>
+    <string name="confirm_successful">Visiting added successfully</string>
 </resources>

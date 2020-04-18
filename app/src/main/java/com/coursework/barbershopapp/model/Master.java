@@ -3,6 +3,8 @@ package com.coursework.barbershopapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.coursework.barbershopapp.R;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,7 +14,11 @@ public class Master implements Parcelable {
     private Boolean defaultPass;
     private List<String> services, dates;
 
-    public Master(){}
+    public Master(){
+        this.name = " ";
+        this.surname = " ";
+        this.email = " ";
+    }
 
     public Master(String email, String name, String surname, String phone, String score, String birth, Boolean defaultPass, List<String> services, List<String> dates) {
         this.email = email;

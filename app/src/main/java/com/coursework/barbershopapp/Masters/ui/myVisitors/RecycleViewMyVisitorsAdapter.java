@@ -143,7 +143,6 @@ public class RecycleViewMyVisitorsAdapter extends RecyclerView.Adapter<RecycleVi
         phRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                //img.setImageURI(uri);
 
                 Glide.with(mContext)
                         .load(uri)
@@ -153,7 +152,6 @@ public class RecycleViewMyVisitorsAdapter extends RecyclerView.Adapter<RecycleVi
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(mContext, "Error", Toast.LENGTH_LONG).show();
                     }
                 });
 

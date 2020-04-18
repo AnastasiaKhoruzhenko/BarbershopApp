@@ -48,7 +48,7 @@ public class ReviewsAdminFragment extends Fragment implements IAllMastersLoadLis
     private BarChart chart;
     private IAllMastersLoadListener iAllMastersLoadListener;
     private FirebaseFirestore db;
-    private MaterialSpinner spinnerName, spinnerDate;
+    private MaterialSpinner spinnerName;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -57,7 +57,6 @@ public class ReviewsAdminFragment extends Fragment implements IAllMastersLoadLis
         iAllMastersLoadListener = this;
         chart = view.findViewById(R.id.barChart);
         spinnerName = view.findViewById(R.id.spinner1);
-        spinnerDate = view.findViewById(R.id.spinner2);
         db = FirebaseFirestore.getInstance();
 
         loadSpinners();
@@ -75,6 +74,7 @@ public class ReviewsAdminFragment extends Fragment implements IAllMastersLoadLis
                         if(task.isSuccessful())
                         {
                             List<Master> list = new ArrayList<>();
+                            list.add(new Master());
                             for(QueryDocumentSnapshot doc:task.getResult())
                             {
                                 list.add(doc.toObject(Master.class));
@@ -101,9 +101,23 @@ public class ReviewsAdminFragment extends Fragment implements IAllMastersLoadLis
         spinnerName.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                loadGraphics(areaEmailsList.get(position).getEmail(), areaEmailsList.get(position).getDates());
+                if(!areaEmailsList.get(position).getEmail().equals(" "))
+                    loadGraphics(areaEmailsList.get(position).getEmail(), areaEmailsList.get(position).getDates());
+                else
+                    loadEmpty();
             }
         });
+    }
+
+    private void loadEmpty(){
+        ArrayList<BarEntry> list = new ArrayList<>();
+        List<String> dates = new ArrayList<>();
+        BarDataSet set = new BarDataSet(list, "No data");
+        BarData data = new BarData(dates, set);
+        chart.setData(data);
+        chart.animateY(1500);
+        set.setColors(ColorTemplate.COLORFUL_COLORS);
+        chart.invalidate();
     }
 
     private void loadGraphics(String email, List<String> dates) {

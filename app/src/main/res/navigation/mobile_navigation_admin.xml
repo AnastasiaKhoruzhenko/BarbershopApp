@@ -15,13 +15,13 @@
     <fragment
         android:id="@+id/navigation_info_admin"
         android:name="com.coursework.barbershopapp.Admin.ui.info.InfoAdminFragment"
-        android:label="@string/title_info_admin"
+        android:label="@string/title_settings"
         tools:layout="@layout/info_admin_fragment"/>
 
     <fragment
         android:id="@+id/navigation_reviews_admin"
         android:name="com.coursework.barbershopapp.Admin.ui.reviews.ReviewsAdminFragment"
-        android:label="@string/title_reviews_admin"
+        android:label="@string/title_myvisitings"
         tools:layout="@layout/reviews_admin_fragment"/>
 
     <fragment

@@ -125,7 +125,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private boolean validateName(){
         if(inp_name.getText().toString().isEmpty()) {
-            lay_name.setError("Cant'be empty");
+            lay_name.setError(getResources().getString(R.string.cant_empty));
             return false;
         }
         lay_name.setError(null);
@@ -133,7 +133,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
     private boolean validateSurname(){
         if(inp_surname.getText().toString().isEmpty()) {
-            lay_surname.setError("Cant'be empty");
+            lay_surname.setError(getResources().getString(R.string.cant_empty));
             return false;
         }
         lay_surname.setError(null);
@@ -141,7 +141,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
     private boolean validateEmail(){
         if(inp_log.getText().toString().isEmpty()) {
-            lay_log.setError("Cant'be empty");
+            lay_log.setError(getResources().getString(R.string.cant_empty));
             return false;
         }
         lay_log.setError(null);
@@ -149,12 +149,12 @@ public class RegistrationActivity extends AppCompatActivity {
     }
     private boolean validateDate(){
         if(inp_birthdate.getText().toString().isEmpty()) {
-            lay_birthdate.setError("Cant'be empty");
+            lay_birthdate.setError(getResources().getString(R.string.cant_empty));
             return false;
         }
         else if(inp_birthdate.getText().toString().length() != 10)
         {
-            lay_birthdate.setError("Дата рождения введена не до конца");
+            lay_birthdate.setError(getResources().getString(R.string.incorrect_date_of_birth));
             return false;
         }
         else if (Integer.valueOf(inp_birthdate.getText().toString().substring(0,2)) > 31
@@ -164,7 +164,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 || Integer.valueOf(inp_birthdate.getText().toString().substring(6,10)) > 2020
                 || Integer.valueOf(inp_birthdate.getText().toString().substring(6,10)) < 1920)
         {
-            lay_birthdate.setError("День, месяц или год рождения неверны");
+            lay_birthdate.setError(getResources().getString(R.string.incorrect_date_of_birth));
             return false;
         }
         lay_birthdate.setError(null);
@@ -172,11 +172,11 @@ public class RegistrationActivity extends AppCompatActivity {
     }
     private boolean validatePhone(){
         if(inp_phone.getText().toString().isEmpty()) {
-            lay_phone.setError("Cant'be empty");
+            lay_phone.setError(getResources().getString(R.string.cant_empty));
             return false;
         }
         else if(inp_phone.getText().toString().length()!=15){
-            lay_phone.setError("Номер телефона неверен");
+            lay_phone.setError(getResources().getString(R.string.phone_error));
             return false;
         }
         lay_phone.setError(null);
@@ -184,11 +184,11 @@ public class RegistrationActivity extends AppCompatActivity {
     }
     private boolean validatePass(){
         if(inp_pass.getText().toString().isEmpty()) {
-            lay_pass.setError("Cant'be empty");
+            lay_pass.setError(getResources().getString(R.string.cant_empty));
             return false;
         }
         else if(inp_pass.getText().toString().length()<8){
-            lay_pass.setError("Пароль должен содержать не менее 8 символов");
+            lay_pass.setError(getResources().getString(R.string.password_less_8));
             return false;
         }
         lay_pass.setError(null);
@@ -196,11 +196,11 @@ public class RegistrationActivity extends AppCompatActivity {
     }
     private boolean validateConfPass(){
         if(inp_conf_pass.getText().toString().isEmpty()) {
-            lay_conf_pass.setError("Cant'be empty");
+            lay_conf_pass.setError(getResources().getString(R.string.cant_empty));
             return false;
         }
         else if(inp_conf_pass.getText().toString().length()<8){
-            lay_conf_pass.setError("Пароль должен содержать не менее 8 символов");
+            lay_conf_pass.setError(getResources().getString(R.string.password_less_8));
             return false;
         }
         lay_conf_pass.setError(null);
@@ -209,7 +209,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private boolean validateEqualPasswords(){
         if(!inp_pass.getText().toString().equals(inp_conf_pass.getText().toString())) {
-            lay_conf_pass.setError("Passwords are not equal");
+            lay_conf_pass.setError(getResources().getString(R.string.passwords_not_equal));
             return false;
         }
         return true;
@@ -220,14 +220,14 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    showMessage("Аккаунт успешно создан");
+                    showMessage(getResources().getString(R.string.account_created));
                     //PreferenceUtils.saveEmail(email, getApplicationContext());
                     updateInfo(email, name, surname, phone, birth, mAuth.getCurrentUser());
                     uploadFile();
                 }
                 else
                 {
-                    showMessage("Пользователь с такой почтой уже существует");
+                    showMessage(getResources().getString(R.string.email_exists));
                     btn_reg.setClickable(true);
                 }
             }

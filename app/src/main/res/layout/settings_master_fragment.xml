@@ -12,9 +12,9 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circleImageViewMaster"
         android:layout_width="100dp"
-        android:src="@drawable/barber"
         android:layout_height="100dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/barber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,6 +43,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textColor="@color/darkGrey"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:fontFamily="@font/andika"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/circleImageViewMaster" />
@@ -51,10 +55,7 @@
         android:id="@+id/recview_sett_mas"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:paddingBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

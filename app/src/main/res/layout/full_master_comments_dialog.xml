@@ -33,9 +33,20 @@
 
                 <TextView
                     android:id="@+id/close_img"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:drawableLeft="@drawable/close_white" />
+                    android:paddingRight="5dp"
+                    android:drawableLeft="?attr/homeAsUpIndicator"
+                    android:drawableTint="@color/colorWhite" />
+                <TextView
+                    android:text="@string/comments_on_me"
+                    android:textSize="22sp"
+                    android:paddingLeft="12sp"
+                    android:gravity="center"
+                    android:fontFamily="@font/andika"
+                    android:textColor="@color/colorWhite"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </Toolbar>
@@ -44,9 +55,7 @@
         android:id="@+id/recview_comments"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

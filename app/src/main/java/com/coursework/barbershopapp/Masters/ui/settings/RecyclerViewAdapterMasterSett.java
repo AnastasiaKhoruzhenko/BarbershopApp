@@ -1,5 +1,6 @@
 package com.coursework.barbershopapp.Masters.ui.settings;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.coursework.barbershopapp.MainActivity;
+import com.coursework.barbershopapp.MainMasterActivity;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.User.ui.settings.SettingsSelectActivity;
 import com.coursework.barbershopapp.model.AboutService;
@@ -251,10 +254,11 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
     }
 
     public void showPersonalInfo(){
-        final Dialog dialog = new Dialog(mContext);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setContentView(R.layout.alert_settings_account);
-        dialog.setTitle(mContext.getResources().getString(R.string.account_settings));
+        View v = LayoutInflater.from(mContext).inflate(R.layout.alert_settings_account, null);
+        dialog = new Dialog(mContext, R.style.AppTheme_FullScreenDialog);
+        dialog.setContentView(v);
+        Toolbar toolbar = (Toolbar)dialog.findViewById(R.id.toolbar_close);
+        TextView close = dialog.findViewById(R.id.close_img);
         TextInputLayout surname1 = dialog.findViewById(R.id.til_surname_sett);
         TextInputLayout name1 = dialog.findViewById(R.id.til_name_sett);
         TextInputLayout email1 = dialog.findViewById(R.id.til_email_sett);
@@ -315,6 +319,13 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
             }
         });
 
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
         dialog.show();
     }
 
@@ -338,6 +349,10 @@ public class RecyclerViewAdapterMasterSett extends RecyclerView.Adapter<Recycler
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseAuth.getInstance().signOut();
+
+                        Intent intent = new Intent(mContext, MainActivity.class);
+                        mContext.startActivity(intent);
+                        ((Activity)mContext).finish();
                     }
                 });
         alertDialog.show();

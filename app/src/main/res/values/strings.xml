@@ -34,7 +34,7 @@
     <string name="date_with_points">Дата:</string>
     <string name="barber_with_points">Мастер:</string>
     <string name="rate_me">Оцените</string>
-    <string name="via">Через </string>
+    <string name="via">Через \ </string>
     <string name="service">Услуга</string>
     <string name="date">Дата</string>
     <string name="time">Время</string>
@@ -51,7 +51,7 @@
     <string name="this_can_do_only_registered">Этот раздел доступен только авторизированным пользователям</string>
     <string name="not_now">Не сейчас</string>
     <string name="you_have_no_bookings">Вы еще не записались ни на одну услугу</string>
-    <string name="nearest">Ближайшие</string>
+    <string name="nearest">Записи</string>
     <string name="past">Прошедшие</string>
     <string name="rate_is_avail_after_visiting">Оценивание доступно после посещения барбершопа</string>
     <string name="already_rated">Оценено</string>
@@ -62,10 +62,10 @@
     <string name="account_settings">Настройки аккаунта</string>
     <string name="set_all_fields">Заполните все поля</string>
     <string name="can_edit_after_register">Редактирование доступно только после регистрации</string>
-    <string name="comment1"> комментарий</string>
-    <string name="comment234"> комментария</string>
-    <string name="commentDef"> комментариев</string>
-    <string name="min"> мин</string>
+    <string name="comment1">\ комментарий</string>
+    <string name="comment234">\ комментария</string>
+    <string name="commentDef">\ комментариев</string>
+    <string name="min">\ мин</string>
     <string name="choose_service_type">Выберите тип услуги</string>
     <string name="part">Раздел</string>
     <string name="master">Мастер</string>
@@ -76,9 +76,9 @@
     <string name="passwords_not_equal">Пароли не совпадают</string>
     <string name="password_less_8">Пароль должен содержать не менее 8 символов</string>
     <string name="no_bookings_on_date">На данную дату записей нет</string>
-    <string name="day1"> день</string>
-    <string name="day234"> дня</string>
-    <string name="dayDef"> дней</string>
+    <string name="day1">\ день</string>
+    <string name="day234">\ дня</string>
+    <string name="dayDef">\ дней</string>
     <string name="not_change_datebirth">Не рекомендуется изменять дату рождения</string>
     <string name="numbers_11">Телефон должен содержать 11 цифр</string>
     <string name="incorrect_date_of_birth">Дата рождения введена неверно</string>
@@ -101,5 +101,21 @@
     <string name="cancel">Отмена</string>
     <string name="exit">Выйти</string>
     <string name="want_to_exit">Вы уверены, что хотите выйти?</string>
+    <string name="service_type">Типы услуг</string>
+    <string name="service_info">Информация об услуге</string>
+    <string name="salon_info_text">Информация барбершопа</string>
+    <string name="not_chosen">Не выбрано…</string>
+    <string name="account_settings_descr">Имя, фамилия, дата рождения …</string>
+    <string name="app_settings_descr">Push-уведомления, язык</string>
+    <string name="salon_info_descr">Адрес барбершопа, телефон …</string>
+    <string name="exit_descr">Выйти из аккаунта</string>
+    <string name="my_services">Предоставляемые услуги</string>
+    <string name="my_services_descr">Настройка сфер обслуживания</string>
+    <string name="to_cancel_swipe">Для отмены запланированного посещения смахните вправо</string>
+    <string name="cant_empty">Не может быть пустым</string>
+    <string name="account_created">Аккаунт успешно создан</string>
+    <string name="email_exists">Пользователь с такой почтой уже существует</string>
+    <string name="phone_error">Номер телефона неверен</string>
+    <string name="confirm_successful">Запись успешно добавлена</string>
 
 </resources>

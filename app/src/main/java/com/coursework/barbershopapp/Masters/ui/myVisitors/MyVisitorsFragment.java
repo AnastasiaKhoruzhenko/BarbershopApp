@@ -90,6 +90,9 @@ public class MyVisitorsFragment extends Fragment implements IVisitorsLoadListene
                 .defaultSelectedDate(defaultDate)
                 .build();
 
+        loadAvailiableTimeSlot(mAuth.getCurrentUser().getEmail(), simpleDateFormat.format(startDate.getTime()));
+
+
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Calendar date, int position) {

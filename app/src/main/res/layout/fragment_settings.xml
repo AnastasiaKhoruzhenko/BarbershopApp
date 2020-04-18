@@ -12,7 +12,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circleImageView"
         android:layout_width="100dp"
-        android:src="@drawable/barber"
+        android:src="@drawable/selfie"
         android:layout_height="100dp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
