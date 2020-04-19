@@ -2,17 +2,18 @@ package com.coursework.barbershopapp.model;
 
 public class Comment {
 
-    String comment, rating, customerEmail, name, surname;
+    private String comment, rating, customerEmail, name, surname, id;
 
     public Comment() {
     }
 
-    public Comment(String comment, String rating, String customerEmail, String name, String surname) {
+    public Comment(String comment, String rating, String customerEmail, String name, String surname, String id) {
         this.comment = comment;
         this.rating = rating;
         this.customerEmail = customerEmail;
         this.name = name;
         this.surname = surname;
+        this.id = id;
     }
 
     public String getComment() {
@@ -53,5 +54,13 @@ public class Comment {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

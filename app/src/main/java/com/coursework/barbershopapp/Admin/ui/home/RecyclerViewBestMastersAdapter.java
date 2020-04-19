@@ -93,7 +93,6 @@ public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<Recycle
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        //Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -154,7 +153,7 @@ public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<Recycle
                     for(DocumentSnapshot comment : task.getResult())
                         commentList.add(comment.toObject(Comment.class));
 
-                    initRecViewComment(commentList, recyclerView);
+                    initRecViewComment(commentList, recyclerView, list.get(position).getEmail());
                 }
             }
         });
@@ -169,8 +168,8 @@ public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<Recycle
         dialog.show();
     }
 
-    private void initRecViewComment(List<Comment> list, RecyclerView recyclerView) {
-        RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(mContext, list);
+    private void initRecViewComment(List<Comment> list, RecyclerView recyclerView, String email) {
+        RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(mContext, list, email);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(mContext);

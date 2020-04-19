@@ -218,7 +218,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     for(DocumentSnapshot comment : task.getResult())
                         commentList.add(comment.toObject(Comment.class));
 
-                    initRecViewComment(commentList, recyclerView);
+                    initRecViewComment(commentList, recyclerView, personList.get(position).getEmail());
                 }
             }
         });
@@ -233,8 +233,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         dialog.show();
     }
 
-    private void initRecViewComment(List<Comment> list, RecyclerView recyclerView) {
-        RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(mContext, list);
+    private void initRecViewComment(List<Comment> list, RecyclerView recyclerView, String email) {
+        RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(mContext, list, email);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(mContext);

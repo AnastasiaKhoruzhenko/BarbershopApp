@@ -169,7 +169,6 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                             int count = 0;
                             for(QueryDocumentSnapshot doc : task.getResult())
                                 count++;
-                            //Toast.makeText(mContext, String.valueOf(count) + " " + String.valueOf(countSl), Toast.LENGTH_SHORT).show();
                             if(count == 0)
                             {
                                 db.collection("Masters").document(copy.getBarberEmail())
@@ -357,6 +356,10 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                 String com = comment.getText().toString();
                 float rat = ratingBar.getRating();
 
+                rat = rat *10;
+                rat = Math.round(rat);
+                rat = rat/10;
+
                 Map<String, Object> map = new HashMap<>();
                 map.put("rating", String.valueOf(Math.round(rat)));
                 map.put("comment", com);
@@ -369,18 +372,21 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                         .document(String.valueOf(bookingList.get(position).getSlot()))
                         .update(map);
 
+                float finalRat = rat;
                 db.collection("Comments").document(bookingList.get(position).getBarberEmail())
                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         int count = Integer.valueOf(task.getResult().getString("count"));
                         Float ratingMaster = Float.valueOf(task.getResult().getString("rating"));
+
                         Map<String, Object> map = new HashMap<>();
                         map.put("comment", com);
-                        map.put("rating", String.valueOf(Math.round(rat)));
+                        map.put("rating", String.valueOf(Math.round(finalRat)));
                         map.put("customerEmail", bookingList.get(position).getCustomerEmail());
                         map.put("name", bookingList.get(position).getCustomerName());
                         map.put("surname", bookingList.get(position).getCustomerSurname());
+                        map.put("id", String.valueOf(count));
                         db.collection("Comments").document(bookingList.get(position).getBarberEmail())
                                 .collection("Comments").document(String.valueOf(count)).set(map);
 
@@ -389,7 +395,7 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
 
                         if(count>0)
                         {
-                            float rating = ((ratingMaster * (count-1)) + rat)/count;
+                            float rating = ((ratingMaster * count) + finalRat)/(count+1);
 
                             db.collection("Comments").document(bookingList.get(position).getBarberEmail())
                                     .update("rating", String.valueOf(rating/count));
@@ -399,9 +405,9 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                         else
                         {
                             db.collection("Comments").document(bookingList.get(position).getBarberEmail())
-                                    .update("rating", String.valueOf(rat));
+                                    .update("rating", String.valueOf(finalRat));
                             db.collection("Masters").document(bookingList.get(position).getBarberEmail())
-                                    .update("score", String.valueOf(rat));
+                                    .update("score", String.valueOf(finalRat));
                         }
                     }
                 });
