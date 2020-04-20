@@ -42,11 +42,13 @@ public class RecyclerViewCommentAdapter extends RecyclerView.Adapter<RecyclerVie
     private Context mContext;
     private FirebaseFirestore db;
     private String masterEmail;
+    private boolean canDelete;
 
-    public RecyclerViewCommentAdapter(Context mContext, List<Comment> list, String masterEmail) {
+    public RecyclerViewCommentAdapter(Context mContext, List<Comment> list, String masterEmail, boolean canDelete) {
         this.list = list;
         this.mContext = mContext;
         this.masterEmail = masterEmail;
+        this.canDelete = canDelete;
         db = FirebaseFirestore.getInstance();
     }
 
@@ -84,32 +86,37 @@ public class RecyclerViewCommentAdapter extends RecyclerView.Adapter<RecyclerVie
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
+        if(canDelete) {
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+                    alertDialog.setCanceledOnTouchOutside(true);
+                    alertDialog.setMessage(mContext.getResources().getString(R.string.sure_to_delete));
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getResources().getString(R.string.cancel),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getResources().getString(R.string.delete),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String id = list.get(position).getId();
+                                    list.remove(list.get(position));
 
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
-                alertDialog.setCanceledOnTouchOutside(true);
-                alertDialog.setMessage(mContext.getResources().getString(R.string.sure_to_delete));
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getResources().getString(R.string.cancel),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getResources().getString(R.string.delete),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String id = list.get(position).getId();
-                                list.remove(list.get(position));
-
-                                deleteItem(position, id, Float.valueOf(holder.score.getText().toString()));
-                            }
-                        });
-                alertDialog.show();
-            }
-        });
+                                    deleteItem(position, id, Float.valueOf(holder.score.getText().toString()));
+                                }
+                            });
+                    alertDialog.show();
+                }
+            });
+        }
+        else
+        {
+            holder.delete.setVisibility(View.GONE);
+        }
     }
 
     private void deleteItem(int position, String id, float score) {

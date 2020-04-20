@@ -202,17 +202,31 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
                     db.collection("ServicesMan").document(serv)
                             .collection("Services").document(listServices.get(position).getId())
                             .update(map);
+
+                    listServices.get(position).setTitle(eName.getText().toString());
+                    listServices.get(position).setTitleEN(eTitleEN.getText().toString());
+                    listServices.get(position).setDescr(eDescr.getText().toString());
+                    listServices.get(position).setDescrEN(eDescrEN.getText().toString());
+                    listServices.get(position).setTime(eTime.getText().toString());
+                    listServices.get(position).setPrice(ePrice.getText().toString());
+                    notifyItemChanged(position);
+
+                    dialog.dismiss();
                 }
-
-                listServices.get(position).setTitle(eName.getText().toString());
-                listServices.get(position).setTitleEN(eTitleEN.getText().toString());
-                listServices.get(position).setDescr(eDescr.getText().toString());
-                listServices.get(position).setDescrEN(eDescrEN.getText().toString());
-                listServices.get(position).setTime(eTime.getText().toString());
-                listServices.get(position).setPrice(ePrice.getText().toString());
-                notifyItemChanged(position);
-
-                dialog.dismiss();
+//                else{
+//                    if(!validateTitle(lTitle, eName))
+//                        lTitle.setError(mContext.getResources().getString(R.string.not_filled));
+//                    if(validateTitleEN(lTitleEN, eTitleEN))
+//                        lTitleEN.setError(mContext.getResources().getString(R.string.not_filled));
+//                    if(validateDescr(lDescr, eDescr))
+//                        lDescr.setError(mContext.getResources().getString(R.string.not_filled));
+//                    if(validateDescrEN(lDescrEN, eDescrEN))
+//                        lDescrEN.setError(mContext.getResources().getString(R.string.not_filled));
+//                    if(validatePrice(lPrice, ePrice))
+//                        lPrice.setError(mContext.getResources().getString(R.string.not_filled));
+//                    if(validateTime(lTime, eTime))
+//                        lTime.setError(mContext.getResources().getString(R.string.not_filled));
+//                }
             }
         });
 
@@ -221,7 +235,7 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
 
     private boolean validateTitle(TextInputLayout lTitle, EditText eTitle){
         if(eTitle.getText().toString().isEmpty()) {
-            lTitle.setError("Заполните название");
+            lTitle.setError(mContext.getResources().getString(R.string.not_filled));
             return false;
         }
         lTitle.setError(null);
@@ -230,7 +244,7 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
 
     private boolean validateTitleEN(TextInputLayout lTitleEN, EditText eTitleEN){
         if(eTitleEN.getText().toString().isEmpty()) {
-            lTitleEN.setError("Заполните название на английском");
+            lTitleEN.setError(mContext.getResources().getString(R.string.not_filled));
             return false;
         }
         lTitleEN.setError(null);
@@ -239,7 +253,7 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
 
     private boolean validateDescr(TextInputLayout lDescr, EditText eDescr){
         if(eDescr.getText().toString().isEmpty()) {
-            lDescr.setError("Заполните описание");
+            lDescr.setError(mContext.getResources().getString(R.string.not_filled));
             return false;
         }
         lDescr.setError(null);
@@ -248,7 +262,7 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
 
     private boolean validateDescrEN(TextInputLayout lDescrEN, EditText eDescrEN){
         if(eDescrEN.getText().toString().isEmpty()) {
-            lDescrEN.setError("Заполните описание на английском");
+            lDescrEN.setError(mContext.getResources().getString(R.string.not_filled));
             return false;
         }
         lDescrEN.setError(null);
@@ -257,7 +271,7 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
 
     private boolean validatePrice(TextInputLayout lPrice, EditText ePrice){
         if(ePrice.getText().toString().isEmpty()) {
-            lPrice.setError("Заполните стоимость");
+            lPrice.setError(mContext.getResources().getString(R.string.not_filled));
             return false;
         }
         lPrice.setError(null);
@@ -266,7 +280,7 @@ public class RecyclerViewEditServicesAdapter extends RecyclerView.Adapter<Recycl
 
     private boolean validateTime(TextInputLayout lTime, EditText eTime){
         if(eTime.getText().toString().isEmpty()) {
-            lTime.setError("Заполните продолжительность услуги");
+            lTime.setError(mContext.getResources().getString(R.string.not_filled));
             return false;
         }
         lTime.setError(null);

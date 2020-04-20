@@ -48,23 +48,24 @@
             android:id="@+id/star_adm"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="2dp"
             android:src="@drawable/star"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_score_home_adm"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/tv_namesurname_home_a" />
+            app:layout_constraintTop_toTopOf="@+id/tv_score_home_adm" />
 
         <TextView
             android:id="@+id/tv_score_home_adm"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
             android:textAlignment="center"
             android:textColor="@color/normGrey"
-            app:layout_constraintBottom_toBottomOf="@+id/star_adm"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toTopOf="@+id/star_adm" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_namesurname_home_a"
+            app:layout_constraintVertical_bias="0.0" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"

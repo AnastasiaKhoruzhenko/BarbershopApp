@@ -125,7 +125,6 @@ public class TabVisitingFragment extends Fragment {
                             initRecView(title, list);
                             break;
                             default:
-                                Toast.makeText(getActivity(), "in titles", Toast.LENGTH_LONG).show();
                                 break;
                     }
                 }

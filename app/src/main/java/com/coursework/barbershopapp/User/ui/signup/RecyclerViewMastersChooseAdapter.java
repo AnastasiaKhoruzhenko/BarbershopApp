@@ -311,7 +311,7 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
                                     listQ.add(comment);
                                 }
 
-                                initRecViewComment(listQ, recyclerView, personList.get(position).getEmail());
+                                initRecViewComment(listQ, recyclerView, personList.get(position).getEmail(), false);
                             }
                         }
                     });
@@ -326,8 +326,8 @@ public class RecyclerViewMastersChooseAdapter extends RecyclerView.Adapter<Recyc
         dialog.show();
     }
 
-    private void initRecViewComment(List<Comment> list, RecyclerView recyclerView, String email) {
-        RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(mContext, list, email);
+    private void initRecViewComment(List<Comment> list, RecyclerView recyclerView, String email, boolean canDelete) {
+        RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(mContext, list, email, canDelete);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(mContext);

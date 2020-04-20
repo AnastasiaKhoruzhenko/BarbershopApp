@@ -153,7 +153,7 @@ public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<Recycle
                     for(DocumentSnapshot comment : task.getResult())
                         commentList.add(comment.toObject(Comment.class));
 
-                    initRecViewComment(commentList, recyclerView, list.get(position).getEmail());
+                    initRecViewComment(commentList, recyclerView, list.get(position).getEmail(), false);
                 }
             }
         });
@@ -168,8 +168,8 @@ public class RecyclerViewBestMastersAdapter extends RecyclerView.Adapter<Recycle
         dialog.show();
     }
 
-    private void initRecViewComment(List<Comment> list, RecyclerView recyclerView, String email) {
-        RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(mContext, list, email);
+    private void initRecViewComment(List<Comment> list, RecyclerView recyclerView, String email, boolean canDelete) {
+        RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(mContext, list, email, canDelete);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(mContext);

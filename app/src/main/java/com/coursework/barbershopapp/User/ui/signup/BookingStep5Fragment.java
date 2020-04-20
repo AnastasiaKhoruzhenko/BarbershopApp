@@ -188,7 +188,7 @@ public class BookingStep5Fragment extends Fragment{
                                                     if(Integer.valueOf(d.getId())>max)
                                                         max = Integer.valueOf(d.getId());
                                                 }
-
+                                                info.setIdVisiting(String.valueOf(max+1));
                                                 setUserVisiting(max+1, info, mAuth.getCurrentUser().getEmail());
 
                                             }
@@ -285,7 +285,7 @@ public class BookingStep5Fragment extends Fragment{
                                             if(Integer.valueOf(d.getId())>max)
                                                 max = Integer.valueOf(d.getId());
                                         }
-
+                                        info.setIdVisiting(String.valueOf(max+1));
                                         setUserVisiting(max+1, info, textPhone.getText().toString());
 
                                     }

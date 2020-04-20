@@ -237,8 +237,6 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
         phRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                //img.setImageURI(uri);
-
                 Glide.with(mContext)
                         .load(uri)
                         .into(holder.img);
@@ -247,7 +245,6 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        //Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -259,6 +256,7 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
         else if (title == 2)
         {
             holder.rating.setVisibility(View.VISIBLE);
+            holder.rate_me.setClickable(true);
             switch (Integer.valueOf(bookingList.get(position).getRating()))
             {
                 case 0:
@@ -305,6 +303,9 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                     });
                     break;
             }
+
+            if(holder.rate_me.getText().toString().equals(mContext.getResources().getString(R.string.already_rated)))
+                holder.rate_me.setClickable(false);
         }
     }
 
@@ -347,8 +348,6 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
         RatingBar ratingBar = dialogView.findViewById(R.id.ratingBar_master);
 
         builder.setView(dialogView);
-
-        Toast.makeText(mContext, bookingList.get(position).getBarberEmail(), Toast.LENGTH_LONG).show();
 
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
@@ -397,10 +396,14 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                         {
                             float rating = ((ratingMaster * count) + finalRat)/(count+1);
 
+                            rating = rating * 10;
+                            rating = Math.round(rating);
+                            rating = rating/10;
+
                             db.collection("Comments").document(bookingList.get(position).getBarberEmail())
-                                    .update("rating", String.valueOf(rating/count));
+                                    .update("rating", String.valueOf(rating));
                             db.collection("Masters").document(bookingList.get(position).getBarberEmail())
-                                    .update("score", String.valueOf(rating/count));
+                                    .update("score", String.valueOf(rating));
                         }
                         else
                         {
@@ -415,7 +418,7 @@ public class RecyclerViewMyVisitingAdapter extends RecyclerView.Adapter<Recycler
                 //   /Users/rfff@mail.ru/Visitings/1
                 db.collection("Users").document(user.getCurrentUser().getEmail())
                         .collection("Visitings")
-                        .document(String.valueOf(bookingList.get(position).getSlot())).update(map);
+                        .document(bookingList.get(position).getIdVisiting()).update(map);
 
                 holder.rating.setVisibility(View.VISIBLE);
                 holder.rate_me.setText(R.string.already_rated);

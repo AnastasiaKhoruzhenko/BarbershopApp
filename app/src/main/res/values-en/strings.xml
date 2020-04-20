@@ -119,4 +119,6 @@
     <string name="phone_error">Incorrect phone number</string>
     <string name="confirm_successful">Visiting added successfully</string>
     <string name="sure_to_delete">Are you sure you want to remove this comment?</string>
+    <string name="services">Services</string>
+    <string name="not_filled">Not filled</string>
 </resources>

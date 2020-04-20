@@ -134,10 +134,6 @@ public class RecyclerViewSettingsAdapter extends RecyclerView.Adapter<RecyclerVi
         dialog.setContentView(v);
         Toolbar toolbar = (Toolbar)dialog.findViewById(R.id.toolbar_close);
         TextView close = dialog.findViewById(R.id.close_img);
-//        final Dialog dialog = new Dialog(mContext);
-//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//        dialog.setContentView(R.layout.alert_settings_account);
-//        dialog.setTitle(mContext.getResources().getString(R.string.account_settings));
         TextInputLayout surname1 = dialog.findViewById(R.id.til_surname_sett);
         TextInputLayout name1 = dialog.findViewById(R.id.til_name_sett);
         TextInputLayout email1 = dialog.findViewById(R.id.til_email_sett);

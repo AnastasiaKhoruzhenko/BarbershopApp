@@ -85,7 +85,7 @@ public class HomeMasterFragment extends Fragment {
                                 listQ.add(comment);
                             }
 
-                            RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(getContext(), listQ, email);
+                            RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(getContext(), listQ, email, false);
                             recComments.setAdapter(adapter);
                             LinearLayoutManager layoutManager
                                     = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);

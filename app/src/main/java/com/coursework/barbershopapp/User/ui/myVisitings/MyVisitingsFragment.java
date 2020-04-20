@@ -57,6 +57,8 @@ public class MyVisitingsFragment extends Fragment{
 
         if(!checkPref() && mAuth.getCurrentUser() == null)
             text.setText(getResources().getString(R.string.you_have_no_bookings));
+        else if(mAuth.getCurrentUser() == null)
+            text.setText(getResources().getString(R.string.you_have_no_bookings));
         else if (mAuth.getCurrentUser() != null)
             setupViewPager(viewPager, mAuth.getCurrentUser().getEmail());
         else if(checkPref())

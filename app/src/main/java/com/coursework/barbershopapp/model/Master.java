@@ -15,7 +15,7 @@ public class Master implements Parcelable {
     private List<String> services, dates;
 
     public Master(){
-        this.name = " ";
+        this.name = "Не выбрано...";
         this.surname = " ";
         this.email = " ";
     }

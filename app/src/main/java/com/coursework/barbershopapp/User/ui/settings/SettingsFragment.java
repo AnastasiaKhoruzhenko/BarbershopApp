@@ -86,8 +86,6 @@ public class SettingsFragment extends Fragment {
             else if(checkPref())
                 email = getEmailPref();
 
-            Toast.makeText(getContext(), email, Toast.LENGTH_LONG).show();
-
             StorageReference phRef = FirebaseStorage.getInstance().getReference()
                     .child("personal_photos/"+email);
             phRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

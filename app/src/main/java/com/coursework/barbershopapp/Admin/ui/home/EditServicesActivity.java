@@ -1,6 +1,8 @@
 package com.coursework.barbershopapp.Admin.ui.home;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.model.AboutService;
@@ -21,6 +23,7 @@ public class EditServicesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     FirebaseFirestore db;
+    private TextView close;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,13 @@ public class EditServicesActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         recyclerView = findViewById(R.id.recview_edit_services);
+        close = findViewById(R.id.close_img);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         String name = getIntent().getStringExtra("service");
         initView(name);
 

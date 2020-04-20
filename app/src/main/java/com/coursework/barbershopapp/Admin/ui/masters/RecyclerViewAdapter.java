@@ -51,7 +51,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context mContext;
     private Dialog dialog;
     private FirebaseFirestore db;
-    private ConstraintLayout constraintLayout;
 
     public RecyclerViewAdapter(Context mContext, List<Master> personList) {
         this.mContext = mContext;
@@ -218,7 +217,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     for(DocumentSnapshot comment : task.getResult())
                         commentList.add(comment.toObject(Comment.class));
 
-                    initRecViewComment(commentList, recyclerView, personList.get(position).getEmail());
+                    initRecViewComment(commentList, recyclerView, personList.get(position).getEmail(), true);
                 }
             }
         });
@@ -229,12 +228,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 dialog.dismiss();
             }
         });
-        constraintLayout = view.findViewById(R.id.constr_master_comm);
+        ConstraintLayout constraintLayout = view.findViewById(R.id.constr_master_comm);
         dialog.show();
     }
 
-    private void initRecViewComment(List<Comment> list, RecyclerView recyclerView, String email) {
-        RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(mContext, list, email);
+    private void initRecViewComment(List<Comment> list, RecyclerView recyclerView, String email, boolean canDelete) {
+        RecyclerViewCommentAdapter adapter = new RecyclerViewCommentAdapter(mContext, list, email, canDelete);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(mContext);

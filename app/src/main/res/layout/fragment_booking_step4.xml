@@ -9,24 +9,26 @@
     <devs.mulham.horizontalcalendar.HorizontalCalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="90dp"
         android:background="@color/colorBrown"
-        app:colorMiddleText="@color/partWhite"
+        app:colorMiddleText="@color/colorWhite"
         app:layout_constraintCircleRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:selectorColor="@color/colorWhite"
+        app:selectorColor="@color/selectedBlue"
+        app:textColorSelected="@color/selectedBlue"
         app:sizeBottomText="10sp"
         app:sizeMiddleText="16sp"
-        app:sizeTopText="10sp"
-        app:textColorSelected="@color/colorWhite" />
+        app:sizeTopText="10sp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recview_time"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calendarView" />

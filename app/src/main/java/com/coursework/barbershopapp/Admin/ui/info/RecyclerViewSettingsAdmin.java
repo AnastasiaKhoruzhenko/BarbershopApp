@@ -17,11 +17,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.coursework.barbershopapp.Admin.ui.home.SalonInfoActivity;
 import com.coursework.barbershopapp.MainActivity;
 import com.coursework.barbershopapp.R;
 import com.coursework.barbershopapp.User.ui.settings.RecyclerViewSettingsAdapter;
+import com.coursework.barbershopapp.model.MaskWatcherBirthDate;
+import com.coursework.barbershopapp.model.MaskWatcherPhone;
+import com.coursework.barbershopapp.model.User;
 import com.github.angads25.toggle.widget.LabeledSwitch;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -78,12 +83,15 @@ public class RecyclerViewSettingsAdmin extends RecyclerView.Adapter<RecyclerView
             public void onClick(View v) {
                 switch (position){
                     case 0:
-                        salonInfo();
+                        personalInfo();
                         break;
                     case 1:
-                        appSetting();
+                        salonInfo();
                         break;
                     case 2:
+                        appSetting();
+                        break;
+                    case 3:
                         showExitDialog();
                         break;
                 }
@@ -173,6 +181,9 @@ public class RecyclerViewSettingsAdmin extends RecyclerView.Adapter<RecyclerView
         Button save = dialog.findViewById(R.id.btn_save_settapp);
         TextView close = dialog.findViewById(R.id.close_img);
 
+        boolean change = lang.isOn();
+        boolean check  = lang.isOn();
+
         lang.setLabelOff("RU");
         lang.setLabelOn("EN");
 
@@ -243,5 +254,69 @@ public class RecyclerViewSettingsAdmin extends RecyclerView.Adapter<RecyclerView
                     }
                 });
         alertDialog.show();
+    }
+
+    private void personalInfo() {
+        View v = LayoutInflater.from(mContext).inflate(R.layout.alert_settings_pinfo_admin, null);
+        dialog = new Dialog(mContext, R.style.AppTheme_FullScreenDialog);
+        dialog.setContentView(v);
+        Toolbar toolbar = (Toolbar)dialog.findViewById(R.id.toolbar_close);
+        TextView close = dialog.findViewById(R.id.close_img);
+
+        EditText surname = dialog.findViewById(R.id.ti_surname_sett);
+        EditText name = dialog.findViewById(R.id.ti_name_sett);
+        EditText email = dialog.findViewById(R.id.ti_email_sett);
+        EditText birth = dialog.findViewById(R.id.ti_birth_sett);
+        EditText phone = dialog.findViewById(R.id.ti_phone_sett);
+        Button ok = dialog.findViewById(R.id.btn_alert_ok);
+
+        phone.addTextChangedListener(new MaskWatcherPhone("#(###)###-##-##"));
+        birth.addTextChangedListener(new MaskWatcherBirthDate("##.##.####"));
+
+        db.collection("Admin").document(mAuth.getCurrentUser().getEmail()).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            User user = task.getResult().toObject(User.class);
+                            surname.setText(user.getSurname());
+                            name.setText(user.getName());
+                            birth.setText(user.getBirth());
+                            phone.setText(user.getPhone());
+                            email.setText(user.getEmail());
+                        }
+                    }
+                });
+        email.setFocusable(false);
+        email.setClickable(false);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(surname.getText().equals("") || name.getText().equals("") ||
+                        phone.getText().equals("") || birth.getText().equals("")){
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.set_all_fields), Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("surname", surname.getText().toString());
+                    data.put("name", name.getText().toString());
+                    data.put("phone", phone.getText().toString());
+                    data.put("birth", birth.getText().toString());
+                    db.collection("Admin").document(mAuth.getCurrentUser().getEmail()).update(data);
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }

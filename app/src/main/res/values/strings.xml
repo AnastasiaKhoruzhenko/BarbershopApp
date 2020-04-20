@@ -118,5 +118,7 @@
     <string name="phone_error">Номер телефона неверен</string>
     <string name="confirm_successful">Запись успешно добавлена</string>
     <string name="sure_to_delete">Уверены, что хотите удалить этот комментарий?</string>
+    <string name="services">Услуги</string>
+    <string name="not_filled">Не заполнено</string>
 
 </resources>
