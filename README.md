@@ -31,3 +31,21 @@
 Авторизация реализована с помощью Firebase Auth
 Хранение фотографий пользователей - Firebase Storage
 Хранение данных об услугах и информации пользователей - Firebase Cloud Firestore
+
+Ниже представлено несколько примеров разделов пользователя, которые он видит при бронировании посещения салона
+![1](app/src/main/res/drawable-v24/1.jpg)
+![2](app/src/main/res/drawable-v24/2.jpg)
+
+Возможность удаления предстоящего посещения
+
+![3](app/src/main/res/drawable-v24/3.jpg)
+
+Возможность настройки push-уведомлений и языка
+
+![4](app/src/main/res/drawable-v24/4.jpg)
+
+А также несколько примеров интерфейса мастера, работающего в салоне
+
+![5](app/src/main/res/drawable-v24/5.jpg)
+![6](app/src/main/res/drawable-v24/6.jpg)
+![7](app/src/main/res/drawable-v24/7.jpg)
